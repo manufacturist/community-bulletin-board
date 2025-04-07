@@ -1,0 +1,126 @@
+{% embed 'components/actionPost.twig' %}
+    {% block action %}
+        <p style="text-align: justify">
+            {% if invitations|length > 0 %}
+                {% if invitations|length == 1 %}
+                    {{ "active_invitation"|trans }}
+                {% else %}
+                    {{ "active_invitations"|trans|format(invitations|length) }}
+                {% endif %}
+                <a id="invitationsModalAnchor" style="cursor: pointer">{% trans "here" %}</a>.
+            {% else %}
+                {% trans "There are no active invitations." %}
+            {% endif %}
+        </p>
+        <div class="buttonGroup" style="margin-top: 0.5rem">
+            <button id="sendInviteButton" class="actionButton">{% trans "Send an invitation" %}</button>
+        </div>
+    {% endblock %}
+{% endembed %}
+
+{# List invitations modal #}
+<div id="listInvitationsModal" class="modal">
+    <div class="modalContent">
+        <h3>{% trans "Active Invitations" %}</h3>
+
+        <ol>
+            {% for invitation in invitations %}
+                <li>{{ invitation.email }}</li>
+            {% endfor %}
+        </ol>
+
+        <div class="buttonGroup">
+            <button id="listInvitationsCloseButton" class="actionButton">{% trans "Close" %}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    try {
+        document.getElementById('invitationsModalAnchor').addEventListener('click', function () {
+            document.getElementById('listInvitationsModal').style.display = 'block'
+        })
+
+        document.getElementById('listInvitationsCloseButton').addEventListener('click', function () {
+            document.getElementById('listInvitationsModal').style.display = 'none'
+        })
+
+        document.getElementById('listInvitationsModal').addEventListener('click', function (e) {
+            if (e.target.id === 'listInvitationsModal') {
+                document.getElementById('listInvitationsModal').style.display = 'none'
+            }
+        })
+    } catch (e) {
+    }
+</script>
+
+{# Send invitation modal #}
+<div id="sendInvitationModal" class="modal">
+    <div class="modalContent">
+        <h3>{% trans "Send an Invitation" %}</h3>
+        <form id="sendInviteForm">
+            <div class="inputGroup">
+                <label for="email">{% trans "Recipient Email" %}</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <div class="inputGroup">
+                <label for="isAdmin" style="display: inline-block">{% trans "Assign admin role?" %}</label>
+                <input type="checkbox" id="isAdmin" name="isAdmin"
+                       style="display: inline-block; width: auto; vertical-align: top">
+            </div>
+
+            <div class="buttonGroup">
+                <button type="button" id="cancelInviteButton"
+                        class="actionButton clearColor">{% trans "Cancel" %}</button>
+                <button type="submit" class="actionButton">{% trans "Send" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('sendInviteButton').addEventListener('click', function () {
+        document.getElementById('sendInvitationModal').style.display = 'block'
+    })
+
+    document.getElementById('cancelInviteButton').addEventListener('click', function () {
+        document.getElementById('sendInvitationModal').style.display = 'none'
+    })
+
+    document.getElementById('sendInvitationModal').addEventListener('click', function (e) {
+        if (e.target.id === 'sendInvitationModal') {
+            document.getElementById('sendInvitationModal').style.display = 'none'
+        }
+    })
+
+    document.getElementById('sendInviteForm').addEventListener('submit', function (event) {
+        event.preventDefault()
+
+        const formData = new FormData(event.target)
+
+        const data = {
+            email: formData.get('email'),
+            isAdmin: formData.get('isAdmin') === 'on',
+        }
+
+        const request = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+
+        fetch('/api/invite', request)
+            .then(async (response) => {
+                if (response.status === 204) {
+                    window.location.reload()
+                } else {
+                    const error = (await response.json()).error
+                    alert("{% trans "Failed to invite new user." %} " + error)
+                }
+            })
+            .catch(console.error)
+    })
+</script>

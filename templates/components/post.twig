@@ -1,0 +1,22 @@
+<div
+        class="post"
+        data-post-id="{{ post.id }}"
+        data-post-user-id="{{ post.userId }}"
+        style="transform: rotate({{ random(-120, 120) / 100 }}deg)"
+>
+    <div class="pinWrapper">
+        <svg class="pin-{{ post.pinColor }}"></svg>
+    </div>
+    <div class="text">{{ post.description }}</div>
+    <div class="flipContent">
+        <div class="postMeta">
+            <a href="tel:{{ post.phoneNumber }}">{{ post.phoneNumber }} ({{ post.userName }})</a>
+            {% if post.link %}
+                <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer nofollow">{% trans "See link" %}</a>
+            {% endif %}
+        </div>
+        {% if (user.id == post.userId or user.role != "member") %}
+            <button class="delete" data-post-id="{{ post.id }}">X</button>
+        {% endif %}
+    </div>
+</div>

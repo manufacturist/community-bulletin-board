@@ -1,0 +1,48 @@
+{
+  "name": "manufacturist/community-bulletin-board",
+  "description": "A simple, low-cost community bulletin board.",
+  "license": "CC-BY-NC-4.0",
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ext-openssl": "*",
+    "ext-gettext": "*",
+    "php-di/php-di": "^7.0",
+    "slim/slim": "4.*",
+    "slim/psr7": "^1.7",
+    "slim/http": "^1.4",
+    "slim/twig-view": "^3.4",
+    "phpmyadmin/twig-i18n-extension": "^5.0",
+    "phpmailer/phpmailer": "^6.9",
+    "jms/serializer": "^3.32",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "require-dev": {
+    "ext-curl": "*",
+    "ext-pcntl": "*",
+    "phpunit/phpunit": "^12.0",
+    "testcontainers/testcontainers": "^1.0",
+    "symfony/http-client": "^7.2",
+    "squizlabs/php_codesniffer": "3.*",
+    "fakerphp/faker": "^1.24",
+    "phpstan/phpstan": "^2.1",
+    "vimeo/psalm": "^6.9",
+    "guzzlehttp/guzzle": "^7.0",
+    "friendsofphp/php-cs-fixer": "^3.74",
+    "erickskrauch/php-cs-fixer-custom-fixers": "^1.3"
+  }
+}

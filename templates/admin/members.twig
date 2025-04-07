@@ -1,0 +1,253 @@
+{% embed 'components/actionPost.twig' %}
+    {% block action %}
+        <p>
+            {% if members|length == 1 %}
+                {{ "accessible_to_one_member"|trans }}
+            {% else %}
+                {{ "accessible_to_multiple_members"|trans|format(members|length) }}
+            {% endif %}
+        </p>
+    {% endblock %}
+{% endembed %}
+
+{% for member in members %}
+    {% embed 'components/actionPost.twig' %}
+        {% block action %}
+            <div class="memberCard">
+                <div class="memberInfo">
+                    <div class="memberEmail" title="{{ member.email }}">{{ member.email }}</div>
+                    <div class="memberInfo">
+                        <span>
+                            {{ member.name }}
+                            •
+                            {% if member.role == "member" %}{% trans "Member" %}{% else %}{% trans "Admin" %}{% endif %}
+                            {% if user.role == "owner" and user.id != member.id %}
+                                <button
+                                        class="updateRole"
+                                        style="background: none; border: none; cursor: pointer; padding: 0"
+                                        data-member-id="{{ member.id }}"
+                                        {% if member.role == "member" %} data-new-role="admin"
+                                            {% else %}data-new-role="member"{% endif %}
+                                >
+                                    {% if member.role == "member" %}⬆️{% else %}⬇️{% endif %}
+                                </button>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="memberInfo">
+                        {{ member.phoneNumber }}
+                    </div>
+                </div>
+
+                <div class="memberControls">
+                    <div class="controlGroup">
+                        <label for="maxPosts-{{ member.id }}">{% trans "Max Posts" %}</label>
+                        <div class="maxPostsControls">
+                            <button class="controlButton decrementMaxPostsButton" data-member-id="{{ member.id }}"
+                                    {% if member.maxActivePosts <= 0 %}disabled{% endif %}
+                                    aria-label="{% trans "Decrease" %}">
+                                <span>-</span>
+                            </button>
+                            <span id="maxPosts-{{ member.id }}" class="max-posts-value"
+                                  data-member-id="{{ member.id }}">
+                                {{ member.maxActivePosts }}
+                            </span>
+                            <button class="controlButton incrementMaxPostsButton" data-member-id="{{ member.id }}"
+                                    {% if member.maxActivePosts >= 5 %}disabled{% endif %}
+                                    aria-label="{% trans "Increase" %}">
+                                <span>+</span>
+                            </button>
+                        </div>
+                    </div>
+                    {% if user.id != member.id %}
+                        {% if user.role == "owner" %}
+                            <div class="buttonGroup" style="margin-top: 0.5rem">
+                                <button class="deleteMemberButton actionButton redColor"
+                                        data-member-id="{{ member.id }}">
+                                    {% trans "Delete User" %}
+                                </button>
+                            </div>
+                        {% elseif user.role == "admin" and member.role == "member" %}
+                            <div class="buttonGroup" style="margin-top: 0.5rem">
+                                <button class="deleteMemberButton actionButton redColor"
+                                        data-member-id="{{ member.id }}">
+                                    {% trans "Delete User" %}
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endfor %}
+
+<style>
+    .memberCard {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem 0 0 0;
+    }
+
+    .memberInfo {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+    }
+
+    .memberEmail {
+        font-weight: bold;
+        font-size: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .memberControls {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .controlGroup {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .controlGroup label {
+        font-weight: bold;
+        color: #2d3436;
+    }
+
+    .maxPostsControls {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .controlButton {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: none;
+        background-color: #f1f2f6;
+        color: #2d3436;
+        font-weight: bold;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .controlButton:hover:not(:disabled) {
+        background-color: #dfe4ea;
+    }
+
+    .controlButton:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .max-posts-value {
+        min-width: 30px;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.updateRole').forEach(button => {
+        button.addEventListener('click', () => {
+            const memberId = button.dataset.memberId;
+            const newRole = button.dataset.newRole;
+
+            fetch(`/api/user/${memberId}/role`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({role: newRole})
+            }).then(() => location.reload())
+        })
+    })
+
+    document.querySelectorAll('.deleteMemberButton').forEach(button => {
+        button.addEventListener('click', () => {
+            if (confirm("{% trans "Are you sure you want to delete this member?" %}")) {
+                const memberId = button.dataset.memberId;
+
+                fetch(`/api/user/${memberId}`, {method: 'DELETE'})
+                    .then(async (response) => {
+                        if (response.status !== 204) {
+                            const error = (await response.json()).error
+                            alert("{% trans "Failed to delete member." %} " + error)
+                        } else {
+                            window.location.reload()
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("{% trans "An error occurred while deleting the member." %}");
+                    })
+            }
+        })
+    })
+
+    function updateMaxPosts(memberId, adjustment) {
+        const valueSpan = document.querySelector(`.max-posts-value[data-member-id="${memberId}"]`);
+        const decrementButton = document.querySelector(`.decrementMaxPostsButton[data-member-id="${memberId}"]`);
+        const incrementButton = document.querySelector(`.incrementMaxPostsButton[data-member-id="${memberId}"]`);
+
+        decrementButton.disabled = true;
+        incrementButton.disabled = true;
+
+        fetch(`/api/user/${memberId}/max-posts`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({adjustment})
+        })
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json();
+
+                    valueSpan.textContent = data.maxActivePosts;
+
+                    setTimeout(() => {
+                        decrementButton.disabled = data.maxActivePosts <= 0;
+                        incrementButton.disabled = data.maxActivePosts >= 5;
+                    }, 333);
+                } else {
+                    const error = (await response.json()).error;
+                    alert("{% trans "Failed to update max posts." %} " + error);
+
+                    const currentValue = parseInt(valueSpan.textContent);
+                    decrementButton.disabled = currentValue <= 0;
+                    incrementButton.disabled = currentValue >= 5;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("{% trans "An error occurred while updating max posts." %}");
+            });
+    }
+
+    document.querySelectorAll('.incrementMaxPostsButton').forEach(button => {
+        button.addEventListener('click', () => {
+            updateMaxPosts(button.dataset.memberId, 1);
+        });
+    });
+
+    document.querySelectorAll('.decrementMaxPostsButton').forEach(button => {
+        button.addEventListener('click', () => {
+            updateMaxPosts(button.dataset.memberId, -1);
+        });
+    });
+</script>

@@ -1,0 +1,118 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    {% embed 'components/actionPost.twig' with {
+        otherClasses: 'mainPost'
+    } %}
+        {% block action %}
+            <form id="registerForm">
+                <h2>{% trans "Invitation to join" %}</h2>
+                <div class="inputGroup">
+                    <label for="email">{% trans "Email" %}</label>
+                    <input type="email" id="email" name="email" value="{{ email }}" readonly required>
+                </div>
+                <div class="inputGroup">
+                    <label for="password">{% trans "Password" %}</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="confirmPassword">{% trans "Confirm Password" %}</label>
+                    <input type="password" id="confirmPassword" name="confirm-password" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="givenName">{% trans "First Name" %}</label>
+                    <input type="text" id="givenName" name="givenName" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="phoneNumber">{% trans "Phone Number" %}</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                </div>
+                <div class="buttonGroup">
+                    <button type="button" id="declineInvitation"
+                            class="actionButton clearColor"> {% trans "Decline" %}</button>
+                    <button type="submit" class="actionButton">{% trans "Join" %}</button>
+                </div>
+            </form>
+        {% endblock %}
+        {% block subtext %}
+            <span>{% trans "Code on" %} <a href="https://github.com/manufacturist/community-bulletin-board"
+                                           target="_blank">GitHub</a></span>
+        {% endblock %}
+    {% endembed %}
+
+    <script>
+        const inviteToken = new URLSearchParams(window.location.search).get('t')
+
+        setTimeout(function () {
+            if (!inviteToken) {
+                alert("{% trans "Invite token is missing in URL ([..]/join?t=...)" %}")
+            }
+        }, 100)
+
+        document.getElementById('declineInvitation').addEventListener('click', function () {
+            const data = {
+                inviteToken: inviteToken
+            }
+
+            const request = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+
+            if (confirm("{% trans "Are you sure you want to decline the invitation?" %}")) {
+                fetch('/api/public/invitation/decline', request)
+                    .then(async (response) => {
+                        if (response.status === 204) {
+                            window.location.href = '/'
+                        } else {
+                            const error = (await response.json()).error
+                            alert("{% trans "Failed to decline invitation." %} " + error)
+                        }
+                    })
+                    .catch(console.error)
+            }
+        })
+
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            const formData = new FormData(event.target)
+            const password = formData.get('password')
+            const confirmPassword = formData.get('confirm-password')
+
+            if (password !== confirmPassword) {
+                alert("{% trans "Passwords do not match." %}")
+                return
+            }
+
+            const data = {
+                token: inviteToken,
+                name: formData.get('givenName'),
+                password: password,
+                phoneNumber: formData.get('phoneNumber')
+            }
+
+            const request = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+
+            fetch('/api/public/invitation/accept', request)
+                .then(async (response) => {
+                    if (response.status === 204) {
+                        window.location.href = '/'
+                    } else {
+                        const error = (await response.json()).error
+                        alert("{% trans "Failed to accept invitation." %} " + error)
+                    }
+                })
+                .catch(console.error)
+        })
+    </script>
+{% endblock %}

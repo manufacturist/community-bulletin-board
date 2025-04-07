@@ -1,0 +1,15 @@
+{% embed 'components/actionPost.twig' %}
+    {% block action %}
+        <h3>{% trans "Admin Panel" %}</h3>
+        <p style="text-align: justify">
+            {% trans "This page allows you to control various aspects of your community's bulletin board." %}
+        </p>
+        <div class="buttonGroup" style="margin-top: 0">
+            <button id="backButton" class="actionButton clearColor">{% trans "Go to home page" %}</button>
+        </div>
+    {% endblock %}
+{% endembed %}
+
+<script>
+    document.getElementById('backButton').addEventListener('click', () => window.location.href = '/')
+</script>

@@ -1,0 +1,187 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% embed 'components/actionPost.twig' %}
+            {% block action %}
+                <h3>
+                    {% trans "Welcome" %},
+                    {% if user.role != "member" %}
+                        <a href="/admin">Admin</a>!
+                    {% else %}
+                        {{ user.name }}!
+                    {% endif %}
+                </h3>
+                <div class="buttonGroup">
+                    <button id="addPostButton" class="actionButton" {{ addPostAttribute }}>
+                        {% trans "Add a new post" %}
+                    </button>
+                </div>
+            {% endblock %}
+            {% block subtext %}
+                <a id="logout">{% trans "Logout" %}</a> • <span>{% trans "Code on" %}
+                    <a href="https://github.com/manufacturist/community-bulletin-board" target="_blank">GitHub</a>
+                </span>
+            {% endblock %}
+        {% endembed %}
+        <div id="postModal" class="modal">
+            <div class="modalContent">
+                <h3>{% trans "Add post" %}</h3>
+                <form id="addPostForm">
+                    <div class="inputGroup">
+                        <label for="description">{% trans "Description" %}</label>
+                        <textarea id="description" name="description" maxlength="250" required></textarea>
+                    </div>
+
+                    <div class="inputGroup">
+                        <label for="link">{% trans "Optional Link" %}</label>
+                        <input type="url" id="link" name="link">
+                    </div>
+
+                    <div class="inputGroup">
+                        <label for="expiresAt">{% trans "Expiration Date (Until End of Day)" %}</label>
+                        <input type="date" id="expiresAt" name="expiresAt" lang="{{ locale }}" required>
+                    </div>
+
+                    <div class="inputGroup">
+                        <label for="pinColor">{% trans "Pin Color" %}</label>
+                        <select id="pinColor" name="pinColor" required>
+                            <option value="red">{% trans "Red" %}</option>
+                            <option value="green">{% trans "Green" %}</option>
+                            <option value="blue">{% trans "Blue" %}</option>
+                            <option value="yellow">{% trans "Yellow" %}</option>
+                            <option value="pink">{% trans "Pink" %}</option>
+                            <option value="purple">{% trans "Purple" %}</option>
+                        </select>
+                    </div>
+
+                    <div class="buttonGroup">
+                        <button type="button" id="cancelPostButton"
+                                class="actionButton clearColor">{% trans "Cancel" %}</button>
+                        <button type="submit" class="actionButton">{% trans "Add" %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% for post in posts %}
+            {% embed 'components/post.twig' with {
+                post: post
+            } %}
+            {% endembed %}
+        {% endfor %}
+    </div>
+
+    <script>
+        // Delete logic
+        document.querySelectorAll('.delete').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation()
+
+                const deletePostUrl = `/api/post/${button.dataset.postId}`
+
+                const request = {
+                    method: 'DELETE'
+                }
+
+                if (confirm("{% trans "Are you sure you want to delete this post?" %}")) {
+                    fetch(deletePostUrl, request)
+                        .then(async (response) => {
+                            if (response.status !== 204) {
+                                const error = (await response.json()).error
+                                alert("{% trans "Failed to delete post." %} " + error)
+                            } else {
+                                window.location.reload()
+                            }
+                        })
+                        .catch(console.error)
+                }
+            })
+        })
+
+        // Logout logic
+        document.getElementById('logout').addEventListener('click', () => {
+            fetch('/api/user/logout', {method: 'PUT'})
+                .then(async (response) => {
+                    if (response.status === 204) window.location.reload()
+                    else {
+                        const error = (await response.json()).error
+                        alert("{% trans "Failed to logout post." %} " + error)
+                    }
+                })
+                .catch(console.error)
+        })
+
+        // Modal logic
+        document.getElementById('description').addEventListener('input', (event) => {
+            const textareaText = event.target.value.split('\n');
+
+            if (textareaText.length > 3) {
+                event.target.value = textareaText.slice(0, 3).join('\n');
+            }
+
+            const label = document.querySelector(`label[for="description"]`);
+            const currentCharacters = event.target.value.length;
+            label.textContent = `{% trans "Description" %} (${currentCharacters}/250)`;
+        })
+
+        document.getElementById('addPostButton').addEventListener('click', function () {
+            let minimumDate = new Date()
+            let maximumDate = new Date()
+
+            minimumDate.setDate(minimumDate.getDate() + 1)
+            maximumDate.setDate(minimumDate.getDate() + 90)
+
+            document.getElementById("expiresAt").min = minimumDate.toISOString().split("T")[0]
+            document.getElementById("expiresAt").max = maximumDate.toISOString().split("T")[0]
+
+            document.getElementById('postModal').style.display = 'block'
+        })
+
+        document.getElementById('cancelPostButton').addEventListener('click', function () {
+            document.getElementById('postModal').style.display = 'none'
+        })
+
+        document.getElementById('postModal').addEventListener('click', function (e) {
+            if (e.target.id === 'postModal') {
+                document.getElementById('postModal').style.display = 'none'
+            }
+        })
+
+        document.getElementById('addPostForm').addEventListener('submit', function (event) {
+            event.preventDefault()
+
+            const formData = new FormData(event.target)
+
+            const expiresAt = new Date(formData.get('expiresAt').toString())
+            expiresAt.setHours(23, 59, 59, 999)
+
+            const data = {
+                description: formData.get('description'),
+                link: formData.get('link') || null,
+                pinColor: formData.get('pinColor'),
+                expiresAt: expiresAt.toUTCString()
+            }
+
+            const request = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+
+            fetch('/api/post', request)
+                .then(async (response) => {
+                    const data = await response.json()
+
+                    if (response.status === 201) {
+                        window.location.reload()
+                    } else {
+                        alert("{% trans "Failed to create post." %} " + data.error)
+                    }
+                })
+                .catch(console.error)
+        })
+    </script>
+{% endblock %}

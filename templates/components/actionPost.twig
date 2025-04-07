@@ -1,0 +1,14 @@
+<div
+        class="actionPost {{ otherClasses }}"
+        style="transform: rotate({{ random(-80, 80) / 100 }}deg)"
+>
+    <div class="pinWrapper">
+        <svg class="pin-blue"></svg>
+    </div>
+    <div class="text">
+        {% block action %}{% endblock %}
+    </div>
+    <div class="subtext">
+        {% block subtext %}{% endblock %}
+    </div>
+</div>

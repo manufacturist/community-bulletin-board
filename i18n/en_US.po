@@ -1,0 +1,264 @@
+# Ioan-Gabriel Lazarovici-Georgiu <civic.engineer@pm.me>
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Meta
+msgid "locale"
+msgstr "en_US"
+
+# Title
+msgid "Community Bulletin Board"
+msgstr "Community Bulletin Board"
+
+# General
+msgid "Code on"
+msgstr "Code on"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Close"
+msgstr "Close"
+
+# join.twig
+msgid "Invitation to join"
+msgstr "Invitation to join"
+
+msgid "First Name"
+msgstr "First Name"
+
+msgid "Phone Number"
+msgstr "Phone Number"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Decline"
+msgstr "Decline"
+
+msgid "Join"
+msgstr "Join"
+
+msgid "Are you sure you want to decline the invitation?"
+msgstr "Are you sure you want to decline the invitation?"
+
+msgid "Invite token is missing in URL ([..]/join?t=token)"
+msgstr "Invite token is missing in URL ([..]/join?t=token)"
+
+msgid "Passwords do not match."
+msgstr "Passwords do not match."
+
+msgid "Failed to decline invitation."
+msgstr "Failed to decline invitation."
+
+msgid "Failed to accept invitation."
+msgstr "Failed to accept invitation."
+
+# login.twig
+msgid "Email"
+msgstr "Email"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Login failed."
+msgstr "Login failed."
+
+# home.twig
+msgid "Welcome"
+msgstr "Welcome"
+
+msgid "Add a new post"
+msgstr "Add a new post"
+
+msgid "Add post"
+msgstr "Add post"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Failed to create post."
+msgstr "Failed to create post."
+
+msgid "Are you sure you want to delete this post?"
+msgstr "Are you sure you want to delete this post?"
+
+msgid "Failed to delete post."
+msgstr "Failed to delete post."
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Optional Link"
+msgstr "Optional Link"
+
+msgid "Expiration Date (Until End of Day)"
+msgstr "Expiration Date (Until End of Day)"
+
+msgid "Pin Color"
+msgstr "Pin Color"
+
+msgid "Red"
+msgstr "Red"
+
+msgid "Green"
+msgstr "Green"
+
+msgid "Blue"
+msgstr "Blue"
+
+msgid "Yellow"
+msgstr "Yellow"
+
+msgid "Pink"
+msgstr "Pink"
+
+msgid "Purple"
+msgstr "Purple"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Add"
+msgstr "Add"
+
+# components/post.twig
+msgid "See link"
+msgstr "See link"
+
+# Admin panel.twig
+msgid "Admin Panel"
+msgstr "Admin Panel"
+
+msgid "This page allows you to control various aspects of your community's bulletin board."
+msgstr "This page allows you to control various aspects of your community's bulletin board."
+
+msgid "Go to home page"
+msgstr "Go to home page"
+
+# Admin invite.twig
+msgid "active_invitation"
+msgstr "There is one active invitation. You can view it"
+
+msgid "active_invitations"
+msgstr "There are %s active invitations. You can view them"
+
+msgid "here"
+msgstr "here"
+
+msgid "There are no active invitations."
+msgstr "There are no active invitations."
+
+msgid "Send an Invitation"
+msgstr "Send an Invitation"
+
+msgid "Send an invitation"
+msgstr "Send an invitation"
+
+msgid "Active Invitations"
+msgstr "Active Invitations"
+
+msgid "Recipient Email"
+msgstr "Recipient Email"
+
+msgid "Assign admin role?"
+msgstr "Assign admin role?"
+
+msgid "Send"
+msgstr "Send"
+
+msgid "Failed to invite new user."
+msgstr "Failed to invite new user."
+
+# Admin members.twig
+msgid "accessible_to_one_member"
+msgstr "The bulletin board is accessible to 1 member."
+
+msgid "accessible_to_multiple_members"
+msgstr "The bulletin board is accessible to %s members."
+
+msgid "View members"
+msgstr "View members"
+
+msgid "Role"
+msgstr "Role"
+
+msgid "Max Posts"
+msgstr "Max Posts"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Member"
+msgstr "Member"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete User"
+msgstr "Delete User"
+
+msgid "Are you sure you want to delete this member?"
+msgstr "Are you sure you want to delete this member?"
+
+msgid "Failed to delete member."
+msgstr "Failed to delete member."
+
+msgid "Failed to update max posts."
+msgstr "Failed to update max posts."
+
+msgid "An error occurred while updating max posts."
+msgstr "An error occurred while updating max posts."
+
+# URL paths
+msgid "url_join"
+msgstr "join"
+
+# Email content
+msgid "email_invitation_subject"
+msgstr "Invitation to join your community bulletin board"
+
+msgid "email_invitation_html_title"
+msgstr "You've been invited to join your community bulletin board"
+
+msgid "email_invitation_role_html"
+msgstr "You have been invited to join as a %s."
+
+msgid "email_invitation_role_text"
+msgstr "You've been invited to join your community bulletin board as a %s."
+
+msgid "email_invitation_click_link_html"
+msgstr "Click the link below to accept the invitation:"
+
+msgid "email_invitation_click_link_text"
+msgstr "Click the link below to accept the invitation:"
+
+msgid "email_invitation_expiry"
+msgstr "This invitation will expire in 1 day."
+
+msgid "email_invitation_log_header"
+msgstr "INVITATION EMAIL [LOGGED ONLY - NOT SENT]"
+
+msgid "email_invitation_log_to"
+msgstr "To: %s"
+
+msgid "email_invitation_log_subject"
+msgstr "Subject: %s"
+
+msgid "email_role_admin"
+msgstr "administrator"
+
+msgid "email_role_member"
+msgstr "member"
+
+msgid "email_error_smtp_config"
+msgstr "SMTP configuration error: %s"
+
+msgid "email_error_sending"
+msgstr "Failed to send invitation email: %s"

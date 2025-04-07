@@ -1,0 +1,22 @@
+services:
+  mariadb:
+    image: mariadb:11.7.2
+    container_name: mariadb
+    restart: always
+    env_file: .docker/mariadb.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - .mariadb_data:/var/lib/mysql
+      - ./database/initdb-migration:/docker-entrypoint-initdb.d
+
+  webapp:
+    build: .
+    container_name: community-bulletin-board
+    restart: always
+    env_file: .docker/webapp.env
+    ports:
+      - "8000:8000"
+
+volumes:
+  .mariadb_data:

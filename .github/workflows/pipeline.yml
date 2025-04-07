@@ -1,0 +1,148 @@
+name: CI/CD pipeline
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict --no-check-lock
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Static analysis
+        run: |
+          ./vendor/bin/phpstan analyse ./src --level 10
+          ./vendor/bin/psalm --no-cache
+
+      - name: Build docker image
+        run: docker build -t community-bulletin-board .
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit ./tests
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    env:
+      APP_LOCALE: ${{ vars.APP_LOCALE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Restore Composer cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-dev --no-progress
+
+      # Fallback for your locale, using the C locale (POSIX), if support for the desired one is missing server-side
+      - name: Enforce C locale
+        if: ${{ vars.PIPELINE_ENFORCE_C_LOCALE }}
+        run: |
+          echo "APP_LOCALE=C" >> $GITHUB_ENV
+          mkdir -p i18n/C/LC_MESSAGES
+          mv i18n/${{ vars.APP_LOCALE }}/LC_MESSAGES/* i18n/C/LC_MESSAGES/
+
+          for locale in `ls i18n`; do
+            if [ "$locale" != "C" ]; then
+              rm -rf i18n/$locale
+            fi
+          done
+
+      - name: Create production .env file
+        run: |
+          cat > .env <<EOF
+          APP_ENV=production
+          APP_URL=${{ secrets.APP_URL }}
+          APP_OWNER_EMAIL=${{ secrets.APP_OWNER_EMAIL }}
+          APP_LOCALE=$APP_LOCALE
+          APP_MAX_ACTIVE_POSTS_DEFAULT=${{ vars.APP_MAX_ACTIVE_POSTS_DEFAULT }}
+          
+          CRYPTO_ENCRYPTION_KEY=${{ secrets.CRYPTO_ENCRYPTION_KEY }}
+          CRYPTO_HMAC_KEY=${{ secrets.CRYPTO_HMAC_KEY }}
+          CRYPTO_PEPPER=${{ secrets.CRYPTO_PEPPER }}
+          
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          
+          EMAIL_ADAPTER=smtp
+          EMAIL_SMTP_HOST=${{ secrets.EMAIL_SMTP_HOST }}
+          EMAIL_SMTP_PORT=${{ secrets.EMAIL_SMTP_PORT }}
+          EMAIL_SMTP_USERNAME=${{ secrets.EMAIL_SMTP_USERNAME }}
+          EMAIL_SMTP_PASSWORD=${{ secrets.EMAIL_SMTP_PASSWORD }}
+          EOF
+
+      # https://github.com/SamKirkland/FTP-Deploy-Action?tab=readme-ov-file#settings
+      - name: Deploy WebApp
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          timeout: 60000 # per FTP operation
+          log-level: standard
+
+          protocol: ftps
+          server: ${{ secrets.FTP_SERVER }}
+          port: ${{ secrets.FTP_PORT }}
+          username: ${{ secrets.FTP_USERNAME}}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          server-dir: ./public_html/cbb/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .docker/**
+            .mariadb_data/**
+            docs/**
+            **/.po
+            .php-cs-fixer.php
+            .phpunit.result.cache
+            composer.phar
+            tests/**
+            docker-compose.yaml
+            docker-compose-all.yaml
+            Dockerfile
+            i18n.sh
+            package.xml
+            phpunit.xml
+            psalm.xml
+            README.md
+            README.ro.md

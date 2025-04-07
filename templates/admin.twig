@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% embed 'admin/panel.twig' %}{% endembed %}
+        {% embed 'admin/invite.twig' %}{% endembed %}
+        {% embed 'admin/members.twig' %}{% endembed %}
+    </div>
+{% endblock %}

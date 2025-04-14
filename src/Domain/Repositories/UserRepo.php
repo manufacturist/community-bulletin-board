@@ -6,6 +6,7 @@ namespace App\Domain\Repositories;
 
 use App\Core\MariaTransactor;
 use App\Core\Types\Binary;
+use App\Core\Types\Moment;
 use App\Domain\Models\User;
 
 final class UserRepo
@@ -18,16 +19,17 @@ final class UserRepo
         string $passwordHash,
         int    $maxActivePosts,
         string $role,
+        Moment $createdAt,
     ): bool
     {
         $query = "
             INSERT INTO users (
                 encrypted_name, encrypted_email, encrypted_phone_number, 
-                email_hash, password_hash, max_active_posts, role
+                email_hash, password_hash, max_active_posts, role, created_at
             ) 
             VALUES (
                 :encrypted_name, :encrypted_email, :encrypted_phone_number, 
-                :email_hash, :password_hash, :max_active_posts, :role
+                :email_hash, :password_hash, :max_active_posts, :role, :created_at
             )
         ";
 
@@ -39,6 +41,7 @@ final class UserRepo
             ':password_hash' => $passwordHash,
             ':max_active_posts' => $maxActivePosts,
             ':role' => $role,
+            ':created_at' => $createdAt->value
         ];
 
         return MariaTransactor::update($query, $params);

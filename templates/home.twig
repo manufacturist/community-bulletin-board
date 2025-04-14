@@ -75,21 +75,31 @@
     <script>
         // Delete logic
         document.querySelectorAll('.delete').forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.stopPropagation()
-
-                const deletePostUrl = `/api/post/${button.dataset.postId}`
-
-                const request = {
-                    method: 'DELETE'
-                }
-
+            button.addEventListener('click', () => {
                 if (confirm("{% trans "Are you sure you want to delete this post?" %}")) {
-                    fetch(deletePostUrl, request)
+                    fetch(`/api/post/${button.dataset.postId}`, {method: 'DELETE'})
                         .then(async (response) => {
                             if (response.status !== 204) {
                                 const error = (await response.json()).error
                                 alert("{% trans "Failed to delete post." %} " + error)
+                            } else {
+                                window.location.reload()
+                            }
+                        })
+                        .catch(console.error)
+                }
+            })
+        })
+
+        // Resolve logic
+        document.querySelectorAll('.resolve').forEach(button => {
+            button.addEventListener('click', () => {
+                if (confirm("{% trans "Are you sure you want to mark this post as resolved?" %}")) {
+                    fetch(`/api/post/${button.dataset.postId}/resolve`, {method: 'PUT'})
+                        .then(async (response) => {
+                            if (response.status !== 204) {
+                                const error = (await response.json()).error
+                                alert("{% trans "Failed to resolve post." %} " + error)
                             } else {
                                 window.location.reload()
                             }
@@ -112,7 +122,7 @@
                 .catch(console.error)
         })
 
-        // Modal logic
+        // Add post logic
         document.getElementById('description').addEventListener('input', (event) => {
             const textareaText = event.target.value.split('\n');
 

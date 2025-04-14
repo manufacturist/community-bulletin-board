@@ -12,6 +12,6 @@ class NearingDate extends Base
     {
         $hours = $this->generator->numberBetween(1, 12);
 
-        return date('Y-m-d H:i:s', strtotime("+$hours hour"));
+        return date('Y-m-d H:i:s.v', strtotime("+$hours hour"));
     }
 }

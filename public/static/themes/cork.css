@@ -16,6 +16,10 @@
     --post-delete-bg-color: #BD3131;
     --post-delete-bg-color-hover: #E12525;
 
+    --post-resolve-color: white;
+    --post-resolve-bg-color: #3B8A33;
+    --post-resolve-bg-color-hover: #4F9C3F;
+
     /* Anchor links */
     --anchor-link-color: #114F91;
 

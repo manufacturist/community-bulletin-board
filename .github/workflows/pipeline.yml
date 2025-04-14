@@ -37,7 +37,7 @@ jobs:
 
       - name: Static analysis
         run: |
-          ./vendor/bin/phpstan analyse ./src --level 10
+          ./vendor/bin/phpstan analyse ./src --level 10 --memory-limit 256M
           ./vendor/bin/psalm --no-cache
 
       - name: Build docker image

@@ -1,4 +1,14 @@
-CREATE TABLE invitations
+-- MariaDB migrations (cheap flyway rip-off)
+CREATE TABLE IF NOT EXISTS migrations
+(
+    id          INT AUTO_INCREMENT  PRIMARY KEY,
+    name        VARCHAR(255)        NOT NULL,
+    hash        BINARY(32)          NOT NULL UNIQUE,
+    timestamp   DATETIME(3)         NOT NULL
+);
+
+-- Domain
+CREATE TABLE IF NOT EXISTS invitations
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     email        VARCHAR(256)       NOT NULL UNIQUE,
@@ -8,7 +18,7 @@ CREATE TABLE invitations
     created_at   TIMESTAMP          DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id                     INT AUTO_INCREMENT               PRIMARY KEY,
     encrypted_name         VARBINARY(80)                    NOT NULL,
@@ -21,7 +31,7 @@ CREATE TABLE users
     created_at             TIMESTAMP                        NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE authentications
+CREATE TABLE IF NOT EXISTS authentications
 (
     token_hash BINARY(32)   PRIMARY KEY,
     user_id    INT          NOT NULL,
@@ -30,7 +40,7 @@ CREATE TABLE authentications
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE posts
+CREATE TABLE IF NOT EXISTS posts
 (
     id                    BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id               INT                   NOT NULL,
@@ -45,15 +55,8 @@ CREATE TABLE posts
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE setup
-(
-    ready BOOL NOT NULL DEFAULT FALSE
-);
-
-INSERT INTO setup (ready)
-VALUES (FALSE);
-
-CREATE TRIGGER enforce_single_owner_insert
+-- Triggers for owner user uniqueness
+CREATE TRIGGER IF NOT EXISTS enforce_single_owner_insert
     BEFORE INSERT ON users
     FOR EACH ROW
 BEGIN
@@ -64,7 +67,7 @@ BEGIN
     END IF;
 END;
 
-CREATE TRIGGER enforce_single_owner_update
+CREATE TRIGGER IF NOT EXISTS enforce_single_owner_update
     BEFORE UPDATE ON users
     FOR EACH ROW
 BEGIN

@@ -43,8 +43,8 @@ setlocale(LC_ALL, "$desiredLocale.UTF-8");
 bindtextdomain('i18n', "$rootDir/i18n");
 textdomain('i18n');
 
-// Clean-up with 1% trigger chance per request
-if (rand(1, 100) == 1) {
+// Clean-up with 2% trigger per request
+if (rand(1, 100) <= 2) {
     CleanupService::cleanup();
 }
 
@@ -77,10 +77,13 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser) {
-        $posts = PostService::fetchAllNewestFirst();
+        $posts = PostService::fetchNewestFirstAndResolvedLast();
 
-        $currentUserPosts = count(array_filter($posts, fn($p) => $p->userId === $authenticatedUser->id));
-        $isAddingPostDisabled = $currentUserPosts >= $authenticatedUser->maxActivePosts;
+        $currentActiveUserPosts = count(array_filter($posts, function ($p) use ($authenticatedUser) {
+            return $p->userId === $authenticatedUser->id && $p->resolvedAt === null;
+        }));
+
+        $isAddingPostDisabled = $currentActiveUserPosts >= $authenticatedUser->maxActivePosts;
 
         return $twig->render($response->withHeader('Content-Type', 'text/html; charset=UTF-8'), 'home.twig', [
             'user' => $authenticatedUser,
@@ -125,7 +128,7 @@ $app->get('/' . _('url_join'), function (Request $request, Response $response) u
 });
 
 // One-time setup endpoint; breaking REST convention for user convenience
-$app->get('/install', SetupController::class . ':setup');
+$app->get('/install', SetupController::class . ':install');
 
 // API routes
 $app->group('/api', function (RouteCollectorProxy $apiGroup) use ($app) {
@@ -143,12 +146,14 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) use ($app) {
 
     // Authenticated endpoints
     $apiGroup->group('', function (RouteCollectorProxy $apiGroup) use ($app) {
-        $apiGroup->post('/invite', AdminController::class . ':invite');
+        $apiGroup->get('/update', SetupController::class . ':update');
+        $apiGroup->post('/user/invite', AdminController::class . ':invite');
         $apiGroup->delete('/user/{userId}', AdminController::class . ':deleteUser');
         $apiGroup->patch('/user/{userId}/max-posts', AdminController::class . ':updateUserMaxPosts');
         $apiGroup->patch('/user/{userId}/role', AdminController::class . ':updateUserRole');
         $apiGroup->put('/user/logout', UserController::class . ':logout');
         $apiGroup->post('/post', PostController::class . ':createPost');
+        $apiGroup->put('/post/{postId}/resolve', PostController::class . ':resolvePost');
         $apiGroup->delete('/post/{postId}', PostController::class . ':deletePost');
     })->add($app->getContainer()->get(AuthMiddleware::class));
 });

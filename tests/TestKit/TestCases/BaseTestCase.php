@@ -8,6 +8,7 @@ namespace App\Tests\TestKit\TestCases;
 use App\Core\Crypto;
 use App\Core\MariaTransactor;
 use App\Core\Types\Base64String;
+use App\Core\Types\Moment;
 use App\Domain\Models\UserInfo;
 use App\Domain\Repositories\UserRepo;
 use App\Services\AuthService;
@@ -55,7 +56,7 @@ abstract class BaseTestCase extends DockerNetworkTestCase
             textdomain('i18n');
 
             // Setup db
-            self::$mariaDBContainer = new MariaDBContainer('11.7.2')
+            self::$mariaDBContainer = new MariaDBContainer('10.11')
                 ->withName('mariadb')
                 ->withNetwork(self::$networkName)
                 ->withMariaDBDatabase($_ENV["DB_NAME"])
@@ -174,6 +175,7 @@ abstract class BaseTestCase extends DockerNetworkTestCase
             passwordHash: password_hash($password, PASSWORD_BCRYPT),
             maxActivePosts: $maxActivePosts,
             role: $role,
+            createdAt: Moment::now()
         );
 
         try {

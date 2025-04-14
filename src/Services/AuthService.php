@@ -33,7 +33,7 @@ final class AuthService
                 ? strtotime('+1 year')
                 : strtotime('+2 weeks');
 
-            $expiresAt = date('Y-m-d H:i:s', $unixTimeStamp);
+            $expiresAt = date('Y-m-d H:i:s.v', $unixTimeStamp);
             $isInserted = AuthenticationRepo::insertAuthentication($tokenHash, $user->id, $expiresAt);
 
             if (!$isInserted) {

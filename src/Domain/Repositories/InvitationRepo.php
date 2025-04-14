@@ -6,6 +6,7 @@ namespace App\Domain\Repositories;
 
 use App\Core\MariaTransactor;
 use App\Core\Types\Binary;
+use App\Core\Types\Moment;
 use App\Domain\Models\Invitation;
 
 final class InvitationRepo
@@ -14,17 +15,19 @@ final class InvitationRepo
         string $email,
         Binary $invitationToken,
         bool   $isAdmin,
+        Moment $createdAt
     ): bool
     {
         $query = "
-            INSERT INTO invitations (email, token, is_admin) 
-            VALUES (:email, :token, :is_admin)
-        ";
+        INSERT INTO invitations (email, token, is_admin, created_at) 
+        VALUES (:email, :token, :is_admin, :created_at)
+    ";
 
         $params = [
             ':email' => $email,
             ':token' => $invitationToken->value,
             ':is_admin' => $isAdmin ? 1 : 0,
+            ':created_at' => $createdAt->value
         ];
 
         return MariaTransactor::update($query, $params);

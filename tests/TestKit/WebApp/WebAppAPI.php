@@ -14,12 +14,12 @@ use App\Controllers\RequestDTOs\UpdateRoleDTO;
 use App\Core\Crypto;
 use App\Core\JSON;
 use App\Core\Types\Binary;
+use App\Core\Types\Moment;
 use App\Domain\Models\PostInfo;
 use App\Domain\Models\User;
 use App\Domain\Models\UserInfo;
 use App\Domain\Repositories\InvitationRepo;
 use App\Domain\Repositories\UserRepo;
-use App\Services\UserService;
 use App\Tests\TestKit\Faker\NearingDate;
 use App\Tests\TestKit\Faker\PinColor;
 use App\Tests\TestKit\Faker\Token;
@@ -95,14 +95,19 @@ class WebAppAPI
         return $response->getBody()->getContents();
     }
 
-    public function setup(): ResponseInterface
+    public function install(): ResponseInterface
     {
         return $this->get('/install');
     }
 
+    public function update(): ResponseInterface
+    {
+        return $this->get('/api/update');
+    }
+
     public function invite(NewInvitationDTO $dto): ResponseInterface
     {
-        return $this->post('/api/invite', $dto);
+        return $this->post('/api/user/invite', $dto);
     }
 
     public function inviteChecked(NewInvitationDTO $dto): ?ResponseInterface
@@ -218,7 +223,7 @@ class WebAppAPI
         $name = $this->faker->firstName();
 
         $adminInvitationToken = Binary::apply(random_bytes(16));
-        InvitationRepo::insertInvitation($email, $adminInvitationToken, $isAdmin);
+        InvitationRepo::insertInvitation($email, $adminInvitationToken, $isAdmin, Moment::now());
 
         $acceptInvitation = new AcceptInvitationDTO(
             token: base64_encode($adminInvitationToken->value),
@@ -258,7 +263,7 @@ class WebAppAPI
         return $this->request('PUT', $uri, $this->buildOptions($dto));
     }
 
-    private function patch(string $uri, object $dto): ResponseInterface
+    private function patch(string $uri, ?object $dto): ResponseInterface
     {
         return $this->request('PATCH', $uri, $this->buildOptions($dto));
     }

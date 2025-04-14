@@ -54,6 +54,7 @@ class WebAppPages
     {
         return [
             RequestOptions::HEADERS => ['Content-Type' => 'application/json'],
+            RequestOptions::ALLOW_REDIRECTS => false,
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::DEBUG => false,
         ];

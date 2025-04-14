@@ -1,4 +1,6 @@
-<phpunit bootstrap="./vendor/autoload.php">
+<phpunit bootstrap="./vendor/autoload.php"
+         displayDetailsOnTestsThatTriggerDeprecations="true">
+
     <testsuites>
         <testsuite name="All tests">
             <directory>./tests/</directory>

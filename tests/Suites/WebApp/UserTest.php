@@ -12,6 +12,7 @@ use App\Core\Crypto;
 use App\Core\MariaTransactor;
 use App\Core\Types\Base64String;
 use App\Core\Types\Binary;
+use App\Core\Types\Moment;
 use App\Domain\Repositories\InvitationRepo;
 use App\Tests\TestKit\WebApp\WebAppAPI;
 use App\Tests\TestKit\WebApp\WebAppPages;
@@ -46,7 +47,7 @@ final class UserTest extends WebAppTestCase
         $password = self::$faker->password(8);
 
         $adminInvitationToken = Binary::apply(random_bytes(16));
-        InvitationRepo::insertInvitation($email, $adminInvitationToken, true);
+        InvitationRepo::insertInvitation($email, $adminInvitationToken, true, Moment::now());
 
         // Act
         $acceptInvitation = new AcceptInvitationDTO(
@@ -79,7 +80,7 @@ final class UserTest extends WebAppTestCase
         $password = self::$faker->password(8);
 
         $adminInvitationToken = Binary::apply(random_bytes(16));
-        InvitationRepo::insertInvitation($email, $adminInvitationToken, true);
+        InvitationRepo::insertInvitation($email, $adminInvitationToken, true, Moment::now());
 
         $declineInvitation = new DeclineInvitationDTO(base64_encode($adminInvitationToken->value));
 

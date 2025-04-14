@@ -104,6 +104,14 @@ body {
             text-align: center;
         }
 
+        .postButtons {
+            display: flex;
+            flex-flow: column;
+            gap: 0.5rem;
+
+            padding: 0 1rem;
+        }
+
         .delete {
             display: flex;
             align-items: center;
@@ -114,7 +122,6 @@ body {
             border: none;
             border-radius: 50%;
 
-            margin: 1rem 1.25rem 1rem 0.25rem;
             width: 1.75rem;
             height: 1.75rem;
             font-size: 1.125rem;
@@ -125,6 +132,36 @@ body {
         .delete:hover {
             background-color: var(--post-delete-bg-color-hover);
         }
+
+        .resolve {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: var(--post-resolve-bg-color);
+            color: var(--post-resolve-color);
+            border: none;
+            border-radius: 50%;
+
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .resolve:hover {
+            background-color: var(--post-resolve-bg-color-hover);
+        }
+    }
+}
+
+.postResolved {
+    pointer-events: none;
+
+    .text {
+        filter: blur(0.75px);
+        text-decoration: line-through;
     }
 }
 

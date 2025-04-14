@@ -10,6 +10,7 @@ use App\Core\Exceptions\Conflict;
 use App\Core\Exceptions\Expired;
 use App\Core\Exceptions\Forbidden;
 use App\Core\Exceptions\NotFound;
+use App\Core\Types\Moment;
 use App\Exceptions\EmailAlreadyUsedException;
 use App\Exceptions\EmailSendingException;
 use App\Exceptions\InvalidEmailException;
@@ -55,7 +56,7 @@ final class VettingService
         $base64Token = Base64String::fromBytes($invitationToken);
 
         try {
-            if (!InvitationRepo::insertInvitation($email, $invitationToken, $isAdmin)) {
+            if (!InvitationRepo::insertInvitation($email, $invitationToken, $isAdmin, Moment::now())) {
                 throw new InvitationCreationException();
             }
 
@@ -133,6 +134,7 @@ final class VettingService
             passwordHash: $passwordHash,
             maxActivePosts: $maxActivePosts,
             role: $role,
+            createdAt: Moment::now()
         );
 
         if ($hasInsertFailed) {

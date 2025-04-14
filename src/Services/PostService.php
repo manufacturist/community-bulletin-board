@@ -8,6 +8,8 @@ use App\Core\Crypto;
 use App\Core\Exceptions\Anomaly;
 use App\Core\Exceptions\Forbidden;
 use App\Core\Exceptions\InvalidState;
+use App\Core\Types\Moment;
+use App\Domain\Models\Post;
 use App\Domain\Models\PostInfo;
 use App\Domain\Models\UserInfo;
 use App\Domain\Repositories\PostRepo;
@@ -23,18 +25,26 @@ final class PostService
         string   $description,
         string   $pinColor,
         ?string  $link,
-        string   $expiresAt
+        Moment   $expiresAt
     ): PostInfo
     {
-        $userActivePostsCount = PostRepo::selectCountByUser($user->id);
+        $userActivePostsCount = PostRepo::selectCountUnresolvedByUser($user->id);
         if ($userActivePostsCount >= $user->maxActivePosts) {
-            throw new InvalidState("You cannot have more than $user->maxActivePosts posts at once.");
+            throw new InvalidState("You cannot have more than $user->maxActivePosts active posts at once.");
         }
 
         $encryptedDescription = Crypto::encrypt($description);
         $encryptedLink = $link ? Crypto::encrypt($link) : null;
 
-        $postId = PostRepo::insertPost($user->id, $encryptedDescription, $encryptedLink, $pinColor, $expiresAt);
+        $postId = PostRepo::insertPost(
+            userId: $user->id,
+            encryptedDescription: $encryptedDescription,
+            encryptedLink: $encryptedLink,
+            pinColor: $pinColor,
+            createdAt: Moment::now(),
+            expiresAt: $expiresAt
+        );
+
         if (!$postId) {
             throw new Anomaly('Failed to create post.');
         }
@@ -53,7 +63,8 @@ final class PostService
             link: $post->encryptedLink ? Crypto::decrypt($post->encryptedLink) : null,
             pinColor: $post->pinColor,
             createdAt: $post->createdAt,
-            expiresAt: $post->expiresAt
+            expiresAt: $post->expiresAt,
+            resolvedAt: $post->resolvedAt
         );
     }
 
@@ -61,9 +72,9 @@ final class PostService
      * @return PostInfo[]
      * @throws \Exception
      */
-    public static function fetchAllNewestFirst(): array
+    public static function fetchNewestFirstAndResolvedLast(): array
     {
-        $posts = PostRepo::selectOrderedByLatest();
+        $posts = PostRepo::selectOrderedByLatestFirstAndResolvedLast();
 
         return array_map(fn($post) => new PostInfo(
             id: $post->id,
@@ -74,7 +85,8 @@ final class PostService
             link: $post->encryptedLink ? Crypto::decrypt($post->encryptedLink) : null,
             pinColor: $post->pinColor,
             createdAt: $post->createdAt,
-            expiresAt: $post->expiresAt
+            expiresAt: $post->expiresAt,
+            resolvedAt: $post->resolvedAt
         ), $posts);
     }
 
@@ -95,6 +107,46 @@ final class PostService
 
         if (!PostRepo::deletePostById($postId)) {
             throw new Anomaly('Failed to delete post.');
+        }
+    }
+
+    /**
+     * @throws Forbidden
+     * @throws \Exception
+     */
+    public static function resolvePost(UserInfo $user, int $postId): void
+    {
+        $posts = PostRepo::selectPostsForUser($user->id);
+
+        $post = array_reduce($posts, function (?Post $foundPost, Post $currentPost) use ($postId) {
+            return $foundPost ?? ($currentPost->id === $postId ? $currentPost : null);
+        });
+
+        if (!$post) {
+            throw new PostNotFound($postId);
+        }
+
+        if ($post->resolvedAt) {
+            throw new InvalidState('This post is already resolved.');
+        }
+
+        if (!PostRepo::resolvePostById($postId, Moment::now())) {
+            throw new Anomaly('Failed to resolve post.');
+        }
+
+        $existingResolvedPosts = array_filter($posts, fn (Post $post): bool => $post->resolvedAt !== null);
+
+        if (count($existingResolvedPosts) >= 2) {
+            usort($existingResolvedPosts, function (Post $a, Post $b) {
+                // string cast because it's already not null due to the filtering
+                return new \DateTime((string)$b->resolvedAt) <=> new \DateTime((string)$a->resolvedAt);
+            });
+
+            $oldestResolvedIds = array_map(fn(Post $post) => $post->id, array_slice($existingResolvedPosts, 1));
+
+            if (!PostRepo::deletePostsByIds($oldestResolvedIds)) {
+                throw new Anomaly('Failed to delete old resolved posts.');
+            }
         }
     }
 }

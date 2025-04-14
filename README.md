@@ -45,7 +45,7 @@ The Admin can:
         - `EMAIL_FROM_NAME`: Sender name, defaults to 'Community Bulletin Board' (optional)
         - `APP_URL`: Base URL of your application (used for invitation links)
       - Optional:
-        - `GITHUB_TOKEN`: A GitHub access token for getting the latest changes from upstream (see [fork-rebase.yml](./.github/workflows/fork-rebase.yml))
+        - `GITHUB_TOKEN`: A GitHub access token for getting the latest changes from upstream (see [fork-rebase.yml](.github/optional/fork-rebase.yml))
 
 Easily deployable on [Hetzner Webhosting](https://www.hetzner.com/webhosting/). The advantages are:
 

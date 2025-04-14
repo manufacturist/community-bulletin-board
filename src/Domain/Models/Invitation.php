@@ -61,7 +61,7 @@ final class Invitation
             throw new \InvalidArgumentException("Missing or invalid key: created_at");
         }
 
-        $createdAt = \DateTime::createFromFormat('Y-m-d H:i:s', $row['created_at']);
+        $createdAt = \DateTime::createFromFormat('Y-m-d H:i:s.v', $row['created_at']);
 
         if (!$createdAt) {
             throw new \InvalidArgumentException("Invalid date format for created_at");

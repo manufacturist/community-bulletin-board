@@ -15,6 +15,7 @@ final class PostInfo
     public string $pinColor;
     public string $createdAt;
     public string $expiresAt;
+    public ?string $resolvedAt;
 
     public function __construct(
         int     $id,
@@ -25,7 +26,8 @@ final class PostInfo
         ?string $link,
         string  $pinColor,
         string  $createdAt,
-        string  $expiresAt
+        string  $expiresAt,
+        ?string $resolvedAt
     )
     {
         $this->id = $id;
@@ -37,5 +39,6 @@ final class PostInfo
         $this->pinColor = $pinColor;
         $this->createdAt = $createdAt;
         $this->expiresAt = $expiresAt;
+        $this->resolvedAt = $resolvedAt;
     }
 }

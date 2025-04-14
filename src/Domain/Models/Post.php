@@ -17,6 +17,7 @@ final class Post
     public string $pinColor;
     public string $createdAt;
     public string $expiresAt;
+    public ?string $resolvedAt;
 
     public function __construct(
         int     $id,
@@ -27,7 +28,8 @@ final class Post
         ?Binary $encryptedLink,
         string  $pinColor,
         string  $createdAt,
-        string  $expiresAt
+        string  $expiresAt,
+        ?string $resolvedAt = null
     )
     {
         $this->id = $id;
@@ -39,6 +41,7 @@ final class Post
         $this->pinColor = $pinColor;
         $this->createdAt = $createdAt;
         $this->expiresAt = $expiresAt;
+        $this->resolvedAt = $resolvedAt;
     }
 
     /**
@@ -82,6 +85,10 @@ final class Post
             ? $row['expires_at']
             : throw new \InvalidArgumentException("Missing / Invalid key: expires_at");
 
+        $resolvedAt = array_key_exists('resolved_at', $row) && is_string($row['resolved_at'])
+            ? $row['resolved_at']
+            : null;
+
         return new Post(
             id: $id,
             userId: $userId,
@@ -91,7 +98,8 @@ final class Post
             encryptedLink: $encryptedLink,
             pinColor: $pinColor,
             createdAt: $createdAt,
-            expiresAt: $expiresAt
+            expiresAt: $expiresAt,
+            resolvedAt: $resolvedAt
         );
     }
 }

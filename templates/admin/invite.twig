@@ -112,7 +112,7 @@
             body: JSON.stringify(data)
         }
 
-        fetch('/api/invite', request)
+        fetch('/api/user/invite', request)
             .then(async (response) => {
                 if (response.status === 204) {
                     window.location.reload()

@@ -26,9 +26,7 @@
                     {% if user.id == post.userId %}
                         <button class="resolve" data-post-id="{{ post.id }}">✓</button>
                     {% endif %}
-                    {% if user.role != "member" %}
-                        <button class="delete" data-post-id="{{ post.id }}">✗</button>
-                    {% endif %}
+                    <button class="delete" data-post-id="{{ post.id }}">✗</button>
                 </div>
             {% endif %}
         </div>

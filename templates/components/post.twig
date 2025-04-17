@@ -1,6 +1,6 @@
 {% if post.resolvedAt %}
     <div
-            class="post {{ user.role != 'member' ? 'postResolvedTouch' : 'postResolved' }}"
+            class="post {% if user.role != 'member' or user.id == post.userId %}postResolvedTouch{% else %}postResolved{% endif %}"
             data-post-id="{{ post.id }}"
             data-post-user-id="{{ post.userId }}"
             data-post-resolved-at="{{ post.resolvedAt }}"

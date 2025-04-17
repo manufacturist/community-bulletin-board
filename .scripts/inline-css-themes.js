@@ -1,9 +1,10 @@
 const fs = require('fs')
+const path = require('path')
 const postcss = require('postcss')
 const postcssCssVariables = require('postcss-css-variables')
 const cssnano = require('cssnano')
 
-const root = './..'
+const root = path.resolve(__dirname, '..')
 
 const corkThemeFiles = [
     `${root}/public/static/themes/cork.css`,
@@ -11,13 +12,13 @@ const corkThemeFiles = [
 ]
 
 const lightThemeFiles = [
-    `${root}/./../public/static/themes/light.css`,
-    `${root}/build/public/static/style.css`
+    `${root}/public/static/themes/light.css`,
+    `${root}/public/static/style.css`
 ]
 
 const darkThemeFiles = [
-    `${root}/build/public/static/themes/dark.css`,
-    `${root}/build/public/static/style.css`
+    `${root}/public/static/themes/dark.css`,
+    `${root}/public/static/style.css`
 ]
 
 const corkCombinedCss = corkThemeFiles.map(file => fs.readFileSync(file, 'utf8')).join('\n')
@@ -39,7 +40,6 @@ Promise
         `
 
         const stylesheetRegex = /(<link rel="stylesheet[\S\s]*style.css">)/g
-
         const layoutTwig = fs.readFileSync(`${root}/templates/layout.twig`, 'utf8')
         const newLayoutTwig = layoutTwig.replace(stylesheetRegex, twigThemePicker)
         fs.writeFileSync(`${root}/templates/layout.twig`, newLayoutTwig)

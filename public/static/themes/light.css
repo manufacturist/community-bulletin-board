@@ -32,9 +32,11 @@
 
     --default-button-text-color: black;
     --default-button-border-color: black;
+    --default-button-bg-color: white;
     --default-button-bg-color-hover: #b6dcff;
 
     --negative-button-text-color: #C73737;
     --negative-button-border-color: #C73737;
+    --negative-button-bg-color: white;
     --negative-button-bg-color-hover: #FFC5C5;
 }

@@ -1,17 +1,37 @@
-<div
-        class="post {% if post.resolvedAt %}postResolved{% endif %}"
-        data-post-id="{{ post.id }}"
-        data-post-user-id="{{ post.userId }}"
-        data-post-resolved-at="{{ post.resolvedAt }}"
-        {% if theme == 'cork' %}style="transform: rotate({{ random(-120, 120) / 100 }}deg)"{% endif %}
->
-    <div class="pinWrapper">
-        <svg class="pin-{{ post.pinColor }}"></svg>
+{% if post.resolvedAt %}
+    <div
+            class="post {{ user.role != 'member' ? 'postResolvedTouch' : 'postResolved' }}"
+            data-post-id="{{ post.id }}"
+            data-post-user-id="{{ post.userId }}"
+            data-post-resolved-at="{{ post.resolvedAt }}"
+            {% if theme == 'cork' %}style="transform: rotate({{ random(-120, 120) / 100 }}deg)"{% endif %}
+    >
+        <div class="pinWrapper">
+            <svg class="pin-{{ post.pinColor }}"></svg>
+        </div>
+
+        <div class="text">{{ post.description }}</div>
+
+        {% if user.id == post.userId or user.role != "member" %}
+            <div class="flipContent">
+                <button class="delete" data-post-id="{{ post.id }}">✗</button>
+            </div>
+        {% endif %}
     </div>
+{% else %}
+    <div
+            class="post"
+            data-post-id="{{ post.id }}"
+            data-post-user-id="{{ post.userId }}"
+            data-post-resolved-at="{{ post.resolvedAt }}"
+            {% if theme == 'cork' %}style="transform: rotate({{ random(-120, 120) / 100 }}deg)"{% endif %}
+    >
+        <div class="pinWrapper">
+            <svg class="pin-{{ post.pinColor }}"></svg>
+        </div>
 
-    <div class="text">{{ post.description }}</div>
+        <div class="text">{{ post.description }}</div>
 
-    {% if post.resolvedAt is null %}
         <div class="flipContent">
             <div class="postMeta">
                 <a href="tel:{{ post.phoneNumber }}">{{ post.phoneNumber }} ({{ post.userName }})</a>
@@ -30,5 +50,5 @@
                 </div>
             {% endif %}
         </div>
-    {% endif %}
-</div>
+    </div>
+{% endif %}

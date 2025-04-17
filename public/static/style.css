@@ -162,13 +162,15 @@ input, textarea, select {
     }
 }
 
-.postResolved {
-    pointer-events: none;
-
+.postResolved, .postResolvedTouch {
     .text {
         filter: blur(0.3px);
         text-decoration: line-through;
     }
+}
+
+.postResolved {
+    pointer-events: none;
 }
 
 .pinWrapper {

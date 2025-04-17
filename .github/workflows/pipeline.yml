@@ -119,6 +119,18 @@ jobs:
           EMAIL_SMTP_PASSWORD=${{ secrets.EMAIL_SMTP_PASSWORD }}
           EOF
 
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Semantic release
+        run: |
+          npm i -D semantic-release conventional-changelog-conventionalcommits
+          npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # https://github.com/SamKirkland/FTP-Deploy-Action?tab=readme-ov-file#settings
       - name: Deploy WebApp
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

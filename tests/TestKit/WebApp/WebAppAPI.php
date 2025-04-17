@@ -102,7 +102,7 @@ class WebAppAPI
 
     public function update(): ResponseInterface
     {
-        return $this->get('/api/update');
+        return $this->get('/update');
     }
 
     public function invite(NewInvitationDTO $dto): ResponseInterface

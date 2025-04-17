@@ -16,7 +16,11 @@
 
 <body>
 
-<img id="pushPin" src="static/images/push-pin.svg" alt="Push Pin Image">
+{% if theme == "cork" %}
+<img id="pushPin" src="static/images/push-pin.svg" alt="Push Pin">
+{% elseif theme == "light" or theme == "dark" %}
+<span id="pushPin" style="color:red;font-size: 1.25rem">•</span>
+{% endif %}
 
 <div class="appWrapper" style="background-color: #dea66a">
     {% block body %}{% endblock %}

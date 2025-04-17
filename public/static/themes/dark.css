@@ -1,0 +1,42 @@
+:root {
+    --color-scheme: dark;
+    --text-color: rgb(209, 209, 209);
+    --input-border: unset;
+
+    /* Board */
+    --board-material: linear-gradient(#232323, #232323);
+    --board-box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+    --board-frame-image: linear-gradient(45deg, #333, #444, #333) 1;
+
+    /* Posts */
+    --post-bg-color: #2c2c2c;
+    --post-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    --post-box-shadow-hover: 5px 10px 50px rgba(255, 255, 255, 0.50);
+    --post-flip-box-shadow: 5px 10px 50px rgba(255, 255, 255, 0.50);
+
+    --post-delete-text-color: rgb(209, 209, 209);
+    --post-delete-bg-color: #a83232;
+    --post-delete-bg-color-hover: #8b1e1e;
+
+    --post-resolve-text-color: rgb(209, 209, 209);
+    --post-resolve-bg-color: #2F8D00;
+    --post-resolve-bg-color-hover: #34A853;
+
+    /* Anchor links */
+    --anchor-link-color: #70B7FF;
+
+    /* Buttons */
+    --main-button-text-color: rgb(209, 209, 209);
+    --main-button-bg-color: #2C3E50;
+    --main-button-bg-color-hover: #34495E;
+
+    --default-button-text-color: rgb(209, 209, 209);
+    --default-button-border-color: #34495E;
+    --default-button-bg-color: #1A202C;
+    --default-button-bg-color-hover: #4A6572;
+
+    --negative-button-text-color: rgb(209, 209, 209);
+    --negative-button-border-color: #E74C3C;
+    --negative-button-bg-color: #C0392B;
+    --negative-button-bg-color-hover: #D15D5D;
+}

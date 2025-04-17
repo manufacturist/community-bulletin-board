@@ -1,0 +1,18 @@
+{% embed 'components/actionPost.twig' %}
+    {% block action %}
+        <h3>{% trans "User Settings" %}</h3>
+        <div class="buttonGroup" style="margin-top: 0">
+            <button id="backButton" class="actionButton clearColor">{% trans "Go to home page" %}</button>
+        </div>
+    {% endblock %}
+
+    {% block subtext %}
+        <span>{% trans "Code on" %}
+            <a href="https://github.com/manufacturist/community-bulletin-board" target="_blank">GitHub</a>
+        </span>
+    {% endblock %}
+{% endembed %}
+
+<script>
+    document.getElementById('backButton').addEventListener('click', () => window.location.href = '/')
+</script>

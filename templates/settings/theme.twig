@@ -1,0 +1,63 @@
+{% embed 'components/actionPost.twig' %}
+    {% block action %}
+        <div class="themeSelector">
+            <label for="themeSelect">{% trans "Pick your preferred theme" %}</label>
+            <div class="themeSelectWrapper">
+                <select id="themeSelect" onchange="changeTheme(this.value)">
+                    <option value="cork" {% if theme == "cork" %}selected{% endif %}>{% trans "Cork" %}</option>
+                    <option value="light" {% if theme == "light" %}selected{% endif %}>{% trans "Light" %}</option>
+                    <option value="dark" {% if theme == "dark" %}selected{% endif %}>{% trans "Dark" %}</option>
+                </select>
+            </div>
+        </div>
+    {% endblock %}
+{% endembed %}
+
+<script>
+    function changeTheme(theme) {
+        const request = {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({theme: theme}),
+        }
+
+        fetch(`/api/user/{{ user.id }}/theme`, request)
+            .then(response => {
+                if (response.ok) window.location.reload()
+                else console.error('Failed to update theme')
+            })
+            .catch(error => console.error('Change theme', error))
+    }
+</script>
+
+<style>
+    .themeSelector {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .themeSelectWrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .themeSelectWrapper::after {
+        content: "▼";
+        font-size: 0.9rem;
+        top: 9px;
+        right: 10px;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .themeSelectWrapper select {
+        padding: 8px;
+        border-radius: 4px;
+        color: var(--text-color);
+        -webkit-appearance: none;
+        appearance: none;
+    }
+</style>

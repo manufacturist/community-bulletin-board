@@ -13,6 +13,7 @@ final class UserInfo
     public string $email;
     public string $phoneNumber;
     public int $maxActivePosts;
+    public string $theme;
     public string $role;
 
     public function __construct(
@@ -21,6 +22,7 @@ final class UserInfo
         string $email,
         string $phoneNumber,
         int    $maxActivePosts,
+        string $theme,
         string $role
     )
     {
@@ -29,6 +31,7 @@ final class UserInfo
         $this->email = $email;
         $this->phoneNumber = $phoneNumber;
         $this->maxActivePosts = $maxActivePosts;
+        $this->theme = $theme;
         $this->role = $role;
     }
 
@@ -50,6 +53,7 @@ final class UserInfo
             Crypto::decrypt($user->encryptedEmail),
             Crypto::decrypt($user->encryptedPhoneNumber),
             $user->maxActivePosts,
+            $user->theme,
             $user->role
         );
     }

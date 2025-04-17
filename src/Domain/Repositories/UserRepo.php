@@ -18,6 +18,7 @@ final class UserRepo
         Binary $emailHash,
         string $passwordHash,
         int    $maxActivePosts,
+        string $theme,
         string $role,
         Moment $createdAt,
     ): bool
@@ -25,11 +26,11 @@ final class UserRepo
         $query = "
             INSERT INTO users (
                 encrypted_name, encrypted_email, encrypted_phone_number, 
-                email_hash, password_hash, max_active_posts, role, created_at
+                email_hash, password_hash, max_active_posts, theme, role, created_at
             ) 
             VALUES (
                 :encrypted_name, :encrypted_email, :encrypted_phone_number, 
-                :email_hash, :password_hash, :max_active_posts, :role, :created_at
+                :email_hash, :password_hash, :max_active_posts, :theme, :role, :created_at
             )
         ";
 
@@ -40,6 +41,7 @@ final class UserRepo
             ':email_hash' => $emailHash->value,
             ':password_hash' => $passwordHash,
             ':max_active_posts' => $maxActivePosts,
+            ':theme' => $theme,
             ':role' => $role,
             ':created_at' => $createdAt->value
         ];
@@ -97,6 +99,14 @@ final class UserRepo
     {
         $query = "UPDATE users SET max_active_posts = :max_active_posts WHERE id = :user_id";
         $params = [':max_active_posts' => $maxActivePosts, ':user_id' => $userId,];
+
+        return MariaTransactor::update($query, $params);
+    }
+
+    public static function updateTheme(int $userId, string $theme): bool
+    {
+        $query = "UPDATE users SET theme = :theme WHERE id = :user_id";
+        $params = [':theme' => $theme, ':user_id' => $userId,];
 
         return MariaTransactor::update($query, $params);
     }

@@ -11,6 +11,7 @@ use App\Controllers\SetupController;
 use App\Controllers\UserController;
 use App\Core\Types\Base64String;
 use App\Core\Types\Binary;
+use App\Core\Types\SystemTheme;
 use App\Domain\Models\UserInfo;
 use App\Domain\Repositories\InvitationRepo;
 use App\Middleware\AuthMiddleware;
@@ -56,7 +57,7 @@ $container->set(Twig::class, function () use ($rootDir, $desiredLocale) {
 
     $bcp47Locale = str_replace('_', '-', _('locale'));
     $twig->getEnvironment()->addGlobal('locale', $bcp47Locale);
-    $twig->getEnvironment()->addGlobal('theme', 'cork');
+    $twig->getEnvironment()->addGlobal('theme', SystemTheme::CORK);
     $twig->addExtension(new I18nExtension());
 
     return $twig;
@@ -77,6 +78,8 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser) {
+        $twig->getEnvironment()->addGlobal('theme', $authenticatedUser->theme);
+
         $posts = PostService::fetchNewestFirstAndResolvedLast();
 
         $currentActiveUserPosts = count(array_filter($posts, function ($p) use ($authenticatedUser) {
@@ -85,10 +88,27 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
 
         $isAddingPostDisabled = $currentActiveUserPosts >= $authenticatedUser->maxActivePosts;
 
-        return $twig->render($response->withHeader('Content-Type', 'text/html; charset=UTF-8'), 'home.twig', [
+        return $twig->render($response, 'home.twig', [
             'user' => $authenticatedUser,
             'posts' => $posts,
             'addPostAttribute' => $isAddingPostDisabled ? 'disabled' : null
+        ]);
+    } else {
+        return $twig->render($response, 'login.twig');
+    }
+})->add($app->getContainer()->get(AuthMiddleware::class));
+
+$app->get('/settings', function (Request $request, Response $response) use ($app) {
+    $twig = $app->getContainer()->get(Twig::class);
+
+    /** @var UserInfo $authenticatedUser */
+    $authenticatedUser = $request->getAttribute('user');
+
+    if ($authenticatedUser) {
+        $twig->getEnvironment()->addGlobal('theme', $authenticatedUser->theme);
+
+        return $twig->render($response, 'settings.twig', [
+            'user' => $authenticatedUser,
         ]);
     } else {
         return $twig->render($response, 'login.twig');
@@ -100,6 +120,8 @@ $app->get('/admin', function (Request $request, Response $response) use ($app) {
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser && $authenticatedUser->isAdmin()) {
+        $app->getContainer()->get(Twig::class)->getEnvironment()->addGlobal('theme', $authenticatedUser->theme);
+
         $activeInvitations = VettingService::getInvitations();
         $members = UserService::fetchAll();
 
@@ -127,8 +149,9 @@ $app->get('/' . _('url_join'), function (Request $request, Response $response) u
     }
 });
 
-// One-time setup endpoint; breaking REST convention for user convenience
+// System setup; breaking REST convention for user convenience
 $app->get('/install', SetupController::class . ':install');
+$app->get('/update', SetupController::class . ':update')->add($app->getContainer()->get(AuthMiddleware::class));
 
 // API routes
 $app->group('/api', function (RouteCollectorProxy $apiGroup) use ($app) {
@@ -146,10 +169,10 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) use ($app) {
 
     // Authenticated endpoints
     $apiGroup->group('', function (RouteCollectorProxy $apiGroup) use ($app) {
-        $apiGroup->get('/update', SetupController::class . ':update');
         $apiGroup->post('/user/invite', AdminController::class . ':invite');
         $apiGroup->delete('/user/{userId}', AdminController::class . ':deleteUser');
         $apiGroup->patch('/user/{userId}/max-posts', AdminController::class . ':updateUserMaxPosts');
+        $apiGroup->patch('/user/{userId}/theme', UserController::class . ':updateUserTheme');
         $apiGroup->patch('/user/{userId}/role', AdminController::class . ':updateUserRole');
         $apiGroup->put('/user/logout', UserController::class . ':logout');
         $apiGroup->post('/post', PostController::class . ':createPost');

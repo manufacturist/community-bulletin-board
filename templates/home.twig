@@ -19,9 +19,8 @@
                 </div>
             {% endblock %}
             {% block subtext %}
-                <a id="logout">{% trans "Logout" %}</a> • <span>{% trans "Code on" %}
-                    <a href="https://github.com/manufacturist/community-bulletin-board" target="_blank">GitHub</a>
-                </span>
+                <a id="logout">{% trans "Logout" %}</a> •
+                <a id="settings" href="/settings">{% trans "Settings" %}</a>
             {% endblock %}
         {% endembed %}
         <div id="postModal" class="modal">
@@ -40,7 +39,7 @@
 
                     <div class="inputGroup">
                         <label for="expiresAt">{% trans "Expiration Date (Until End of Day)" %}</label>
-                        <input type="date" id="expiresAt" name="expiresAt" lang="{{ locale }}" required>
+                        <input type="date" id="expiresAt" name="expiresAt" lang="{{ locale }}" required onfocus="this.showPicker()">
                     </div>
 
                     <div class="inputGroup">

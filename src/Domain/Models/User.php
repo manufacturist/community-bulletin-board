@@ -15,6 +15,7 @@ final class User
     public Binary $emailHash;
     public string $passwordHash;
     public int $maxActivePosts;
+    public string $theme;
     public string $role;
 
     public function __construct(
@@ -25,6 +26,7 @@ final class User
         Binary $emailHash,
         string $passwordHash,
         int    $maxActivePosts,
+        string $theme,
         string $role
     )
     {
@@ -35,6 +37,7 @@ final class User
         $this->emailHash = $emailHash;
         $this->passwordHash = $passwordHash;
         $this->maxActivePosts = $maxActivePosts;
+        $this->theme = $theme;
         $this->role = $role;
     }
 
@@ -72,6 +75,10 @@ final class User
             ? (int)$row['max_active_posts']
             : 2; // Default to 2 for backward compatibility with existing data
 
+        $theme = isset($row['theme']) && is_string($row['theme'])
+            ? $row['theme']
+            : 'cork'; // Default to cork theme for backward compatibility
+
         $role = is_string($row['role'])
             ? $row['role']
             : throw new \InvalidArgumentException("Missing / Invalid key: role");
@@ -84,6 +91,7 @@ final class User
             emailHash: $emailHash,
             passwordHash: $passwordHash,
             maxActivePosts: $maxActivePosts,
+            theme: $theme,
             role: $role
         );
     }

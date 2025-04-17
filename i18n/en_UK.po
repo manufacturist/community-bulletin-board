@@ -80,6 +80,9 @@ msgstr "Add post"
 msgid "Logout"
 msgstr "Logout"
 
+msgid "Settings"
+msgstr "Settings"
+
 msgid "Failed to create post."
 msgstr "Failed to create post."
 
@@ -129,7 +132,23 @@ msgstr "Add"
 msgid "See link"
 msgstr "See link"
 
-# Admin panel.twig
+# Settings description.twig
+msgid "User Settings"
+msgstr "User Settings"
+
+msgid "Pick your preferred theme"
+msgstr "Pick your preferred theme"
+
+msgid "Cork"
+msgstr "Cork"
+
+msgid "Light"
+msgstr "Light"
+
+msgid "Dark"
+msgstr "Dark"
+
+# Admin description.twig
 msgid "Admin Panel"
 msgstr "Admin Panel"
 

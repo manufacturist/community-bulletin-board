@@ -3,6 +3,7 @@
 package.xml
 .phpunit.result.cache
 .php-cs-fixer.cache
+.scripts/node_modules
 
 ##### Windows
 # Windows thumbnail cache files

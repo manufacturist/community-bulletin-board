@@ -1,0 +1,8 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% embed 'settings/description.twig' %}{% endembed %}
+        {% embed 'settings/theme.twig' %}{% endembed %}
+    </div>
+{% endblock %}

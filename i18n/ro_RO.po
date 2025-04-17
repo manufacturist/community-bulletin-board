@@ -72,10 +72,13 @@ msgid "Welcome"
 msgstr "Salutare"
 
 msgid "Add a new post"
-msgstr "Adaugă un anunț nou"
+msgstr "Adaugă un anunț"
 
 msgid "Logout"
 msgstr "Ieșire"
+
+msgid "Settings"
+msgstr "Setări"
 
 msgid "Add post"
 msgstr "Adaugă anunț"
@@ -129,7 +132,23 @@ msgstr "Adaugă"
 msgid "See link"
 msgstr "Vezi link"
 
-# Admin panel.twig
+# Settings description.twig
+msgid "User Settings"
+msgstr "Setările Utilizatorului"
+
+msgid "Pick your preferred theme"
+msgstr "Alegeți tema preferată"
+
+msgid "Cork"
+msgstr "Plută"
+
+msgid "Light"
+msgstr "Luminos"
+
+msgid "Dark"
+msgstr "Întunecat"
+
+# Admin description.twig
 msgid "Admin Panel"
 msgstr "Panoul Administrativ"
 

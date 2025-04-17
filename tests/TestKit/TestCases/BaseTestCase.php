@@ -9,6 +9,7 @@ use App\Core\Crypto;
 use App\Core\MariaTransactor;
 use App\Core\Types\Base64String;
 use App\Core\Types\Moment;
+use App\Core\Types\SystemTheme;
 use App\Domain\Models\UserInfo;
 use App\Domain\Repositories\UserRepo;
 use App\Services\AuthService;
@@ -174,6 +175,7 @@ abstract class BaseTestCase extends DockerNetworkTestCase
             emailHash: $emailHash,
             passwordHash: password_hash($password, PASSWORD_BCRYPT),
             maxActivePosts: $maxActivePosts,
+            theme: SystemTheme::CORK,
             role: $role,
             createdAt: Moment::now()
         );

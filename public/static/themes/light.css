@@ -1,0 +1,40 @@
+:root {
+    --color-scheme: light;
+    --text-color: rgb(70, 70, 70);
+    --input-border: 1px solid #2a2a2a;
+
+    /* Board */
+    --board-material: linear-gradient(#f4f4f4, #e0e0e0);
+    --board-box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+    --board-frame-image: linear-gradient(45deg, #888, #aaa, #888) 1;
+
+    /* Posts */
+    --post-bg-color: #ffffff;
+    --post-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --post-box-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.2);
+    --post-flip-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    --post-delete-text-color: white;
+    --post-delete-bg-color: #c9302c;
+    --post-delete-bg-color-hover: #d9534f;
+
+    --post-resolve-text-color: white;
+    --post-resolve-bg-color: #0054B8;
+    --post-resolve-bg-color-hover: #0172e3;
+
+    /* Anchor links */
+    --anchor-link-color: #0054B8;
+
+    /* Buttons */
+    --main-button-text-color: white;
+    --main-button-bg-color: #0054B8;
+    --main-button-bg-color-hover: #0172e3;
+
+    --default-button-text-color: black;
+    --default-button-border-color: black;
+    --default-button-bg-color-hover: #b6dcff;
+
+    --negative-button-text-color: #C73737;
+    --negative-button-border-color: #C73737;
+    --negative-button-bg-color-hover: #FFC5C5;
+}

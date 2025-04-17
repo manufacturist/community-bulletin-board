@@ -7,11 +7,14 @@ namespace App\Controllers;
 use App\Controllers\RequestDTOs\AcceptInvitationDTO;
 use App\Controllers\RequestDTOs\DeclineInvitationDTO;
 use App\Controllers\RequestDTOs\LoginDTO;
+use App\Controllers\RequestDTOs\UpdateThemeDTO;
 use App\Core\Exceptions\InvalidState;
 use App\Core\Exceptions\Unauthorized;
 use App\Core\JSON;
 use App\Core\Types\Base64String;
+use App\Core\Types\SystemTheme;
 use App\Services\AuthService;
+use App\Services\UserService;
 use App\Services\VettingService;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Response as Response;
@@ -99,10 +102,9 @@ final class UserController
      */
     public function logout(Request $request, Response $response): Response
     {
-        $decoratedRequest = SlimRequestDecorator::decorate($request);
-
         $clearAuthCookie = 'auth_token=; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
 
+        $decoratedRequest = SlimRequestDecorator::decorate($request);
         if (!AuthService::logout($decoratedRequest->getAuth())) {
             return $response
                 ->withHeader('Set-Cookie', $clearAuthCookie)
@@ -112,5 +114,39 @@ final class UserController
         return $response
             ->withHeader('Set-Cookie', $clearAuthCookie)
             ->withStatus(204);
+    }
+
+    /**
+     * @param array<string, mixed> $args
+     * @throws \Exception
+     */
+    public function updateUserTheme(Request $request, Response $response, array $args): Response
+    {
+        $userId = isset($args['userId']) && is_numeric($args['userId'])
+            ? (int)$args['userId']
+            : throw new InvalidState('Not a valid user id.');
+
+        $updateTheme = JSON::deserialize($request->getBody()->getContents(), UpdateThemeDTO::class);
+
+        $decoratedRequest = SlimRequestDecorator::decorate($request);
+        $authenticatedUser = $decoratedRequest->getUser();
+
+        if ($userId !== $authenticatedUser->id) {
+            return $response->withStatus(403)->withJson(['error' => 'You can only update your own theme']);
+        }
+
+        $enabledThemes = is_string($_ENV['APP_ENABLED_THEMES'] ?? null)
+            ? explode(',', $_ENV['APP_ENABLED_THEMES'])
+            : SystemTheme::THEMES;
+
+        if (!in_array($updateTheme->theme, $enabledThemes)) {
+            return $response->withStatus(400)->withJson([
+                'error' => 'Invalid theme. Must be one of: ' . implode(', ', $enabledThemes)
+            ]);
+        }
+
+        $updatedUser = UserService::updateUserTheme($userId, $updateTheme->theme);
+
+        return $response->withStatus(200)->withJson($updatedUser);
     }
 }

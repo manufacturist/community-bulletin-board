@@ -27,6 +27,7 @@ final class UserService
             Crypto::decrypt($user->encryptedEmail),
             Crypto::decrypt($user->encryptedPhoneNumber),
             $user->maxActivePosts,
+            $user->theme,
             $user->role
         ), $users);
     }
@@ -75,6 +76,35 @@ final class UserService
 
         if (!UserRepo::updateMaxActivePosts($userId, $newMaxActivePosts)) {
             throw new Anomaly('Failed to update user post limit.');
+        }
+
+        $updatedUser = UserRepo::selectUserById($userId);
+        if (!$updatedUser) {
+            throw new UserNotFound($userId);
+        }
+
+        return UserInfo::fromUser($updatedUser);
+    }
+
+    /**
+     * @throws UserNotFound
+     * @throws Anomaly
+     */
+    public static function updateUserTheme(int $userId, string $theme): UserInfo
+    {
+        $user = UserRepo::selectUserById($userId);
+        if (!$user) {
+            throw new UserNotFound($userId);
+        }
+
+        // Validate theme
+        $validThemes = ['cork', 'light', 'dark'];
+        if (!in_array($theme, $validThemes)) {
+            throw new \InvalidArgumentException('Invalid theme. Must be one of: ' . implode(', ', $validThemes));
+        }
+
+        if (!UserRepo::updateTheme($userId, $theme)) {
+            throw new Anomaly('Failed to update user theme.');
         }
 
         $updatedUser = UserRepo::selectUserById($userId);

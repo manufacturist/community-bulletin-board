@@ -3,7 +3,7 @@
         data-post-id="{{ post.id }}"
         data-post-user-id="{{ post.userId }}"
         data-post-resolved-at="{{ post.resolvedAt }}"
-        style="transform: rotate({{ random(-120, 120) / 100 }}deg)"
+        {% if theme == 'cork' %}style="transform: rotate({{ random(-120, 120) / 100 }}deg)"{% endif %}
 >
     <div class="pinWrapper">
         <svg class="pin-{{ post.pinColor }}"></svg>

@@ -11,6 +11,7 @@ use App\Core\Exceptions\Expired;
 use App\Core\Exceptions\Forbidden;
 use App\Core\Exceptions\NotFound;
 use App\Core\Types\Moment;
+use App\Core\Types\SystemTheme;
 use App\Exceptions\EmailAlreadyUsedException;
 use App\Exceptions\EmailSendingException;
 use App\Exceptions\InvalidEmailException;
@@ -133,6 +134,7 @@ final class VettingService
             emailHash: $emailHash,
             passwordHash: $passwordHash,
             maxActivePosts: $maxActivePosts,
+            theme: SystemTheme::CORK,
             role: $role,
             createdAt: Moment::now()
         );

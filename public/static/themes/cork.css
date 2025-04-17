@@ -1,5 +1,7 @@
 :root {
+    --color-scheme: normal;
     --text-color: black;
+    --input-border: 1px solid black;
 
     /* Board */
     --board-material: url(/static/images/cork-material.svg);
@@ -12,27 +14,29 @@
     --post-box-shadow-hover: 5px 5px 15px rgba(0, 0, 0, 0.5), 0 0 15px #D6B897 inset;
     --post-flip-box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5), 0 0 20px #D6B897 inset;
 
-    --post-delete-color: white;
+    --post-delete-text-color: white;
     --post-delete-bg-color: #BD3131;
     --post-delete-bg-color-hover: #E12525;
 
-    --post-resolve-color: white;
-    --post-resolve-bg-color: #3B8A33;
-    --post-resolve-bg-color-hover: #4F9C3F;
+    --post-resolve-text-color: white;
+    --post-resolve-bg-color: #2F8D00;
+    --post-resolve-bg-color-hover: #34A853;
 
     /* Anchor links */
-    --anchor-link-color: #114F91;
+    --anchor-link-color: #0162c9;
 
     /* Buttons */
-    --main-button-color: white;
-    --main-button-bg-color: #3A4F7A;
-    --main-button-bg-color-hover: #4F6690;
+    --main-button-text-color: white;
+    --main-button-bg-color: #0162c9;
+    --main-button-bg-color-hover: #004c98;
 
-    --default-button-color: #3A4F7A;
-    --default-button-border-color: #3A4F7A;
+    --default-button-text-color: black;
+    --default-button-border-color: black;
+    --default-button-bg-color: rgba(255, 255, 255, 0.6);
     --default-button-bg-color-hover: #BBCDF6;
 
-    --negative-button-color: #C73737;
+    --negative-button-text-color: #C73737;
     --negative-button-border-color: #C73737;
+    --negative-button-bg-color: white;
     --negative-button-bg-color-hover: #FFC5C5;
 }

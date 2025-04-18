@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   build:
@@ -123,11 +125,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-
-      - name: Semantic release
-        run: |
-          npm i -D semantic-release conventional-changelog-conventionalcommits
-          npx semantic-release
+      - run: npm i -D semantic-release conventional-changelog-conventionalcommits
+      - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -151,8 +150,9 @@ jobs:
             .docker/**
             .mariadb_data/**
             .scripts/**
-            **/.css
+            node_modules/**
             docs/**
+            **/.css
             **/.po
             .gitignore
             .php-cs-fixer.php

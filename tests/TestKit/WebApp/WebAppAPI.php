@@ -11,6 +11,7 @@ use App\Controllers\RequestDTOs\NewInvitationDTO;
 use App\Controllers\RequestDTOs\NewPostDTO;
 use App\Controllers\RequestDTOs\UpdateMaxPostsDTO;
 use App\Controllers\RequestDTOs\UpdateRoleDTO;
+use App\Controllers\RequestDTOs\UpdateThemeDTO;
 use App\Core\Crypto;
 use App\Core\JSON;
 use App\Core\Types\Binary;
@@ -207,6 +208,23 @@ class WebAppAPI
 
         if ($response->getStatusCode() !== 200) {
             throw new \RuntimeException("API: Failed to update user role. " . $response->getBody()->getContents());
+        }
+
+        return JSON::deserialize($response->getBody()->getContents(), UserInfo::class);
+    }
+
+    public function updateUserTheme(int $userId, string $theme): ResponseInterface
+    {
+        $dto = new UpdateThemeDTO($theme);
+        return $this->patch("/api/user/$userId/theme", $dto);
+    }
+
+    public function updateUserThemeChecked(int $userId, string $theme): UserInfo
+    {
+        $response = $this->updateUserTheme($userId, $theme);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException("API: Failed to update user theme. " . $response->getBody()->getContents());
         }
 
         return JSON::deserialize($response->getBody()->getContents(), UserInfo::class);

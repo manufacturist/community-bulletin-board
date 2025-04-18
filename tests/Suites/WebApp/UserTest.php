@@ -202,6 +202,22 @@ final class UserTest extends WebAppTestCase
         self::assertEquals(404, $adminPage->getStatusCode());
     }
 
+    public function testUpdateUserTheme(): void
+    {
+        // Arrange
+        $api = new WebAppAPI(self::$baseUrl);
+        $userInfo = $api->createAuthenticatedUser(isAdmin: false);
+        $newTheme = "dark";
+
+        // Act
+        $updatedUserInfo = $api->updateUserThemeChecked($userInfo->id, $newTheme);
+
+        // Assert
+        self::assertEquals($newTheme, $updatedUserInfo->theme);
+        self::assertEquals($userInfo->id, $updatedUserInfo->id);
+        self::assertEquals($userInfo->email, $updatedUserInfo->email);
+    }
+
     private function getAuthCookie(ResponseInterface $response): ?Base64String
     {
         $authToken = null;

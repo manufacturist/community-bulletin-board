@@ -166,8 +166,8 @@
 <script>
     document.querySelectorAll('.updateRole').forEach(button => {
         button.addEventListener('click', () => {
-            const memberId = button.dataset.memberId;
-            const newRole = button.dataset.newRole;
+            const memberId = button.dataset.memberId
+            const newRole = button.dataset.newRole
 
             fetch(`/api/user/${memberId}/role`, {
                 method: 'PATCH',
@@ -180,7 +180,7 @@
     document.querySelectorAll('.deleteMemberButton').forEach(button => {
         button.addEventListener('click', () => {
             if (confirm("{% trans "Are you sure you want to delete this member?" %}")) {
-                const memberId = button.dataset.memberId;
+                const memberId = button.dataset.memberId
 
                 fetch(`/api/user/${memberId}`, {method: 'DELETE'})
                     .then(async (response) => {
@@ -192,20 +192,20 @@
                         }
                     })
                     .catch(error => {
-                        console.error(error);
-                        alert("{% trans "An error occurred while deleting the member." %}");
+                        console.error(error)
+                        alert("{% trans "An error occurred while deleting the member." %}")
                     })
             }
         })
     })
 
     function updateMaxPosts(memberId, adjustment) {
-        const valueSpan = document.querySelector(`.max-posts-value[data-member-id="${memberId}"]`);
-        const decrementButton = document.querySelector(`.decrementMaxPostsButton[data-member-id="${memberId}"]`);
-        const incrementButton = document.querySelector(`.incrementMaxPostsButton[data-member-id="${memberId}"]`);
+        const valueSpan = document.querySelector(`.max-posts-value[data-member-id="${memberId}"]`)
+        const decrementButton = document.querySelector(`.decrementMaxPostsButton[data-member-id="${memberId}"]`)
+        const incrementButton = document.querySelector(`.incrementMaxPostsButton[data-member-id="${memberId}"]`)
 
-        decrementButton.disabled = true;
-        incrementButton.disabled = true;
+        decrementButton.disabled = true
+        incrementButton.disabled = true
 
         fetch(`/api/user/${memberId}/max-posts`, {
             method: 'PATCH',
@@ -216,38 +216,38 @@
         })
             .then(async (response) => {
                 if (response.ok) {
-                    const data = await response.json();
+                    const data = await response.json()
 
-                    valueSpan.textContent = data.maxActivePosts;
+                    valueSpan.textContent = data.maxActivePosts
 
                     setTimeout(() => {
-                        decrementButton.disabled = data.maxActivePosts <= 0;
-                        incrementButton.disabled = data.maxActivePosts >= 5;
-                    }, 333);
+                        decrementButton.disabled = data.maxActivePosts <= 0
+                        incrementButton.disabled = data.maxActivePosts >= 5
+                    }, 333)
                 } else {
-                    const error = (await response.json()).error;
-                    alert("{% trans "Failed to update max posts." %} " + error);
+                    const error = (await response.json()).error
+                    alert("{% trans "Failed to update max posts." %} " + error)
 
-                    const currentValue = parseInt(valueSpan.textContent);
-                    decrementButton.disabled = currentValue <= 0;
-                    incrementButton.disabled = currentValue >= 5;
+                    const currentValue = parseInt(valueSpan.textContent)
+                    decrementButton.disabled = currentValue <= 0
+                    incrementButton.disabled = currentValue >= 5
                 }
             })
             .catch(error => {
-                console.error(error);
-                alert("{% trans "An error occurred while updating max posts." %}");
-            });
+                console.error(error)
+                alert("{% trans "An error occurred while updating max posts." %}")
+            })
     }
 
     document.querySelectorAll('.incrementMaxPostsButton').forEach(button => {
         button.addEventListener('click', () => {
-            updateMaxPosts(button.dataset.memberId, 1);
-        });
-    });
+            updateMaxPosts(button.dataset.memberId, 1)
+        })
+    })
 
     document.querySelectorAll('.decrementMaxPostsButton').forEach(button => {
         button.addEventListener('click', () => {
-            updateMaxPosts(button.dataset.memberId, -1);
-        });
-    });
+            updateMaxPosts(button.dataset.memberId, -1)
+        })
+    })
 </script>

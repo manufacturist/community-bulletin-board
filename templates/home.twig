@@ -123,15 +123,15 @@
 
         // Add post logic
         document.getElementById('description').addEventListener('input', (event) => {
-            const textareaText = event.target.value.split('\n');
+            const textareaText = event.target.value.split('\n')
 
             if (textareaText.length > 3) {
-                event.target.value = textareaText.slice(0, 3).join('\n');
+                event.target.value = textareaText.slice(0, 3).join('\n')
             }
 
-            const label = document.querySelector(`label[for="description"]`);
-            const currentCharacters = event.target.value.length;
-            label.textContent = `{% trans "Description" %} (${currentCharacters}/250)`;
+            const label = document.querySelector(`label[for="description"]`)
+            const currentCharacters = event.target.value.length
+            label.textContent = `{% trans "Description" %} (${currentCharacters}/250)`
         })
 
         document.getElementById('addPostButton').addEventListener('click', function () {

@@ -27,22 +27,23 @@
             <div class="modalContent">
                 <h3>{% trans "Add post" %}</h3>
                 <form id="addPostForm">
-                    <div class="inputGroup">
+                    <fieldset>
                         <label for="description">{% trans "Description" %}</label>
                         <textarea id="description" name="description" maxlength="250" required></textarea>
-                    </div>
+                    </fieldset>
 
-                    <div class="inputGroup">
+                    <fieldset>
                         <label for="link">{% trans "Optional Link" %}</label>
                         <input type="url" id="link" name="link">
-                    </div>
+                    </fieldset>
 
-                    <div class="inputGroup">
+                    <fieldset>
                         <label for="expiresAt">{% trans "Expiration Date (Until End of Day)" %}</label>
-                        <input type="date" id="expiresAt" name="expiresAt" lang="{{ locale }}" required onfocus="this.showPicker()">
-                    </div>
+                        <input type="date" id="expiresAt" name="expiresAt" lang="{{ locale }}" required
+                               onfocus="this.showPicker()">
+                    </fieldset>
 
-                    <div class="inputGroup">
+                    <fieldset>
                         <label for="pinColor">{% trans "Pin Color" %}</label>
                         <select id="pinColor" name="pinColor" required>
                             <option value="red">{% trans "Red" %}</option>
@@ -52,7 +53,7 @@
                             <option value="pink">{% trans "Pink" %}</option>
                             <option value="purple">{% trans "Purple" %}</option>
                         </select>
-                    </div>
+                    </fieldset>
 
                     <div class="buttonGroup">
                         <button type="button" id="cancelPostButton"
@@ -64,9 +65,7 @@
         </div>
 
         {% for post in posts %}
-            {% embed 'components/post.twig' with {
-                post: post
-            } %}
+            {% embed 'components/post.twig' with { post: post } %}
             {% endembed %}
         {% endfor %}
     </div>
@@ -81,9 +80,7 @@
                             if (response.status !== 204) {
                                 const error = (await response.json()).error
                                 alert("{% trans "Failed to delete post." %} " + error)
-                            } else {
-                                window.location.reload()
-                            }
+                            } else window.location.reload()
                         })
                         .catch(console.error)
                 }
@@ -99,9 +96,7 @@
                             if (response.status !== 204) {
                                 const error = (await response.json()).error
                                 alert("{% trans "Failed to resolve post." %} " + error)
-                            } else {
-                                window.location.reload()
-                            }
+                            } else window.location.reload()
                         })
                         .catch(console.error)
                 }
@@ -174,9 +169,7 @@
 
             const request = {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             }
 
@@ -184,11 +177,8 @@
                 .then(async (response) => {
                     const data = await response.json()
 
-                    if (response.status === 201) {
-                        window.location.reload()
-                    } else {
-                        alert("{% trans "Failed to create post." %} " + data.error)
-                    }
+                    if (response.status === 201) window.location.reload()
+                    else alert("{% trans "Failed to create post." %} " + data.error)
                 })
                 .catch(console.error)
         })

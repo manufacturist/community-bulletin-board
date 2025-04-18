@@ -166,13 +166,10 @@
 <script>
     document.querySelectorAll('.updateRole').forEach(button => {
         button.addEventListener('click', () => {
-            const memberId = button.dataset.memberId
-            const newRole = button.dataset.newRole
-
-            fetch(`/api/user/${memberId}/role`, {
+            fetch(`/api/user/${button.dataset.memberId}/role`, {
                 method: 'PATCH',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({role: newRole})
+                body: JSON.stringify({role: button.dataset.newRole})
             }).then(() => location.reload())
         })
     })
@@ -187,9 +184,7 @@
                         if (response.status !== 204) {
                             const error = (await response.json()).error
                             alert("{% trans "Failed to delete member." %} " + error)
-                        } else {
-                            window.location.reload()
-                        }
+                        } else window.location.reload()
                     })
                     .catch(error => {
                         console.error(error)
@@ -209,9 +204,7 @@
 
         fetch(`/api/user/${memberId}/max-posts`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({adjustment})
         })
             .then(async (response) => {
@@ -240,14 +233,10 @@
     }
 
     document.querySelectorAll('.incrementMaxPostsButton').forEach(button => {
-        button.addEventListener('click', () => {
-            updateMaxPosts(button.dataset.memberId, 1)
-        })
+        button.addEventListener('click', () => updateMaxPosts(button.dataset.memberId, 1))
     })
 
     document.querySelectorAll('.decrementMaxPostsButton').forEach(button => {
-        button.addEventListener('click', () => {
-            updateMaxPosts(button.dataset.memberId, -1)
-        })
+        button.addEventListener('click', () => updateMaxPosts(button.dataset.memberId, -1))
     })
 </script>

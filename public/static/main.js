@@ -1,7 +1,7 @@
 // Post animations
 const existingSvg = document.getElementById("pushPin")
 
-document.querySelectorAll(".pinWrapper").forEach((element) => {
+document.querySelectorAll(".pin").forEach((element) => {
     const classes = element.firstElementChild.classList
     element.innerHTML = ""
 

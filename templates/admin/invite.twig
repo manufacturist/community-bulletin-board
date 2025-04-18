@@ -59,22 +59,22 @@
     <div class="modalContent">
         <h3>{% trans "Send an Invitation" %}</h3>
         <form id="sendInviteForm">
-            <div class="inputGroup">
+            <fieldset>
                 <label for="email">{% trans "Recipient Email" %}</label>
                 <input type="email" id="email" name="email">
-            </div>
+            </fieldset>
 
-            <div class="inputGroup">
+            <fieldset>
                 <label for="isAdmin" style="display: inline-block">{% trans "Assign admin role?" %}</label>
                 <input type="checkbox" id="isAdmin" name="isAdmin"
                        style="display: inline-block; width: auto; vertical-align: top">
-            </div>
+            </fieldset>
 
-            <div class="buttonGroup">
+            <fieldset>
                 <button type="button" id="cancelInviteButton"
                         class="actionButton clearColor">{% trans "Cancel" %}</button>
                 <button type="submit" class="actionButton">{% trans "Send" %}</button>
-            </div>
+            </fieldset>
         </form>
     </div>
 </div>

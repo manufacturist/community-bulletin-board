@@ -1,6 +1,6 @@
 /* General */
 body,
-.appWrapper {
+.app {
     color-scheme: var(--color-scheme);
     color: var(--text-color);
 
@@ -14,7 +14,7 @@ body,
     font-family: Arial, sans-serif;
 }
 
-.appWrapper {
+.app {
     min-height: calc(100vh - 5.5rem);
     padding: 3rem 1rem 1rem 1rem;
 
@@ -173,7 +173,7 @@ input, textarea, select {
     pointer-events: none;
 }
 
-.pinWrapper {
+.pin {
     position: relative;
     height: 13px;
 
@@ -191,7 +191,7 @@ input, textarea, select {
     padding: 0 1rem 1rem 1.25rem;
     box-shadow: var(--post-box-shadow-hover);
 
-    .pinWrapper {
+    .pin {
         transform: scale(1.05);
         transform: rotate(-12deg);
     }
@@ -204,11 +204,11 @@ input, textarea, select {
 @media (max-width: 768px) {
 
     body,
-    .appWrapper {
+    .app {
         border-width: 0.5rem;
     }
 
-    .appWrapper {
+    .app {
         min-height: calc(100vh - 3rem);
         padding: 2rem 0 0 0;
     }
@@ -220,7 +220,7 @@ input, textarea, select {
         padding: 0 1rem 1rem 1rem;
         box-shadow: var(--post-box-shadow);
 
-        .pinWrapper {
+        .pin {
             transform: scale(1.05);
             transform: rotate(-12deg);
         }
@@ -237,7 +237,7 @@ input, textarea, select {
 
     box-shadow: var(--post-flip-box-shadow) !important;
 
-    .pinWrapper {
+    .pin {
         transition: all 0s 0.22s;
         visibility: hidden;
         z-index: 1;
@@ -257,7 +257,7 @@ input, textarea, select {
 .unflip {
     transition: all 0.5s ease-in-out;
 
-    .pinWrapper {
+    .pin {
         transition: all 0s 0.25s;
         visibility: visible;
     }
@@ -349,7 +349,7 @@ img {
     }
 }
 
-.mainPost {
+.main {
     margin: 0 auto;
     width: 80%;
     max-width: 300px;
@@ -374,16 +374,16 @@ h3 {
     margin-bottom: 0.5rem;
 }
 
-.inputGroup {
+fieldset {
     margin-bottom: 1rem;
 }
 
-.inputGroup label {
+fieldset label {
     display: block;
     margin-bottom: 0.5rem;
 }
 
-.inputGroup input, textarea, select {
+fieldset input, textarea, select {
     width: 100%;
     padding: 0.5rem;
     border-width: 1px;
@@ -394,16 +394,16 @@ h3 {
     font-size: 1rem;
 }
 
-.inputGroup textarea {
+fieldset textarea {
     resize: vertical;
     min-height: 10rem;
 }
 
-.inputGroup input::placeholder {
+fieldset input::placeholder {
     color: black;
 }
 
-.inputGroup input:read-only {
+fieldset input:read-only {
     color: darkgray;
     cursor: default;
 }

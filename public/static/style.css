@@ -376,6 +376,8 @@ h3 {
 
 fieldset {
     margin-bottom: 1rem;
+    border: none;
+    padding: 0;
 }
 
 fieldset label {

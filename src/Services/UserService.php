@@ -35,6 +35,7 @@ final class UserService
     /**
      * @throws Forbidden
      * @throws \Exception
+     * @throws UserNotFound
      */
     public static function deleteUser(int $userId, UserInfo $currentUser): void
     {

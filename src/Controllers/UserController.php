@@ -8,11 +8,13 @@ use App\Controllers\RequestDTOs\AcceptInvitationDTO;
 use App\Controllers\RequestDTOs\DeclineInvitationDTO;
 use App\Controllers\RequestDTOs\LoginDTO;
 use App\Controllers\RequestDTOs\UpdateThemeDTO;
+use App\Core\Exceptions\Forbidden;
 use App\Core\Exceptions\InvalidState;
 use App\Core\Exceptions\Unauthorized;
 use App\Core\JSON;
 use App\Core\Types\Base64String;
 use App\Core\Types\SystemTheme;
+use App\Exceptions\UserNotFound;
 use App\Services\AuthService;
 use App\Services\UserService;
 use App\Services\VettingService;
@@ -177,9 +179,9 @@ final class UserController
             }
 
             return $response->withStatus(204);
-        } catch (\App\Core\Exceptions\Forbidden $e) {
+        } catch (Forbidden $e) {
             return $response->withJson(['error' => $e->getMessage()], 403);
-        } catch (\App\Core\Exceptions\UserNotFound $e) {
+        } catch (UserNotFound $e) {
             return $response->withJson(['error' => $e->getMessage()], 404);
         } catch (\Exception $e) {
             return $response->withJson(['error' => 'An unexpected error occurred.'], 500);

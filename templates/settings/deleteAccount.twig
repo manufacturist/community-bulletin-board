@@ -1,0 +1,33 @@
+{% if user.role == "member" %}
+    {% embed 'components/actionPost.twig' %}
+        {% block action %}
+            <p>{% trans "Delete your account" %}</p>
+
+            <p style="text-align: justify">{% trans "This action cannot be undone. Your data will be permanently deleted." %}</p>
+
+            <div class="buttonGroup">
+                <button id="deleteAccountButton" class="actionButton redColor">
+                    {% trans "Delete my account" %}
+                </button>
+            </div>
+        {% endblock %}
+    {% endembed %}
+
+    <script>
+        document.getElementById('deleteAccountButton').addEventListener('click', function () {
+            if (confirm("{% trans "Are you sure you want to delete your account? This action cannot be undone." %}")) {
+                fetch(`/api/user/{{ user.id }}`, {method: 'DELETE'})
+                    .then(async (response) => {
+                        if (response.status !== 204) {
+                            const error = (await response.json()).error
+                            alert("{% trans "Failed to delete your account." %} " + error)
+                        } else window.location.href = '/'
+                    })
+                    .catch(error => {
+                        console.error(error)
+                        alert("{% trans "An error occurred while deleting your account." %}")
+                    })
+            }
+        })
+    </script>
+{% endif %}

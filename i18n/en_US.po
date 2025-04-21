@@ -132,7 +132,7 @@ msgstr "Add"
 msgid "See link"
 msgstr "See link"
 
-# Settings description.twig
+# Settings theme.twig
 msgid "User Settings"
 msgstr "User Settings"
 
@@ -147,6 +147,25 @@ msgstr "Light"
 
 msgid "Dark"
 msgstr "Dark"
+
+# Settings deleteAccount.twig
+msgid "Delete your account"
+msgstr "Delete your account"
+
+msgid "This action cannot be undone. Your data will be permanently deleted."
+msgstr "This action cannot be undone. Your data will be permanently deleted."
+
+msgid "Delete my account"
+msgstr "Delete my account"
+
+msgid "Are you sure you want to delete your account? This action cannot be undone."
+msgstr "Are you sure you want to delete your account? This action cannot be undone."
+
+msgid "Failed to delete your account."
+msgstr "Failed to delete your account."
+
+msgid "An error occurred while deleting your account."
+msgstr "An error occurred while deleting your account."
 
 # Admin description.twig
 msgid "Admin Panel"

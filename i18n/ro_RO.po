@@ -132,7 +132,7 @@ msgstr "Adaugă"
 msgid "See link"
 msgstr "Vezi link"
 
-# Settings description.twig
+# Settings theme.twig
 msgid "User Settings"
 msgstr "Setările Utilizatorului"
 
@@ -147,6 +147,25 @@ msgstr "Luminos"
 
 msgid "Dark"
 msgstr "Întunecat"
+
+# Settings deleteAccount.twig
+msgid "Delete your account"
+msgstr "Ștergerea contului tău"
+
+msgid "This action cannot be undone. Your data will be permanently deleted."
+msgstr "Această acțiune nu poate fi anulată. Datele tale vor fi șterse definitiv."
+
+msgid "Delete my account"
+msgstr "Șterge contul meu"
+
+msgid "Are you sure you want to delete your account? This action cannot be undone."
+msgstr "Ești sigur că vrei să îți ștergi contul? Această acțiune nu poate fi anulată."
+
+msgid "Failed to delete your account."
+msgstr "Ștergerea contului a eșuat."
+
+msgid "An error occurred while deleting your account."
+msgstr "A apărut o eroare la ștergerea contului tău."
 
 # Admin description.twig
 msgid "Admin Panel"

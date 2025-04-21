@@ -51,27 +51,6 @@ final class AdminController
      * @param array<string, mixed> $args
      * @throws \Exception
      */
-    public function deleteUser(Request $request, Response $response, array $args): Response
-    {
-        $decoratedRequest = SlimRequestDecorator::decorate($request);
-        $currentUser = $decoratedRequest->getUser();
-
-        if (!isset($args['userId']) || !is_numeric($args['userId'])) {
-            return $response->withJson(['error' => 'User id is missing or not a number.'], 400);
-        }
-
-        UserService::deleteUser(
-            userId: (int)$args['userId'],
-            currentUser: $currentUser
-        );
-
-        return $response->withStatus(204);
-    }
-
-    /**
-     * @param array<string, mixed> $args
-     * @throws \Exception
-     */
     public function updateUserMaxPosts(Request $request, Response $response, array $args): Response
     {
         $decoratedRequest = SlimRequestDecorator::decorate($request);

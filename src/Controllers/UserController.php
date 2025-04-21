@@ -149,4 +149,40 @@ final class UserController
 
         return $response->withStatus(200)->withJson($updatedUser);
     }
+
+    /**
+     * @param array<string, mixed> $args
+     * @throws \Exception
+     */
+    public function deleteUser(Request $request, Response $response, array $args): Response
+    {
+        $decoratedRequest = SlimRequestDecorator::decorate($request);
+        $currentUser = $decoratedRequest->getUser();
+
+        if (!isset($args['userId']) || !is_numeric($args['userId'])) {
+            return $response->withJson(['error' => 'User id is missing or not a number.'], 400);
+        }
+
+        $userId = (int)$args['userId'];
+        $isSelfDelete = $userId === $currentUser->id && !$currentUser->isAdmin();
+
+        try {
+            UserService::deleteUser($userId, $currentUser);
+
+            if ($isSelfDelete) {
+                $clearAuthCookie = 'auth_token=; HttpOnly; Secure; SameSite=Strict; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+                return $response
+                    ->withHeader('Set-Cookie', $clearAuthCookie)
+                    ->withStatus(204);
+            }
+
+            return $response->withStatus(204);
+        } catch (\App\Core\Exceptions\Forbidden $e) {
+            return $response->withJson(['error' => $e->getMessage()], 403);
+        } catch (\App\Core\Exceptions\UserNotFound $e) {
+            return $response->withJson(['error' => $e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return $response->withJson(['error' => 'An unexpected error occurred.'], 500);
+        }
+    }
 }

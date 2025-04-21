@@ -44,9 +44,15 @@ final class UserService
         }
 
         $isOwner = $currentUser->isOwner();
-        $isAdminDeletingUser = ($currentUser->isAdmin() && $user->role === 'member');
-        $isNotCurrentUser = $currentUser->id !== $userId;
-        if (!(($isOwner || $isAdminDeletingUser) && $isNotCurrentUser)) {
+        $isCurrentUserAdmin = $currentUser->isAdmin();
+        $isTargetUserAdmin = $user->role === 'admin' || $user->role === 'owner';
+        $isSelf = $currentUser->id === $userId;
+
+        $isOwnerDeletingSomeone = ($isOwner && !$isSelf);
+        $isAdminDeletingMember = ($isCurrentUserAdmin && !$isSelf && !$isTargetUserAdmin);
+        $isMemberSelfDeleting = (!$isCurrentUserAdmin && $isSelf);
+
+        if (!($isOwnerDeletingSomeone || $isAdminDeletingMember || $isMemberSelfDeleting)) {
             throw new Forbidden('You do not have permission to delete this user.');
         }
 

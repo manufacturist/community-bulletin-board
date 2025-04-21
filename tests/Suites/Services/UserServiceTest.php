@@ -202,6 +202,18 @@ final class UserServiceTest extends BaseTestCase
         UserService::deleteUser($admin->id, $admin);
     }
 
+    public function testRegularUserCanDeleteSelf(): void
+    {
+        // Arrange
+        $user = self::addAuthenticatedUser()[0];
+
+        // Act
+        UserService::deleteUser($user->id, $user);
+
+        // Assert
+        $this->assertNull(UserRepo::selectUserById($user->id));
+    }
+
     public function testRegularUserCannotDeleteOtherUser(): void
     {
         // Arrange
@@ -215,16 +227,36 @@ final class UserServiceTest extends BaseTestCase
         UserService::deleteUser($user2->id, $user1);
     }
 
-    public function testRegularUserCannotDeleteSelf(): void
+    public function testRegularUserCannotDeleteAdmin(): void
     {
         // Arrange
+        $admin = self::addAuthenticatedAdmin()[0];
         $user = self::addAuthenticatedUser()[0];
 
         // Act & Assert
         $this->expectException(Forbidden::class);
         $this->expectExceptionMessage('You do not have permission to delete this user.');
 
-        UserService::deleteUser($user->id, $user);
+        UserService::deleteUser($admin->id, $user);
+    }
+
+    public function testRegularUserCannotDeleteOwner(): void
+    {
+        // Arrange
+        $owner = self::addCustomAuthenticatedUser(
+            name: self::$faker->firstName(),
+            email: self::$faker->email(),
+            phoneNumber: self::$faker->phoneNumber(),
+            role: 'owner'
+        )[0];
+
+        $user = self::addAuthenticatedUser()[0];
+
+        // Act & Assert
+        $this->expectException(Forbidden::class);
+        $this->expectExceptionMessage('You do not have permission to delete this user.');
+
+        UserService::deleteUser($owner->id, $user);
     }
 
     public function testDeleteNonExistentUser(): void

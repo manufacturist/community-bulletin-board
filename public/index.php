@@ -170,7 +170,7 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) use ($app) {
     // Authenticated endpoints
     $apiGroup->group('', function (RouteCollectorProxy $apiGroup) use ($app) {
         $apiGroup->post('/user/invite', AdminController::class . ':invite');
-        $apiGroup->delete('/user/{userId}', AdminController::class . ':deleteUser');
+        $apiGroup->delete('/user/{userId}', UserController::class . ':deleteUser');
         $apiGroup->patch('/user/{userId}/max-posts', AdminController::class . ':updateUserMaxPosts');
         $apiGroup->patch('/user/{userId}/theme', UserController::class . ':updateUserTheme');
         $apiGroup->patch('/user/{userId}/role', AdminController::class . ':updateUserRole');

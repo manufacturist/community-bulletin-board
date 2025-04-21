@@ -16,12 +16,17 @@ Administratorul poate:
 * Șterge utilizatori sau anunțurile acestora
 
 ## Cuprins
+
 - [Găzduire în Cloud (recomandat)](#găzduire-în-cloud-recomandat)
-  - [Configurarea Email-ului](#configurarea-email-ului)
+    - [Configurarea Email-ului](#configurarea-email-ului)
 - [Găzduire alternativă](#găzduire-alternativă)
 - [Dezvoltare și Testare](#dezvoltare-și-testare)
-  - [Rularea Testelor](#rularea-testelor)
-  - [Analiză Statică](#analiză-statică)
+    - [Dezvoltare Locală](#dezvoltare-locală)
+    - [Rularea Testelor](#rularea-testelor)
+    - [Analiză Statică](#analiză-statică)
+    - [Traduceri](#traduceri)
+- [Note Tehnice](#note-tehnice)
+- [Configurare Hetzner](#configurare-hetzner)
 - [Licență](#licență)
 
 ## Găzduire în Cloud (recomandat)
@@ -94,24 +99,52 @@ Dacă preferați un proces alternativ de găzduire, dați un semn. Voi adăuga o
 
 ## Dezvoltare și Testare
 
+### Dezvoltare Locală
+
+Pentru a rula aplicația local:
+
+```bash
+docker compose up
+php -S 0.0.0.0:8000 -t ./public
+```
+
 ### Rularea Testelor
 
 Testele sunt rulate cu PHPUnit:
+
 ```bash
 vendor/bin/phpunit ./tests
 ```
 
-Majoritatea testelor sunt teste de integrare. Testele API rulează împotriva unei versiuni dockerizate a aplicației web PHP.
+Majoritatea testelor sunt teste de integrare. Testele API rulează împotriva unei versiuni dockerizate a aplicației web.
 
 ### Analiză Statică
 
 Analiza statică este efectuată cu PHPStan și Psalm:
+
 ```bash
 vendor/bin/phpstan analyse ./src --level 10
 vendor/bin/psalm --no-cache
 ```
 
-### Licență
+### Traduceri
+
+Aplicația suportă mai multe limbi prin i18n. După modificarea fișierelor de traducere, trebuie să le recompilați rulând:
+
+```bash
+./i18n.sh
+```
+
+## Note Tehnice
+
+* Curățarea datelor învechite se face cu o șansă de 2% per request
+* S-au evitat cron job-urile pentru ca veneau cu un cost extra
+
+## Configurare Hetzner
+
+TODO: Hetzner Webhosting
+
+## Licență
 
 <p>
 <a property="dct:title" rel="cc:attributionURL" href="https://github.com/manufacturist/community-bulletin-board">community-bulletin-board</a> by 

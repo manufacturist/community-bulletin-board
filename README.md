@@ -20,8 +20,12 @@ The Admin can:
   - [Email Configuration](#email-configuration)
 - [Alternative Hosting](#alternative-hosting)
 - [Development and Testing](#development-and-testing)
+  - [Local Development](#local-development)
   - [Running Tests](#running-tests)
   - [Static Analysis](#static-analysis)
+  - [Translations](#translations)
+- [Technical Notes](#technical-notes)
+- [Hetzner Configuration](#hetzner-configuration)
 - [License](#license)
 
 ## Cloud Hosting (recommended)
@@ -93,6 +97,15 @@ If you prefer a different hosting process, please share it with us. I will add a
 
 ## Development and Testing
 
+### Local Development
+
+To run the application locally:
+
+```bash
+docker compose up
+php -S 0.0.0.0:8000 -t ./public
+```
+
 ### Running Tests
 
 Tests are run with PHPUnit:
@@ -100,7 +113,7 @@ Tests are run with PHPUnit:
 vendor/bin/phpunit ./tests
 ```
 
-Most tests are integration tests. The API tests run against a dockerized version of the PHP web app.
+Most tests are integration tests. The API tests run against a dockerized version of the web app.
 
 ### Static Analysis
 
@@ -109,6 +122,22 @@ Static analysis is performed with PHPStan and Psalm:
 vendor/bin/phpstan analyse ./src --level 10
 vendor/bin/psalm --no-cache
 ```
+
+### Translations
+
+The application supports multiple languages through i18n. After modifying translation files, you must recompile them by running:
+```bash
+./i18n.sh
+```
+
+## Technical Notes
+
+* Clean-up of stale data is done with a 2% trigger chance per request
+* Using cron jobs implies an extra cost 
+
+## Hetzner Configuration
+
+TODO: Hetzner Webhosting
 
 ## License
 

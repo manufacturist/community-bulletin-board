@@ -7,17 +7,60 @@
 O aplicație web de avizier cu acces pe bază de invitație, sigură și ieftină, cu stocare criptată.
 
 CBB permite comunității dvs. să posteze pe un avizier digital. Administratorul invită membrii prin email, și
-fiecare membru poate avea până la 2 postări active pentru a păstra totul organizat.
+fiecare membru poate avea până la 2 postări active (implicit) pentru a păstra totul organizat.
 
 Administratorul poate:
 
 * Promova utilizatori la rangul de Administrator
-* Ajusta numărul maxim de postări pe utilizator
+* Ajusta numărul maxim de postări pe utilizator (0-5)
 * Șterge utilizatori sau anunțurile acestora
 
-## Găzduire
+## Cuprins
+- [Găzduire în Cloud (recomandat)](#găzduire-în-cloud-recomandat)
+  - [Configurarea Email-ului](#configurarea-email-ului)
+- [Găzduire alternativă](#găzduire-alternativă)
+- [Dezvoltare și Testare](#dezvoltare-și-testare)
+  - [Rularea Testelor](#rularea-testelor)
+  - [Analiză Statică](#analiză-statică)
+- [Licență](#licență)
 
-Ușor de găzduit pe [Hetzner Webhosting](https://www.hetzner.com/webhosting/). Avantajele sunt:
+## Găzduire în Cloud (recomandat)
+
+1. Faceți un fork al proiectului
+2. Proiectul folosește GitHub Actions care sunt deja configurate pentru a funcționa cu FTP pentru deploy
+    - Pipeline-ul va valida și testa codul, după care îl va pune pe server în mod automat
+    - Pentru ca procesul să funcționeze, va trebui să adăugați următoarele secrete / variabile în repository:
+        - Deploy:
+            - `FTP_SERVER`: Adresa serverului de găzduire
+            - `FTP_USERNAME`: Numele de utilizator FTP
+            - `FTP_PASSWORD`: Parola FTP
+            - `FTP_PORT`: Portul FTP (de obicei 21)
+        - Baza de date:
+            - `DB_HOST`: Gazda bazei de date
+            - `DB_PORT`: Portul bazei de date
+            - `DB_NAME`: Numele bazei de date
+            - `DB_USERNAME`: Numele de utilizator pentru baza de date
+            - `DB_PASSWORD`: Parola pentru baza de date
+        - Criptare (șiruri hexazecimale de 32 de caractere):
+            - `CRYPTO_ENCRYPTION_KEY`: Cheia de criptare
+            - `CRYPTO_HMAC_KEY`: Cheia HMAC
+            - `CRYPTO_PEPPER`: Valoarea pepper
+        - Email:
+            - `EMAIL_SMTP_HOST`: Numele de gazdă al serverului SMTP
+            - `EMAIL_SMTP_PORT`: Portul SMTP
+            - `EMAIL_SMTP_USERNAME`: Numele de utilizator SMTP
+            - `EMAIL_SMTP_PASSWORD`: Parola utilizatorului SMTP
+        - Setări aplicație:
+            - `APP_URL`: URL-ul de bază al aplicației (utilizat pentru link-urile de invitație)
+            - `APP_OWNER_EMAIL`: Adresa de email a proprietarului site-ului. Necesar pentru prima invitație de
+              utilizator
+            - `APP_LOCALE` (variabilă): Localizare pentru aplicație (una dintre `en_US`, `en_UK`, `ro_RO`)
+            - `APP_MAX_ACTIVE_POSTS_DEFAULT` (variabilă): Numărul maxim implicit de postări active per utilizator
+        - GitHub Actions:
+            - `PIPELINE_ENFORCE_C_LOCALE` (variabilă): `true` pentru a impune localizarea dorită prin
+              intermediul localizării C, dacă serverul nu are suport pentru aceasta
+
+Deploy ușor pe [Hetzner Webhosting](https://www.hetzner.com/webhosting/). Avantajele sunt:
 
 1. Include o înregistrare de domeniu, **fără** taxă anuală de reînnoire
 2. Permite rularea PHP
@@ -28,16 +71,45 @@ Ușor de găzduit pe [Hetzner Webhosting](https://www.hetzner.com/webhosting/). 
 Costurile includ o taxă de configurare unică de ~10 EUR și o taxă lunară de ~2 EUR pentru găzduire.
 
 <sup>A</sup> Soluția va rula într-un mediu partajat, ceea ce înseamnă că va rula alături de alte site-uri web pe
-același calculator. Dacă viteza de încărcare devine o problemă, puteți să optați pentru un planul mai bun de găzduire.
+același calculator. Dacă viteza de încărcare devine o problemă, puteți să optați pentru un plan mai bun de găzduire.
 
-## Găzduire proprie
+### Configurarea Email-ului
+
+Aplicația utilizează SMTP pentru trimiterea email-urilor în producție. Configurația email-ului este setată în
+pipeline-ul de deploy cu următoarele variabile de mediu:
+
+- `EMAIL_SMTP_HOST`: Numele de gazdă al serverului SMTP
+- `EMAIL_SMTP_PORT`: Portul serverului SMTP
+- `EMAIL_SMTP_USERNAME`: Numele de utilizator SMTP
+- `EMAIL_SMTP_PASSWORD`: Parola SMTP
+
+Pentru dezvoltare locală, puteți configura un adaptor de email diferit în fișierul .env local, spre exemplu
+`EMAIL_ADAPTER=logging`.
+
+## Găzduire alternativă
 
 Fișierul [docker-compose.yaml](./docker-compose-all.yaml) are toate informațiile necesare.
 
-## Alternative
+Dacă preferați un proces alternativ de găzduire, dați un semn. Voi adăuga o referință la procesul vostru aici.
 
-Dacă preferați un proces alternativ de găzduire, puteți să îl împărtășiți cu noi. Voi adăuga o referință la
-repository-ul tău aici.
+## Dezvoltare și Testare
+
+### Rularea Testelor
+
+Testele sunt rulate cu PHPUnit:
+```bash
+vendor/bin/phpunit ./tests
+```
+
+Majoritatea testelor sunt teste de integrare. Testele API rulează împotriva unei versiuni dockerizate a aplicației web PHP.
+
+### Analiză Statică
+
+Analiza statică este efectuată cu PHPStan și Psalm:
+```bash
+vendor/bin/phpstan analyse ./src --level 10
+vendor/bin/psalm --no-cache
+```
 
 ### Licență
 

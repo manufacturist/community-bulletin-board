@@ -15,37 +15,49 @@ The Admin can:
 * Adjust the maximum number of posts per user (0-5)
 * Remove users or their posts
 
+## Table of Contents
+- [Cloud Hosting (recommended)](#cloud-hosting-recommended)
+  - [Email Configuration](#email-configuration)
+- [Alternative Hosting](#alternative-hosting)
+- [Development and Testing](#development-and-testing)
+  - [Running Tests](#running-tests)
+  - [Static Analysis](#static-analysis)
+- [License](#license)
+
 ## Cloud Hosting (recommended)
 
-1. Fork the project to your own GitHub account
+1. Fork the project
 2. The project uses GitHub Actions which are already set up to work with FTP deployment
     - The pipeline will automatically validate, test and deploy the code
-    - For it to work, you'll need to add the following secrets to your repository:
-      - Deployment: 
-        - `FTP_SERVER`: Your hosting server address
-        - `FTP_USERNAME`: Your FTP username
-        - `FTP_PASSWORD`: Your FTP password
-        - `FTP_PORT`: Your FTP port (usually 21)
-      - Database:
-        - `DB_HOST`: Your database host
-        - `DB_PORT`: Your database port
-        - `DB_NAME`: Your database name
-        - `DB_USERNAME`: Your database username
-        - `DB_PASSWORD`: Your database password
-      - Encryption (32 character hex strings expected):
-        - `CRYPTO_ENCRYPTION_KEY`: Your encryption key
-        - `CRYPTO_HMAC_KEY`: Your HMAC key 
-        - `CRYPTO_PEPPER`: Your pepper value
-      - Email:
-        - `EMAIL_ADAPTER`: Email adapter type ('smtp' or 'logging')
-        - `EMAIL_SMTP_HOST`: SMTP server hostname (required for 'smtp' adapter)
-        - `EMAIL_SMTP_USERNAME`: SMTP username (required for 'smtp' adapter)
-        - `EMAIL_SMTP_PASSWORD`: SMTP password (required for 'smtp' adapter)
-        - `EMAIL_SMTP_PORT`: SMTP port, defaults to 587 (optional for 'smtp' adapter)
-        - `EMAIL_FROM_NAME`: Sender name, defaults to 'Community Bulletin Board' (optional)
-        - `APP_URL`: Base URL of your application (used for invitation links)
-      - Optional:
-        - `GITHUB_TOKEN`: A GitHub access token for getting the latest changes from upstream (see [fork-rebase.yml](.github/optional/fork-rebase.yml))
+    - For it to work, you'll need to add the following secrets / variables to your repository:
+        - Deployment:
+            - `FTP_SERVER`: Your hosting server address
+            - `FTP_USERNAME`: Your FTP username
+            - `FTP_PASSWORD`: Your FTP password
+            - `FTP_PORT`: Your FTP port (usually 21)
+        - Database:
+            - `DB_HOST`: Your database host
+            - `DB_PORT`: Your database port
+            - `DB_NAME`: Your database name
+            - `DB_USERNAME`: Your database username
+            - `DB_PASSWORD`: Your database password
+        - Encryption (32 character hex strings expected):
+            - `CRYPTO_ENCRYPTION_KEY`: Your encryption key
+            - `CRYPTO_HMAC_KEY`: Your HMAC key
+            - `CRYPTO_PEPPER`: Your pepper value
+        - Email:
+            - `EMAIL_SMTP_HOST`: SMTP server hostname
+            - `EMAIL_SMTP_PORT`: SMTP port (usually 587)
+            - `EMAIL_SMTP_USERNAME`: SMTP username
+            - `EMAIL_SMTP_PASSWORD`: SMTP password
+        - Application settings:
+            - `APP_URL`: Base URL of your application (used for invitation links)
+            - `APP_OWNER_EMAIL`: Email address of the site owner. Required for the first user invitation
+            - `APP_LOCALE` (variable): Default locale for the application (one of `en_US`, `en_UK`, `ro_RO`)
+            - `APP_MAX_ACTIVE_POSTS_DEFAULT` (variable): Default maximum number of active posts per user
+        - GitHub Actions:
+            - `PIPELINE_ENFORCE_C_LOCALE` (variable): Set to `true` to enforce your desired locale via the C
+              locale, if the server lacks support for it
 
 Easily deployable on [Hetzner Webhosting](https://www.hetzner.com/webhosting/). The advantages are:
 
@@ -62,12 +74,16 @@ the same machine. If loading speed becomes an issue, you could upgrade to a bett
 
 ### Email Configuration
 
-The application supports two email adapter types:
+The application uses SMTP for sending emails in production. The email configuration is set in the deployment pipeline
+with the following environment variables:
 
-1. **SMTP Adapter** (`EMAIL_ADAPTER=smtp`): Sends actual emails via SMTP. Requires proper SMTP configuration.
-2. **Logging Adapter** (`EMAIL_ADAPTER=logging`): Logs email content to error_log instead of sending real emails. Useful for development and testing.
+- `EMAIL_SMTP_HOST`: Your SMTP server hostname
+- `EMAIL_SMTP_PORT`: Your SMTP server port
+- `EMAIL_SMTP_USERNAME`: Your SMTP username
+- `EMAIL_SMTP_PASSWORD`: Your SMTP password
 
-For production environments, use the SMTP adapter to ensure users receive invitation emails. For development or testing, the logging adapter can be used to avoid sending real emails.
+For local development, you can configure a different email adapter in your local .env file, such as
+`EMAIL_ADAPTER=logging`.
 
 ## Alternative Hosting
 
@@ -75,7 +91,26 @@ The [docker-compose.yaml](./docker-compose-all.yaml) file has all that you requi
 
 If you prefer a different hosting process, please share it with us. I will add a reference to your repository here.
 
-### License
+## Development and Testing
+
+### Running Tests
+
+Tests are run with PHPUnit:
+```bash
+vendor/bin/phpunit ./tests
+```
+
+Most tests are integration tests. The API tests run against a dockerized version of the PHP web app.
+
+### Static Analysis
+
+Static analysis is performed with PHPStan and Psalm:
+```bash
+vendor/bin/phpstan analyse ./src --level 10
+vendor/bin/psalm --no-cache
+```
+
+## License
 
 <p>
 <a property="dct:title" rel="cc:attributionURL" href="https://github.com/manufacturist/community-bulletin-board">community-bulletin-board</a> by 

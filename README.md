@@ -17,7 +17,7 @@ The Admin can:
 
 ## Table of Contents
 - [Cloud Hosting (recommended)](#cloud-hosting-recommended)
-  - [Email Configuration](#email-configuration)
+- [Hetzner Configuration](#hetzner-configuration)
 - [Alternative Hosting](#alternative-hosting)
 - [Development and Testing](#development-and-testing)
   - [Local Development](#local-development)
@@ -25,7 +25,6 @@ The Admin can:
   - [Static Analysis](#static-analysis)
   - [Translations](#translations)
 - [Technical Notes](#technical-notes)
-- [Hetzner Configuration](#hetzner-configuration)
 - [License](#license)
 
 ## Cloud Hosting (recommended)
@@ -76,18 +75,9 @@ The costs include a one-time setup fee of ~10 EUR and a recurring monthly fee of
 <sup>A</sup> The solution will run on a shared environment, meaning it will run alongside other websites on
 the same machine. If loading speed becomes an issue, you could upgrade to a better hosting plan.
 
-### Email Configuration
+## Hetzner Configuration
 
-The application uses SMTP for sending emails in production. The email configuration is set in the deployment pipeline
-with the following environment variables:
-
-- `EMAIL_SMTP_HOST`: Your SMTP server hostname
-- `EMAIL_SMTP_PORT`: Your SMTP server port
-- `EMAIL_SMTP_USERNAME`: Your SMTP username
-- `EMAIL_SMTP_PASSWORD`: Your SMTP password
-
-For local development, you can configure a different email adapter in your local .env file, such as
-`EMAIL_ADAPTER=logging`.
+TODO: Hetzner Webhosting
 
 ## Alternative Hosting
 
@@ -134,10 +124,6 @@ The application supports multiple languages through i18n. After modifying transl
 
 * Clean-up of stale data is done with a 2% trigger chance per request
 * Using cron jobs implies an extra cost 
-
-## Hetzner Configuration
-
-TODO: Hetzner Webhosting
 
 ## License
 

@@ -18,7 +18,7 @@ Administratorul poate:
 ## Cuprins
 
 - [Găzduire în Cloud (recomandat)](#găzduire-în-cloud-recomandat)
-    - [Configurarea Email-ului](#configurarea-email-ului)
+- [Configurare Hetzner](#configurare-hetzner)
 - [Găzduire alternativă](#găzduire-alternativă)
 - [Dezvoltare și Testare](#dezvoltare-și-testare)
     - [Dezvoltare Locală](#dezvoltare-locală)
@@ -26,7 +26,6 @@ Administratorul poate:
     - [Analiză Statică](#analiză-statică)
     - [Traduceri](#traduceri)
 - [Note Tehnice](#note-tehnice)
-- [Configurare Hetzner](#configurare-hetzner)
 - [Licență](#licență)
 
 ## Găzduire în Cloud (recomandat)
@@ -78,18 +77,9 @@ Costurile includ o taxă de configurare unică de ~10 EUR și o taxă lunară de
 <sup>A</sup> Soluția va rula într-un mediu partajat, ceea ce înseamnă că va rula alături de alte site-uri web pe
 același calculator. Dacă viteza de încărcare devine o problemă, puteți să optați pentru un plan mai bun de găzduire.
 
-### Configurarea Email-ului
+## Configurare Hetzner
 
-Aplicația utilizează SMTP pentru trimiterea email-urilor în producție. Configurația email-ului este setată în
-pipeline-ul de deploy cu următoarele variabile de mediu:
-
-- `EMAIL_SMTP_HOST`: Numele de gazdă al serverului SMTP
-- `EMAIL_SMTP_PORT`: Portul serverului SMTP
-- `EMAIL_SMTP_USERNAME`: Numele de utilizator SMTP
-- `EMAIL_SMTP_PASSWORD`: Parola SMTP
-
-Pentru dezvoltare locală, puteți configura un adaptor de email diferit în fișierul .env local, spre exemplu
-`EMAIL_ADAPTER=logging`.
+TODO: Hetzner Webhosting
 
 ## Găzduire alternativă
 
@@ -139,10 +129,6 @@ Aplicația suportă mai multe limbi prin i18n. După modificarea fișierelor de 
 
 * Curățarea datelor învechite se face cu o șansă de 2% per request
 * S-au evitat cron job-urile pentru ca veneau cu un cost extra
-
-## Configurare Hetzner
-
-TODO: Hetzner Webhosting
 
 ## Licență
 

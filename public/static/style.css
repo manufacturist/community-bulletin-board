@@ -456,7 +456,7 @@ button:disabled {
 .redColor {
     color: var(--negative-button-text-color);
     border: 1px solid var(--negative-button-border-color);
-    background: white;
+    background: var(--negative-button-bg-color);
 }
 
 .redColor:hover {

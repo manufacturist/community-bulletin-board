@@ -16,14 +16,15 @@ The Admin can:
 * Remove users or their posts
 
 ## Table of Contents
+
 - [Cloud Hosting (recommended)](#cloud-hosting-recommended)
 - [Hetzner Configuration](#hetzner-configuration)
 - [Alternative Hosting](#alternative-hosting)
 - [Development and Testing](#development-and-testing)
-  - [Local Development](#local-development)
-  - [Running Tests](#running-tests)
-  - [Static Analysis](#static-analysis)
-  - [Translations](#translations)
+    - [Local Development](#local-development)
+    - [Running Tests](#running-tests)
+    - [Static Analysis](#static-analysis)
+    - [Translations](#translations)
 - [Technical Notes](#technical-notes)
 - [License](#license)
 
@@ -93,12 +94,16 @@ To run the application locally:
 
 ```bash
 docker compose up
+```
+
+```bash
 php -S 0.0.0.0:8000 -t ./public
 ```
 
 ### Running Tests
 
 Tests are run with PHPUnit:
+
 ```bash
 vendor/bin/phpunit ./tests
 ```
@@ -108,14 +113,20 @@ Most tests are integration tests. The API tests run against a dockerized version
 ### Static Analysis
 
 Static analysis is performed with PHPStan and Psalm:
+
 ```bash
 vendor/bin/phpstan analyse ./src --level 10
-vendor/bin/psalm --no-cache
 ```
+
+```bash
+vendor/bin/psalm --no-cache
+``` 
 
 ### Translations
 
-The application supports multiple languages through i18n. After modifying translation files, you must recompile them by running:
+The application supports multiple languages through i18n. After modifying translation files, you must
+recompile them by running:
+
 ```bash
 ./i18n.sh
 ```
@@ -123,7 +134,7 @@ The application supports multiple languages through i18n. After modifying transl
 ## Technical Notes
 
 * Clean-up of stale data is done with a 2% trigger chance per request
-* Using cron jobs implies an extra cost 
+* Using cron jobs implies an extra cost
 
 ## License
 

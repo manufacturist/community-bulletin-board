@@ -95,6 +95,9 @@ Pentru a rula aplicația local:
 
 ```bash
 docker compose up
+```
+
+```bash
 php -S 0.0.0.0:8000 -t ./public
 ```
 
@@ -114,8 +117,11 @@ Analiza statică este efectuată cu PHPStan și Psalm:
 
 ```bash
 vendor/bin/phpstan analyse ./src --level 10
-vendor/bin/psalm --no-cache
 ```
+
+```bash
+vendor/bin/psalm --no-cache
+``` 
 
 ### Traduceri
 

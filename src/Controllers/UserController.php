@@ -94,8 +94,10 @@ final class UserController
         $expires = gmdate('D, d M Y H:i:s T', $expirationTimestamp);
         $authTokenValue = urlencode($token->value);
 
+        $secure = $_ENV['APP_ENV'] == 'production' ? 'Secure;' : '';
+
         return $response
-            ->withHeader('Set-Cookie', "auth_token=$authTokenValue; HttpOnly; SameSite=Strict; Path=/; Expires=" . $expires)
+            ->withHeader('Set-Cookie', "auth_token=$authTokenValue; HttpOnly; $secure SameSite=Strict; Path=/; Expires=" . $expires)
             ->withStatus(204);
     }
 

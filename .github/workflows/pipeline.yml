@@ -123,6 +123,7 @@ jobs:
           APP_LOCALE=$APP_LOCALE
           APP_MAX_ACTIVE_POSTS_DEFAULT=${{ vars.APP_MAX_ACTIVE_POSTS_DEFAULT }}
           APP_ENABLED_THEMES=cork,light,dark
+          APP_PUBLIC_ENDPOINT=${{ secrets.APP_PUBLIC_ENDPOINT }}
           
           CRYPTO_ENCRYPTION_KEY=${{ secrets.CRYPTO_ENCRYPTION_KEY }}
           CRYPTO_HMAC_KEY=${{ secrets.CRYPTO_HMAC_KEY }}

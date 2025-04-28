@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% embed 'components/actionPost.twig' %}
+            {% block action %}
+                <h3>{% trans "Welcome" %}!</h3>
+                <p style="text-align: justify">{% trans "external_posts_description" %}</p>
+
+                <a href="/" class="buttonGroup">
+                    <button id="addPostButton" class="actionButton" {{ addPostAttribute }}>
+                        {% trans "Login" %}
+                    </button>
+                </a>
+            {% endblock %}
+        {% endembed %}
+
+        {% for post in posts %}
+            {% embed 'components/postExternal.twig' with { post: post } %}
+            {% endembed %}
+        {% endfor %}
+    </div>
+{% endblock %}

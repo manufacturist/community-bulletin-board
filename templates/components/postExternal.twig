@@ -1,0 +1,10 @@
+<div
+        class="post {% if post.resolvedAt %}postResolved{% endif %}"
+        {% if theme == 'cork' %}style="transform: rotate({{ random(-120, 120) / 100 }}deg)"{% endif %}
+>
+    <div class="pin">
+        <svg class="pin-{{ post.pinColor }}"></svg>
+    </div>
+
+    <div class="text">{{ post.description }}</div>
+</div>

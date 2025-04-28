@@ -57,6 +57,10 @@ The Admin can:
         - Application settings:
             - `APP_URL`: Base URL of your application (used for invitation links)
             - `APP_OWNER_EMAIL`: Email address of the site owner. Required for the first user invitation
+            - `APP_PUBLIC_ENDPOINT`: One of `none`, `public` or any custom string. If `public`, the community posts 
+              will be exposed without any personal details (phone number, name and link) on a link that can be accessed
+              by anyone, e.g. `your-community.com/posts`. If you use a custom string, then that string will be used as
+              the slug of the endpoint, e.g. `my-secret-url` => `your-community.com/my-secret-url`
             - `APP_LOCALE` (variable): Default locale for the application (one of `en_US`, `en_UK`, `ro_RO`)
             - `APP_MAX_ACTIVE_POSTS_DEFAULT` (variable): Default maximum number of active posts per user
         - GitHub Actions:

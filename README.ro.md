@@ -58,7 +58,12 @@ Administratorul poate:
             - `APP_URL`: URL-ul de bază al aplicației (utilizat pentru link-urile de invitație)
             - `APP_OWNER_EMAIL`: Adresa de email a proprietarului site-ului. Necesar pentru prima invitație de
               utilizator
-            - `APP_LOCALE` (variabilă): Localizare pentru aplicație (una dintre `en_US`, `en_UK`, `ro_RO`)
+            - `APP_PUBLIC_ENDPOINT`: Una dintre `none`, `public` sau orice alt șir de caractere. Dacă este `public`, 
+              anunțurile din comunitate vor fi expuse fară detaliile personale (număr de telefon, nume și link) pe un
+              link care poate fi accesat de către oricine, spre exemplu `communitatea-ta.com/anunțuri`. Dacă folosești
+              un alt șir de caractere, atunci acesta va fi folosit ca și un slug pentru a crea un link: 
+              `linkul-meu-secret` => `comunitatea-ta.com/linkul-meu-secret`
+            - `APP_LOCALE` (variabilă): Localizare pentru aplicație (`en_US`, `en_UK` sau `ro_RO`)
             - `APP_MAX_ACTIVE_POSTS_DEFAULT` (variabilă): Numărul maxim implicit de postări active per utilizator
         - GitHub Actions:
             - `PIPELINE_ENFORCE_C_LOCALE` (variabilă): `true` pentru a impune localizarea dorită prin

@@ -74,7 +74,7 @@ $app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
 $app->get('/', function (Request $request, Response $response) use ($app) {
     $twig = $app->getContainer()->get(Twig::class);
 
-    /** @var UserInfo $authenticatedUser */
+    /** @var UserInfo|null $authenticatedUser */
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser) {
@@ -98,10 +98,32 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
     }
 })->add($app->getContainer()->get(AuthMiddleware::class));
 
+$publicEndpointEnv = $_ENV['APP_PUBLIC_ENDPOINT'];
+$publicEndpoint = isset($publicEndpointEnv) && is_string($publicEndpointEnv) ? $publicEndpointEnv : 'none';
+if ($publicEndpoint !== 'none') {
+    $endpointSlug = $publicEndpoint === 'public' ? _('public_posts_endpoint') : $publicEndpoint;
+
+    $app->get("/$endpointSlug", function (Request $request, Response $response) use ($app) {
+        $twig = $app->getContainer()->get(Twig::class);
+
+        /** @var UserInfo|null $authenticatedUser */
+        $authenticatedUser = $request->getAttribute('user');
+
+        if ($authenticatedUser) {
+            return $response->withStatus(302)->withHeader('Location', '/');
+        } else {
+            $twig->getEnvironment()->addGlobal('theme', SystemTheme::CORK);
+
+            $posts = PostService::fetchNewestFirstAndResolvedLast();
+            return $twig->render($response, 'public.twig', ['posts' => $posts]);
+        }
+    })->add($app->getContainer()->get(AuthMiddleware::class));
+}
+
 $app->get('/settings', function (Request $request, Response $response) use ($app) {
     $twig = $app->getContainer()->get(Twig::class);
 
-    /** @var UserInfo $authenticatedUser */
+    /** @var UserInfo|null $authenticatedUser */
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser) {
@@ -116,7 +138,7 @@ $app->get('/settings', function (Request $request, Response $response) use ($app
 })->add($app->getContainer()->get(AuthMiddleware::class));
 
 $app->get('/admin', function (Request $request, Response $response) use ($app) {
-    /** @var UserInfo $authenticatedUser */
+    /** @var UserInfo|null $authenticatedUser */
     $authenticatedUser = $request->getAttribute('user');
 
     if ($authenticatedUser && $authenticatedUser->isAdmin()) {

@@ -9,8 +9,11 @@ msgstr ""
 msgid "locale"
 msgstr "en_UK"
 
+msgid "public_posts_endpoint"
+msgstr "posts"
+
 # Title
-msgid "Community Noticeboard"
+msgid "Community Bulletin Board"
 msgstr "Community Noticeboard"
 
 # General
@@ -127,6 +130,10 @@ msgstr "Cancel"
 
 msgid "Add"
 msgstr "Add"
+
+# public.twig
+msgid "external_posts_description"
+msgstr "To view the contact details or links attached to the posts, you must log in. If you do not have an account, contact a moderator to be vetted and receive an invitation."
 
 # components/post.twig
 msgid "See link"

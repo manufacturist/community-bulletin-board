@@ -20,7 +20,7 @@ abstract class WebAppTestCase extends BaseTestCase
         parent::setUpBeforeClass();
 
         if (is_null(self::$webAppContainer)) {
-            $containerName = 'webapp';
+            $containerName = 'webapp-cbb';
             $exposedPort = 8000;
 
             self::$webAppContainer = new GenericContainer('community-bulletin-board')
@@ -28,7 +28,7 @@ abstract class WebAppTestCase extends BaseTestCase
                 ->withNetwork(self::$networkName)
                 ->withHealthCheckCommand("curl -f $containerName:$exposedPort/api/public/health")
                 ->withEnvironment([
-                    "DB_HOST" => 'mariadb',
+                    "DB_HOST" => self::$mariaDBContainer->getName(),
                     "DB_PORT" => 3306,
                     "DB_NAME" => $_ENV['DB_NAME'] ?? 'bulletin_board',
                     "DB_USERNAME" => $_ENV['DB_USERNAME'] ?? 'bulletin_board_user',

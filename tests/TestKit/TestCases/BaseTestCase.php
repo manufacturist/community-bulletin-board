@@ -26,7 +26,7 @@ use Testcontainers\Modules\MariaDBContainer;
 
 abstract class BaseTestCase extends DockerNetworkTestCase
 {
-    private static ?StartedGenericContainer $mariaDBContainer = null;
+    protected static ?StartedGenericContainer $mariaDBContainer = null;
 
     public static ?Generator $faker = null;
 
@@ -58,7 +58,7 @@ abstract class BaseTestCase extends DockerNetworkTestCase
 
             // Setup db
             self::$mariaDBContainer = new MariaDBContainer('10.11')
-                ->withName('mariadb')
+                ->withName('mariadb-cbb')
                 ->withNetwork(self::$networkName)
                 ->withMariaDBDatabase($_ENV["DB_NAME"])
                 ->withMariaDBUser($_ENV["DB_USERNAME"], $_ENV["DB_PASSWORD"])
@@ -90,7 +90,7 @@ abstract class BaseTestCase extends DockerNetworkTestCase
     {
         $dockerClient = Docker::create();
 
-        $container = $dockerClient->containerInspect('mariadb');
+        $container = $dockerClient->containerInspect(self::$mariaDBContainer->getName());
 
         self::$mariaDBContainer->stop();
 

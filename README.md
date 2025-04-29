@@ -171,7 +171,7 @@ This project requires PHP `8.4` to run.
 ### Dependencies
 
 | Dependency                     | Explanation                                                                   |
-|--------------------------------|-------------------------------------------------------------------------------|
+|:-------------------------------|:------------------------------------------------------------------------------|
 | ext-pdo                        | Extension for accessing databases                                             |
 | ext-openssl                    | Extension for encryption / decryption operations                              |
 | ext-gettext                    | Extension for internationalisation (translations)                             |

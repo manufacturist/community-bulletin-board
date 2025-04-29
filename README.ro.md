@@ -31,7 +31,7 @@ citite și servite utilizatorilor. Doar administratorii pot citi toate datele pe
     - [Analiză Statică](#analiză-statică)
     - [Traduceri](#traduceri)
 - [Detalii Tehnice](#detalii-tehnice)
-    - [Biblioteci](#biblioteci)
+    - [Dependențe](#dependențe)
     - [Note](#note)
 - [Licență](#licență)
 
@@ -171,7 +171,7 @@ Acest proiect necesită PHP `8.4` pentru a rula.
 ### Dependențe
 
 | Dependență                     | Explicație                                                                    |
-|--------------------------------|-------------------------------------------------------------------------------|
+|:-------------------------------|:------------------------------------------------------------------------------|
 | ext-pdo                        | Extensie pentru accesarea bazei de date                                       |
 | ext-openssl                    | Extensie pentru operațiuni de criptare / decriptare                           |
 | ext-gettext                    | Extensie pentru internaționalizare (traduceri)                                |

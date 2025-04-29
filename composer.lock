@@ -605,16 +605,16 @@
         },
         {
             "name": "php-di/php-di",
-            "version": "7.0.9",
+            "version": "7.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "d8480267f5cf239650debba704f3ecd15b638cde"
+                "reference": "0d1ed64126577e9a095b3204dcaee58cf76432c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/d8480267f5cf239650debba704f3ecd15b638cde",
-                "reference": "d8480267f5cf239650debba704f3ecd15b638cde",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/0d1ed64126577e9a095b3204dcaee58cf76432c2",
+                "reference": "0d1ed64126577e9a095b3204dcaee58cf76432c2",
                 "shasum": ""
             },
             "require": {
@@ -630,7 +630,7 @@
                 "friendsofphp/php-cs-fixer": "^3",
                 "friendsofphp/proxy-manager-lts": "^1",
                 "mnapoli/phpunit-easymock": "^1.3",
-                "phpunit/phpunit": "^9.6",
+                "phpunit/phpunit": "^9.6 || ^10 || ^11",
                 "vimeo/psalm": "^5|^6"
             },
             "suggest": {
@@ -662,7 +662,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-DI/PHP-DI/issues",
-                "source": "https://github.com/PHP-DI/PHP-DI/tree/7.0.9"
+                "source": "https://github.com/PHP-DI/PHP-DI/tree/7.0.10"
             },
             "funding": [
                 {
@@ -674,20 +674,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-28T12:46:35+00:00"
+            "time": "2025-04-22T08:53:15+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.9.3",
+            "version": "v6.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e"
+                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2f5c94fe7493efc213f643c23b1b1c249d40f47e",
-                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
+                "reference": "bf74d75a1fde6beaa34a0ddae2ec5fce0f72a144",
                 "shasum": ""
             },
             "require": {
@@ -747,7 +747,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.3"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.10.0"
             },
             "funding": [
                 {
@@ -755,7 +755,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-24T18:04:13+00:00"
+            "time": "2025-04-24T15:19:31+00:00"
         },
         {
             "name": "phpmyadmin/twig-i18n-extension",
@@ -4416,16 +4416,16 @@
         },
         {
             "name": "jane-php/json-schema-runtime",
-            "version": "v7.8.1",
+            "version": "v7.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/json-schema-runtime.git",
-                "reference": "8a9e3e6ec94959ab4160a5e36323cda76d8e7d03"
+                "reference": "ddb82546a1fa29456fb9acaa3c1a299beb0b40b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/janephp/json-schema-runtime/zipball/8a9e3e6ec94959ab4160a5e36323cda76d8e7d03",
-                "reference": "8a9e3e6ec94959ab4160a5e36323cda76d8e7d03",
+                "url": "https://api.github.com/repos/janephp/json-schema-runtime/zipball/ddb82546a1fa29456fb9acaa3c1a299beb0b40b1",
+                "reference": "ddb82546a1fa29456fb9acaa3c1a299beb0b40b1",
                 "shasum": ""
             },
             "require": {
@@ -4472,22 +4472,22 @@
             ],
             "description": "Jane runtime Library",
             "support": {
-                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.8.1"
+                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.9.0"
             },
-            "time": "2024-07-29T13:51:58+00:00"
+            "time": "2025-04-04T09:35:19+00:00"
         },
         {
             "name": "jane-php/open-api-runtime",
-            "version": "v7.8.1",
+            "version": "v7.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/open-api-runtime.git",
-                "reference": "af43ccffdb9537adcc32d60df13f553d7554b7bd"
+                "reference": "bf05ecae7096ccb3bd115fadb9b612e26c702d56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/janephp/open-api-runtime/zipball/af43ccffdb9537adcc32d60df13f553d7554b7bd",
-                "reference": "af43ccffdb9537adcc32d60df13f553d7554b7bd",
+                "url": "https://api.github.com/repos/janephp/open-api-runtime/zipball/bf05ecae7096ccb3bd115fadb9b612e26c702d56",
+                "reference": "bf05ecae7096ccb3bd115fadb9b612e26c702d56",
                 "shasum": ""
             },
             "require": {
@@ -4535,9 +4535,9 @@
             ],
             "description": "Jane OpenAPI Runtime Library, dependencies and utility class for a library generated by jane/openapi",
             "support": {
-                "source": "https://github.com/janephp/open-api-runtime/tree/v7.8.1"
+                "source": "https://github.com/janephp/open-api-runtime/tree/v7.9.0"
             },
-            "time": "2024-01-31T09:32:00+00:00"
+            "time": "2025-04-17T14:07:07+00:00"
         },
         {
             "name": "kelunik/certificate",
@@ -5808,16 +5808,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.11",
+            "version": "2.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "8ca5f79a8f63c49b2359065832a654e1ec70ac30"
+                "reference": "e55e03e6d4ac49cd1240907e5b08e5cd378572a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8ca5f79a8f63c49b2359065832a654e1ec70ac30",
-                "reference": "8ca5f79a8f63c49b2359065832a654e1ec70ac30",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e55e03e6d4ac49cd1240907e5b08e5cd378572a9",
+                "reference": "e55e03e6d4ac49cd1240907e5b08e5cd378572a9",
                 "shasum": ""
             },
             "require": {
@@ -5862,7 +5862,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-24T13:45:00+00:00"
+            "time": "2025-04-27T12:28:25+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6188,16 +6188,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.1.2",
+            "version": "12.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6f2775cc4b7b19ba5a411c188e855eb0cc78a711"
+                "reference": "72ca50e817dd7d65356c16772c30f06c01a6fae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6f2775cc4b7b19ba5a411c188e855eb0cc78a711",
-                "reference": "6f2775cc4b7b19ba5a411c188e855eb0cc78a711",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/72ca50e817dd7d65356c16772c30f06c01a6fae2",
+                "reference": "72ca50e817dd7d65356c16772c30f06c01a6fae2",
                 "shasum": ""
             },
             "require": {
@@ -6265,7 +6265,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.1.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.1.3"
             },
             "funding": [
                 {
@@ -6277,11 +6277,19 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-08T08:05:27+00:00"
+            "time": "2025-04-22T06:11:09+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -9678,16 +9686,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "6.10.0",
+            "version": "6.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "9c0add4eb88d4b169ac04acb7c679918cbb9c252"
+                "reference": "f9fd6bc117e9ce1e854c2ed6777e7135aaa4966b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/9c0add4eb88d4b169ac04acb7c679918cbb9c252",
-                "reference": "9c0add4eb88d4b169ac04acb7c679918cbb9c252",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/f9fd6bc117e9ce1e854c2ed6777e7135aaa4966b",
+                "reference": "f9fd6bc117e9ce1e854c2ed6777e7135aaa4966b",
                 "shasum": ""
             },
             "require": {
@@ -9792,7 +9800,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2025-03-31T10:12:50+00:00"
+            "time": "2025-04-21T18:47:37+00:00"
         },
         {
             "name": "webmozart/assert",

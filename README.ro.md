@@ -11,21 +11,28 @@ fiecare membru poate avea până la 2 postări active (implicit) pentru a păstr
 
 Administratorul poate:
 
-* Promova utilizatori la rangul de Administrator
-* Ajusta numărul maxim de postări pe utilizator (0-5)
 * Șterge utilizatori sau anunțurile acestora
+* Ajusta numărul maxim de postări pe utilizator (0-5)
+* Promova utilizatori la rangul de Administrator (sau retrograda la statutul de membru)
+
+Suportă trei teme de interfață: cea clasică care este `plută`, și temele `luminos` & `întunecat`.
+
+Toate datele stocate în baza de date sunt criptate. Acestea sunt decriptate atunci când sunt
+citite și servite utilizatorilor. Doar administratorii pot citi toate datele personale.
 
 ## Cuprins
 
 - [Găzduire în Cloud (recomandat)](#găzduire-în-cloud-recomandat)
-- [Configurare Hetzner](#configurare-hetzner)
+    - [Cu Hetzner](#cu-hetzner)
 - [Găzduire alternativă](#găzduire-alternativă)
 - [Dezvoltare și Testare](#dezvoltare-și-testare)
     - [Dezvoltare Locală](#dezvoltare-locală)
     - [Rularea Testelor](#rularea-testelor)
     - [Analiză Statică](#analiză-statică)
     - [Traduceri](#traduceri)
-- [Note Tehnice](#note-tehnice)
+- [Detalii Tehnice](#detalii-tehnice)
+    - [Biblioteci](#biblioteci)
+    - [Note](#note)
 - [Licență](#licență)
 
 ## Găzduire în Cloud (recomandat)
@@ -58,10 +65,10 @@ Administratorul poate:
             - `APP_URL`: URL-ul de bază al aplicației (utilizat pentru link-urile de invitație)
             - `APP_OWNER_EMAIL`: Adresa de email a proprietarului site-ului. Necesar pentru prima invitație de
               utilizator
-            - `APP_PUBLIC_ENDPOINT`: Una dintre `none`, `public` sau orice alt șir de caractere. Dacă este `public`, 
+            - `APP_PUBLIC_ENDPOINT`: Una dintre `none`, `public` sau orice alt șir de caractere. Dacă este `public`,
               anunțurile din comunitate vor fi expuse fară detaliile personale (număr de telefon, nume și link) pe un
               link care poate fi accesat de către oricine, spre exemplu `communitatea-ta.com/anunțuri`. Dacă folosești
-              un alt șir de caractere, atunci acesta va fi folosit ca și un slug pentru a crea un link: 
+              un alt șir de caractere, atunci acesta va fi folosit ca și un slug pentru a crea un link:
               `linkul-meu-secret` => `comunitatea-ta.com/linkul-meu-secret`
             - `APP_LOCALE` (variabilă): Localizare pentru aplicație (`en_US`, `en_UK` sau `ro_RO`)
             - `APP_MAX_ACTIVE_POSTS_DEFAULT` (variabilă): Numărul maxim implicit de postări active per utilizator
@@ -82,13 +89,15 @@ Costurile includ o taxă de configurare unică de ~10 EUR și o taxă lunară de
 <sup>A</sup> Soluția va rula într-un mediu partajat, ceea ce înseamnă că va rula alături de alte site-uri web pe
 același calculator. Dacă viteza de încărcare devine o problemă, puteți să optați pentru un plan mai bun de găzduire.
 
-## Configurare Hetzner
+### Cu Hetzner
 
 TODO: Hetzner Webhosting
 
 ## Găzduire alternativă
 
-Fișierul [docker-compose.yaml](./docker-compose-all.yaml) are toate informațiile necesare.
+Fișierul [docker-compose.yaml](./docker-compose-all.yaml) are toate informațiile necesare. Puteți verifica și
+fișierul GitHub Actions [pipeline.yaml](.github/workflows/pipeline.yml) pentru a înțelege mai bine procesul de CI/CD.
+Este scris generic pentru a funcționa cu SFTP / FTP, indiferent de furnizorul cloud utilizat.
 
 Dacă preferați un proces alternativ de găzduire, dați un semn. Voi adăuga o referință la procesul vostru aici.
 
@@ -96,17 +105,35 @@ Dacă preferați un proces alternativ de găzduire, dați un semn. Voi adăuga o
 
 ### Dezvoltare Locală
 
-Pentru a rula aplicația local:
+Pentru a rula aplicația local, rulați mai întâi instanța de MariaDB:
 
 ```bash
 docker compose up
+```
+
+Și apoi serverul cu una dintre comenzile:
+
+```bash
+php -S localhost:8000 -t ./public
 ```
 
 ```bash
 php -S 0.0.0.0:8000 -t ./public
 ```
 
+:warning: Folosiți `0.0.0.0:8000` dacă doriți să accesați aplicația în rețeaua locală cu alte dispozitive
+
+Acum că totul rulează, accesați endpoint-ul `/install` la [http://localhost:8000/install](http://localhost:8000/install)
+pentru a crea invitația utilizatorului `owner` și pentru a o completa.
+
 ### Rularea Testelor
+
+Înainte de a rula testele pentru prima dată sau după orice modificare a codului, va trebui să reconstruiți
+imaginea docker:
+
+```bash
+docker build -t community-bulletin-board .
+```
 
 Testele sunt rulate cu PHPUnit:
 
@@ -114,14 +141,15 @@ Testele sunt rulate cu PHPUnit:
 vendor/bin/phpunit ./tests
 ```
 
-Majoritatea testelor sunt teste de integrare. Testele API rulează împotriva unei versiuni dockerizate a aplicației web.
+Majoritatea testelor sunt teste de integrare. Testele de API rulează 
+împotriva unei versiuni dockerizate a aplicației web.
 
 ### Analiză Statică
 
-Analiza statică este efectuată cu PHPStan și Psalm:
+Analiza statică este efectuată cu `PHPStan` și `Psalm`:
 
 ```bash
-vendor/bin/phpstan analyse ./src --level 10
+vendor/bin/phpstan analyse ./src --level 10 --memory-limit 256M
 ```
 
 ```bash
@@ -136,10 +164,31 @@ Aplicația suportă mai multe limbi prin i18n. După modificarea fișierelor de 
 ./i18n.sh
 ```
 
-## Note Tehnice
+## Detalii Tehnice
+
+Acest proiect necesită PHP `8.4` pentru a rula.
+
+### Dependențe
+
+| Dependență                     | Explicație                                                                    |
+|--------------------------------|-------------------------------------------------------------------------------|
+| ext-pdo                        | Extensie pentru accesarea bazei de date                                       |
+| ext-openssl                    | Extensie pentru operațiuni de criptare / decriptare                           |
+| ext-gettext                    | Extensie pentru internaționalizare (traduceri)                                |
+| php-di/php-di                  | DI necesar pentru slim + twig                                                 |
+| slim/slim                      | Micro-framework pentru scrierea de aplicații web și API-uri ușoare            |
+| slim/psr7                      | Implementare PSR-7 pentru Slim 4                                              |
+| slim/http                      | Decoratori de obiecte PSR-7                                                   |
+| slim/twig-view                 | Permite randarea și servirea fișierelor `.twig`                               |
+| phpmyadmin/twig-i18n-extension | Permite utilizarea `gettext` în fișierele `.twig` pentru traducerea paginilor |
+| phpmailer/phpmailer            | Folosit doar pentru e-mailul de invitație                                     |
+| jms/serializer                 | Un decodor / codificator JSON ușor utilizat pentru endpoint-urile API         |
+| vlucas/phpdotenv               | Citirea fișierului .env și încărcarea variabilelor în php `$_ENV`             |
+
+### Note
 
 * Curățarea datelor învechite se face cu o șansă de 2% per request
-* S-au evitat cron job-urile pentru ca veneau cu un cost extra
+* Utilizarea cron job-urilor implică un cost suplimentar
 
 ## Licență
 

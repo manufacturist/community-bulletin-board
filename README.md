@@ -6,26 +6,33 @@
 
 A low-cost, secure, invite-only bulletin board web app with encrypted storage.
 
-CBB allows your community to post on a digital bulletin board. The Admin invites members via email, and each member
-can have up to 2 posts (by default) at a time to keep things organized.
+CBB allows your community to post on an online bulletin board. The Admin invites members via email, and
+each member can have up to 2 active posts (by default) at a time to keep things organized.
 
 The Admin can:
 
-* Promote users to Admin
-* Adjust the maximum number of posts per user (0-5)
 * Remove users or their posts
+* Adjust the maximum number of posts per user (0-5)
+* Promote other users to Admin (or demote them to member only)
+
+Supports three interface themes: the classic one which is `cork`, and the `light` & `dark` ones.
+
+All the data stored in the database is encrypted. It is decrypted when it is retrieved and served
+to the users. Only the administrators are able to read personal data.
 
 ## Table of Contents
 
 - [Cloud Hosting (recommended)](#cloud-hosting-recommended)
-- [Hetzner Configuration](#hetzner-configuration)
+    - [With Hetzner](#with-hetzner)
 - [Alternative Hosting](#alternative-hosting)
 - [Development and Testing](#development-and-testing)
     - [Local Development](#local-development)
     - [Running Tests](#running-tests)
     - [Static Analysis](#static-analysis)
     - [Translations](#translations)
-- [Technical Notes](#technical-notes)
+- [Technical Details](#technical-details)
+    - [Dependencies](#dependencies)
+    - [Notes](#notes)
 - [License](#license)
 
 ## Cloud Hosting (recommended)
@@ -57,7 +64,7 @@ The Admin can:
         - Application settings:
             - `APP_URL`: Base URL of your application (used for invitation links)
             - `APP_OWNER_EMAIL`: Email address of the site owner. Required for the first user invitation
-            - `APP_PUBLIC_ENDPOINT`: One of `none`, `public` or any custom string. If `public`, the community posts 
+            - `APP_PUBLIC_ENDPOINT`: One of `none`, `public` or any custom string. If `public`, the community posts
               will be exposed without any personal details (phone number, name and link) on a link that can be accessed
               by anyone, e.g. `your-community.com/posts`. If you use a custom string, then that string will be used as
               the slug of the endpoint, e.g. `my-secret-url` => `your-community.com/my-secret-url`
@@ -80,31 +87,53 @@ The costs include a one-time setup fee of ~10 EUR and a recurring monthly fee of
 <sup>A</sup> The solution will run on a shared environment, meaning it will run alongside other websites on
 the same machine. If loading speed becomes an issue, you could upgrade to a better hosting plan.
 
-## Hetzner Configuration
+### With Hetzner
 
 TODO: Hetzner Webhosting
 
 ## Alternative Hosting
 
-The [docker-compose.yaml](./docker-compose-all.yaml) file has all that you require.
+The [docker-compose.yaml](./docker-compose-all.yaml) file has all that you require. You can also check the
+GitHub actions [pipeline.yaml](.github/workflows/pipeline.yml) file to better understand the CI/CD process.
+It's written generically to work with SFTP / FTP, no matter what the used cloud provider is.
 
-If you prefer a different hosting process, please share it with us. I will add a reference to your repository here.
+If you prefer a different hosting process, please share it with everybody else. I will add a reference to
+your repository here.
 
 ## Development and Testing
 
 ### Local Development
 
-To run the application locally:
+To run the application locally, run the MariaDB instance first:
 
 ```bash
 docker compose up
+```
+
+And then the server with one of:
+
+```bash
+php -S localhost:8000 -t ./public
 ```
 
 ```bash
 php -S 0.0.0.0:8000 -t ./public
 ```
 
+:warning: Use `0.0.0.0:8000` if you want to access it in your local network with other devices
+
+Now that everything is up and running, access the `/install` endpoint on
+[http://localhost:8000/install](http://localhost:8000/install) to create the `owner` user invitation
+and to complete it.
+
 ### Running Tests
+
+Before running the tests for the first time or after modifying the code, you will need to rebuild
+the docker image:
+
+```bash
+docker build -t community-bulletin-board .
+```
 
 Tests are run with PHPUnit:
 
@@ -116,10 +145,10 @@ Most tests are integration tests. The API tests run against a dockerized version
 
 ### Static Analysis
 
-Static analysis is performed with PHPStan and Psalm:
+Static analysis is performed with `PHPStan` and `Psalm`:
 
 ```bash
-vendor/bin/phpstan analyse ./src --level 10
+vendor/bin/phpstan analyse ./src --level 10 --memory-limit 256M
 ```
 
 ```bash
@@ -128,14 +157,35 @@ vendor/bin/psalm --no-cache
 
 ### Translations
 
-The application supports multiple languages through i18n. After modifying translation files, you must
-recompile them by running:
+The application supports multiple languages through i18n. After modifying the translation files,
+you must recompile them by running:
 
 ```bash
 ./i18n.sh
 ```
 
-## Technical Notes
+## Technical Details
+
+This project requires PHP `8.4` to run.
+
+### Dependencies
+
+| Dependency                     | Explanation                                                                   |
+|--------------------------------|-------------------------------------------------------------------------------|
+| ext-pdo                        | Extension for accessing databases                                             |
+| ext-openssl                    | Extension for encryption / decryption operations                              |
+| ext-gettext                    | Extension for internationalisation (translations)                             |
+| php-di/php-di                  | Dependency injection required for twig usage (me thinks)                      |
+| slim/slim                      | Micro-framework for writing lightweight Web Apps and APIs                     |
+| slim/psr7                      | PSR-7 implementation for Slim 4                                               |
+| slim/http                      | PSR-7 object decorators                                                       |
+| slim/twig-view                 | Allows the rendering of `.twig` files                                         |
+| phpmyadmin/twig-i18n-extension | Allows the usage of `gettext` in `.twig` files for page rendered translations |
+| phpmailer/phpmailer            | Used just for the invitation email                                            |
+| jms/serializer                 | A lightweight JSON decoder / encoder used for the API endpoints               |
+| vlucas/phpdotenv               | Reading .env file and loading the variables into the php `$_ENV` variable     |
+
+### Notes
 
 * Clean-up of stale data is done with a 2% trigger chance per request
 * Using cron jobs implies an extra cost

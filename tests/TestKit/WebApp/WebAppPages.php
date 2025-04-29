@@ -40,6 +40,16 @@ class WebAppPages
         return $this->get('/admin');
     }
 
+    public function getPublicPage(): ResponseInterface
+    {
+        return $this->get('/posts');
+    }
+
+    public function getSpecificPage(string $pagePath): ResponseInterface
+    {
+        return $this->get($pagePath);
+    }
+
     private function get(string $uri): ResponseInterface
     {
         return $this->request($uri);

@@ -133,7 +133,7 @@ msgstr "Adaugă"
 
 # public.twig
 msgid "external_posts_description"
-msgstr "Pentru a vedea detaliile de contact sau linkurile atașate anunțurilor, trebuie să vă autentificați. Dacă nu aveți cont, contactați un moderator pentru a fi verificat și a primi o invitație."
+msgstr "Pentru a vedea detaliile de contact sau linkurile anunțurilor, autentificați-vă. Dacă nu aveți cont, contactați un moderator pentru verificare și invitație."
 
 # components/post.twig
 msgid "See link"

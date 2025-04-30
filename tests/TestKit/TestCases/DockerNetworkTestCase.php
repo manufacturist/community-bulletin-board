@@ -13,8 +13,7 @@ abstract class DockerNetworkTestCase extends TestCase
 {
     private static ?Docker $dockerClient = null;
     private static ?Network $dockerNetwork = null;
-
-    protected static string $networkName = 'community-bulletin-board-tests-network';
+    protected static ?string $networkName = null;
 
     public static function setUpBeforeClass(): void
     {
@@ -23,6 +22,7 @@ abstract class DockerNetworkTestCase extends TestCase
         self::$dockerClient = Docker::create();
 
         try {
+            self::$networkName = 'network-cbb-' . bin2hex(random_bytes(4));
             self::$dockerNetwork = self::$dockerClient->networkInspect(self::$networkName);
         } catch (\Exception $e) {
             error_log("Failed to get network! " . $e->getMessage());

@@ -12,6 +12,7 @@ use Testcontainers\Container\StartedGenericContainer;
 abstract class WebAppTestCase extends BaseTestCase
 {
     private static ?StartedGenericContainer $webAppContainer = null;
+    private static ?string $webAppContainerName = null;
 
     protected static ?int $webAppPort = null;
 
@@ -20,13 +21,13 @@ abstract class WebAppTestCase extends BaseTestCase
         parent::setUpBeforeClass();
 
         if (is_null(self::$webAppContainer)) {
-            $containerName = 'webapp-cbb';
+            self::$webAppContainerName = 'webapp-cbb' . bin2hex(random_bytes(4));
             $exposedPort = 8000;
 
             self::$webAppContainer = new GenericContainer('community-bulletin-board')
-                ->withName($containerName)
+                ->withName(self::$webAppContainerName)
                 ->withNetwork(self::$networkName)
-                ->withHealthCheckCommand("curl -f $containerName:$exposedPort/api/public/health")
+                ->withHealthCheckCommand("curl -f " . self::$webAppContainerName . ":$exposedPort/api/public/health")
                 ->withEnvironment([
                     "DB_HOST" => self::$mariaDBContainer->getName(),
                     "DB_PORT" => 3306,

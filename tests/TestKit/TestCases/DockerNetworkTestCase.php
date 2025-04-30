@@ -19,16 +19,10 @@ abstract class DockerNetworkTestCase extends TestCase
     {
         parent::setUpBeforeClass();
 
-        self::$dockerClient = Docker::create();
-
-        try {
-            self::$networkName = 'network-cbb-' . bin2hex(random_bytes(4));
-            self::$dockerNetwork = self::$dockerClient->networkInspect(self::$networkName);
-        } catch (\Exception $e) {
-            error_log("Failed to get network! " . $e->getMessage());
-        }
-
         if (is_null(self::$dockerNetwork)) {
+            self::$dockerClient = Docker::create();
+            self::$networkName = 'network-cbb-' . bin2hex(random_bytes(4));
+
             $networkCreate = new NetworksCreatePostBody();
             $networkCreate->setName(self::$networkName);
             $networkCreate->setDriver('bridge');

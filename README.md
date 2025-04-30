@@ -104,21 +104,27 @@ your repository here.
 
 ### Local Development
 
-To run the application locally, run the MariaDB instance first:
+1. To run the application locally, run the MariaDB instance
 
-```bash
-docker compose up
-```
+    ```bash
+     docker compose up
+    ```
 
-And then the server with one of:
+2. Install the PHP dependencies
 
-```bash
-php -S localhost:8000 -t ./public
-```
+    ```bash
+    composer install
+    ```
 
-```bash
-php -S 0.0.0.0:8000 -t ./public
-```
+3. And then start the server with one of:
+
+    ```bash
+    php -S localhost:8000 -t ./public
+    ```
+
+    ```bash
+    php -S 0.0.0.0:8000 -t ./public
+    ```
 
 :warning: Use `0.0.0.0:8000` if you want to access it in your local network with other devices
 

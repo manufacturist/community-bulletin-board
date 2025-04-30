@@ -105,21 +105,27 @@ Dacă preferați un proces alternativ de găzduire, dați un semn. Voi adăuga o
 
 ### Dezvoltare Locală
 
-Pentru a rula aplicația local, rulați mai întâi instanța de MariaDB:
+1. Pentru a rula aplicația local, rulați mai întâi instanța de MariaDB:
 
-```bash
-docker compose up
-```
+    ```bash
+     docker compose up
+    ```
 
-Și apoi serverul cu una dintre comenzile:
+2. Instalați dependențele PHP:
 
-```bash
-php -S localhost:8000 -t ./public
-```
+    ```bash
+    composer install
+    ```
 
-```bash
-php -S 0.0.0.0:8000 -t ./public
-```
+3. Și apoi porniți serverul cu una dintre comenzile:
+
+    ```bash
+    php -S localhost:8000 -t ./public
+    ```
+
+    ```bash
+    php -S 0.0.0.0:8000 -t ./public
+    ```
 
 :warning: Folosiți `0.0.0.0:8000` dacă doriți să accesați aplicația în rețeaua locală cu alte dispozitive
 
@@ -128,8 +134,8 @@ pentru a crea invitația utilizatorului `owner` și pentru a o completa.
 
 ### Rularea Testelor
 
-Înainte de a rula testele pentru prima dată sau după orice modificare a codului, va trebui să reconstruiți
-imaginea docker:
+Înainte de a rula testele pentru prima dată sau după orice modificare a codului, 
+va trebui să construiți imaginea docker:
 
 ```bash
 docker build -t community-bulletin-board .
@@ -141,7 +147,7 @@ Testele sunt rulate cu PHPUnit:
 vendor/bin/phpunit ./tests
 ```
 
-Majoritatea testelor sunt teste de integrare. Testele de API rulează 
+Majoritatea testelor sunt teste de integrare. Testele de API rulează
 împotriva unei versiuni dockerizate a aplicației web.
 
 ### Analiză Statică

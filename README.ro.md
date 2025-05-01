@@ -6,7 +6,7 @@
 
 O aplicație web de avizier cu acces pe bază de invitație, sigură și ieftină, cu stocare criptată.
 
-CBB permite comunității dvs. să posteze pe un avizier digital. Administratorul invită membrii noi prin 
+CBB permite comunității dvs. să posteze pe un avizier digital. Administratorul invită membrii noi prin
 email, iar fiecare membru poate avea până la 2 postări active (implicit) pentru a păstra totul organizat.
 
 Administratorul poate:
@@ -98,7 +98,7 @@ același calculator. Dacă viteza de încărcare devine o problemă, puteți să
 
 ### Cu Hetzner
 
-TODO: Hetzner Webhosting
+Documentația pentru [deploy pe Hetzner](./docs/HETZNER.ro.md).
 
 ## Găzduire alternativă
 

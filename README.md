@@ -6,7 +6,7 @@
 
 A low-cost, secure, invite-only bulletin board web app with encrypted storage.
 
-This solution allows your community to post on an online bulletin board. The Admin invites new members via 
+This solution allows your community to post on an online bulletin board. The Admin invites new members via
 email, and each member can have up to 2 active posts (by default) at a time to keep things organized.
 
 An Admin can:
@@ -22,8 +22,8 @@ to the users. The administrators are the only ones that can read the email addre
 
 #### Philosophy
 
-This project is a slower way to get in touch with your community. It's based on the idea of `ma` (間), 
-a Japanese word for the pause or space between things. There are no notifications. No reactions. No 
+This project is a slower way to get in touch with your community. It's based on the idea of `ma` (間),
+a Japanese word for the pause or space between things. There are no notifications. No reactions. No
 pressure to reply fast. Just a calm place to share and check in when you feel like it.
 
 ## Table of Contents
@@ -95,7 +95,7 @@ the same machine. If loading speed becomes an issue, you could upgrade to a bett
 
 ### With Hetzner
 
-TODO: Hetzner Webhosting
+[Hetnzer deployment](./docs/HETZNER.ro.md) documentation.
 
 ## Alternative Hosting
 

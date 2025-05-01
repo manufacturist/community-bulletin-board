@@ -85,12 +85,9 @@ Directorul `cbb` va fi ținta pentru deploy-urile prin GitHub Actions.
 
 ## 7. Setarea directorului rădăcină la `public_html/cbb/public`
 
-1. În panoul de control Hetzner, accesați secțiunea "Domains" sau "Website Settings"
-2. Găsiți opțiunea de a seta directorul rădăcină pentru domeniul dvs.
-3. Setați directorul rădăcină la `public_html/cbb/public` pentru a vă asigura că serverul web servește fișiere din directorul public al aplicației dvs.
-4. Salvați modificările
-
-![Configurare FTP](./images/ftp.jpg)
+1. În panoul de control Hetzner, accesați secțiunea "Server Configuration"
+2. Clic pe `public_html/cbb/public`
+3. Clic pe "Change document root"
 
 ## 8. Configurarea fișierului Apache .htaccess
 
@@ -143,6 +140,14 @@ Puteți verifica dacă fișierul .htaccess este configurat corect vizitându-l �
 
 Acum vine munca de chinez bătrân: crearea tuturor secretelor și variabilelor necesare pe GitHub.
 
+Pentru detaliile FTP, mergeți la "Access Details" în Hetzner:
+
+![Detalii FTP](./images/ftp.jpg)
+
+Pentru email, mergeți la "Email" > "Mailboxes" > "How to set up a mail program":
+
+![Email](./images/mail.jpg)
+
 1. În repository-ul GitHub, navigați la secțiunea "Settings"
 2. Faceți clic pe "Secrets and variables", și apoi pe "Actions"
 
@@ -158,7 +163,7 @@ Acum vine munca de chinez bătrân: crearea tuturor secretelor și variabilelor 
 
 ## 10. Deploy-ul soluției de pe GitHub
 
-![Rulare Workflow](./images/run-workflow.jpg)
+![Rulare Workflow](./images/github-trigger.jpg)
 
 1. Accesați fila "Actions" și faceți clic pe workflow-ul "CI/CD pipeline"
 2. Faceți clic pe dropdown-ul "Run workflow" și apoi pe butonul "Run workflow"

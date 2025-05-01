@@ -86,13 +86,9 @@ The `cbb` directory will be the target for your GitHub Actions deployments.
 
 ## 7. Setting the document root to `public_html/cbb/public`
 
-1. In the Hetzner control panel, go to the "Domains" or "Website Settings" section
-2. Find the option to set the document root for your domain
-3. Set the document root to `public_html/cbb/public` to ensure that the web server serves files from the public
-   directory of your application
-4. Save your changes
-
-![FTP Configuration](./images/ftp.jpg)
+1. In the Hetzner control panel, go to the "Server Configuration" section
+2. Click on `public_html/cbb/public`
+3. Click on "Change document root"
 
 ## 8. Configuring the Apache .htaccess file
 
@@ -145,6 +141,14 @@ You can double-check that the .htaccess file is configured correctly by visiting
 
 Now comes the fun part: creating all the necessary GitHub secrets and variables.
 
+For the FTP details, go to the "Access Details" in Hetzner:
+
+![FTP Details](./images/ftp.jpg)
+
+For email, go to "Email" > "Mailboxes" > "How to set up a mail program":
+
+![Email](./images/mail.jpg)
+
 1. In your GitHub repository, navigate to the "Settings" section
 2. Click on "Secrets and variables", and then "Actions"
 
@@ -160,11 +164,11 @@ Now comes the fun part: creating all the necessary GitHub secrets and variables.
 
 ## 10. Deploying the solution from GitHub
 
-![Run Workflow](./images/run-workflow.jpg)
+![Run Workflow](./images/github-trigger.jpg)
 
 1. Go to the "Actions" tab and click on the "CI/CD pipeline" workflow
 2. Click on the "Run workflow" dropdown and then on the "Run workflow" button
 3. Wait for the workflow to finish and then check if the deployment was successful
 
-I hope this guide worked for you without any issues. If you have any questions or need 
+I hope this guide worked for you without any issues. If you have any questions or need
 further assistance, feel free to open an issue.

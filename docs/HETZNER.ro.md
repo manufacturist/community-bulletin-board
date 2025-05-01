@@ -101,12 +101,12 @@ Directorul `cbb` va fi ținta pentru deploy-urile prin GitHub Actions.
    ```apacheconf
    RewriteEngine On
 
-   # redirecționează cererile pentru fișiere inexistente sau directorul static către index.php
+   # reroute requests for non-existing files, except those under /static/, to index.php
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteCond %{REQUEST_URI} !^/static/ [NC]
    RewriteRule ^ index.php [L]
     
-   # compresie gzip
+   # gzip compression
    <IfModule mod_deflate.c>
      AddOutputFilterByType DEFLATE text/plain
      AddOutputFilterByType DEFLATE text/html
@@ -120,7 +120,7 @@ Directorul `cbb` va fi ținta pentru deploy-urile prin GitHub Actions.
      AddOutputFilterByType DEFLATE application/x-javascript
    </IfModule>
     
-   # cache fișiere statice
+   # cache static files
    <IfModule mod_expires.c>
        ExpiresActive On
        ExpiresByType image/svg+xml "access plus 30 days"

@@ -102,7 +102,7 @@ The `cbb` directory will be the target for your GitHub Actions deployments.
    ```apacheconf
    RewriteEngine On
 
-   # reroute requests for non-existing files or the static directory to index.php
+   # reroute requests for non-existing files, except those under /static/, to index.php
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteCond %{REQUEST_URI} !^/static/ [NC]
    RewriteRule ^ index.php [L]

@@ -95,7 +95,7 @@ the same machine. If loading speed becomes an issue, you could upgrade to a bett
 
 ### With Hetzner
 
-[Hetnzer deployment](./docs/HETZNER.ro.md) documentation.
+[Hetnzer deployment](./docs/HETZNER.md) documentation.
 
 ## Alternative Hosting
 

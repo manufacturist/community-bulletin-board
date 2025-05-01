@@ -169,6 +169,7 @@ jobs:
             .gitignore
             .php-cs-fixer.php
             .phpunit.result.cache
+            .releaserc.json
             composer.phar
             tests/**
             docker-compose.yaml

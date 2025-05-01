@@ -6,19 +6,25 @@
 
 A low-cost, secure, invite-only bulletin board web app with encrypted storage.
 
-CBB allows your community to post on an online bulletin board. The Admin invites members via email, and
-each member can have up to 2 active posts (by default) at a time to keep things organized.
+This solution allows your community to post on an online bulletin board. The Admin invites new members via 
+email, and each member can have up to 2 active posts (by default) at a time to keep things organized.
 
-The Admin can:
+An Admin can:
 
-* Remove users or their posts
-* Adjust the maximum number of posts per user (0-5)
-* Promote other users to Admin (or demote them to member only)
+* Moderate the board by removing posts
+* Adjust the number of active posts per user [0,5]
+* Promote users to `admin` (note: the `owner` can demote any user to `member`)
 
 Supports three interface themes: the classic one which is `cork`, and the `light` & `dark` ones.
 
 All the data stored in the database is encrypted. It is decrypted when it is retrieved and served
-to the users. Only the administrators are able to read personal data.
+to the users. The administrators are the only ones that can read the email addresses.
+
+#### Philosophy
+
+This project is a slower way to get in touch with your community. It's based on the idea of `ma` (間), 
+a Japanese word for the pause or space between things. There are no notifications. No reactions. No 
+pressure to reply fast. Just a calm place to share and check in when you feel like it.
 
 ## Table of Contents
 

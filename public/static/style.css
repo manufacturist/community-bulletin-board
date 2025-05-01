@@ -75,6 +75,7 @@ input, textarea, select {
         padding-top: 4px;
 
         white-space: pre-wrap;
+        overflow-wrap: anywhere;
 
         display: flex;
         flex-grow: 1;
@@ -386,7 +387,12 @@ fieldset label {
 }
 
 fieldset input, textarea, select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
     width: 100%;
+    height: 40px;
     padding: 0.5rem;
     border-width: 1px;
     border-radius: 5px;
@@ -408,6 +414,15 @@ fieldset input::placeholder {
 fieldset input:read-only {
     color: darkgray;
     cursor: default;
+}
+
+fieldset input[type="date"], select {
+    cursor: pointer;
+}
+
+fieldset select {
+    background: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 6px center,
+    rgba(255, 255, 255, 0.2);
 }
 
 .actionButton {
@@ -483,4 +498,11 @@ button:disabled {
 
     box-shadow: var(--post-box-shadow);
     background: var(--post-bg-color);
+}
+
+@supports (-moz-appearance:none) {
+    fieldset select {
+        background: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right 9px center,
+        rgba(255, 255, 255, 0.2);
+    }
 }

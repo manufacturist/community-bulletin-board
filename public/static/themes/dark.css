@@ -9,6 +9,8 @@
     --board-frame-image: linear-gradient(45deg, #333, #444, #333) 1;
 
     /* Posts */
+    --post-pin-filter: unset;
+
     --post-bg-color: #2c2c2c;
     --post-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     --post-box-shadow-hover: 5px 10px 50px rgba(255, 255, 255, 0.50);

@@ -222,8 +222,8 @@ input, textarea, select {
         box-shadow: var(--post-box-shadow);
 
         .pin {
-            transform: scale(1.05);
-            transform: rotate(-12deg);
+            transform: scale(1);
+            transform: rotate(0deg);
         }
 
         .text {

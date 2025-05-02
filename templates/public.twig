@@ -13,6 +13,10 @@
                     </button>
                 </a>
             {% endblock %}
+            {% block subtext %}
+                <span>{% trans "Code on" %} <a href="https://github.com/manufacturist/community-bulletin-board"
+                                               target="_blank">GitHub</a></span>
+            {% endblock %}
         {% endembed %}
 
         {% for post in posts %}

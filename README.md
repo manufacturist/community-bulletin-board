@@ -191,7 +191,7 @@ This project requires PHP `8.4` to run.
 | php-di/php-di                  | Dependency injection required for twig usage (me thinks)                      |
 | slim/slim                      | Micro-framework for writing lightweight Web Apps and APIs                     |
 | slim/psr7                      | PSR-7 implementation for Slim 4                                               |
-| slim/http                      | PSR-7 object decorators                                                       |
+| slim/http                      | PSR-7 object decorators (JSON response)                                       |
 | slim/twig-view                 | Allows the rendering of `.twig` files                                         |
 | phpmyadmin/twig-i18n-extension | Allows the usage of `gettext` in `.twig` files for page rendered translations |
 | phpmailer/phpmailer            | Used just for the invitation email                                            |

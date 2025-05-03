@@ -191,7 +191,7 @@ Acest proiect necesită PHP `8.4` pentru a rula.
 | php-di/php-di                  | DI necesar pentru slim + twig                                                 |
 | slim/slim                      | Micro-framework pentru scrierea de aplicații web și API-uri ușoare            |
 | slim/psr7                      | Implementare PSR-7 pentru Slim 4                                              |
-| slim/http                      | Decoratori de obiecte PSR-7                                                   |
+| slim/http                      | Decoratori de obiecte PSR-7 (răspuns JSON)                                    |
 | slim/twig-view                 | Permite randarea și servirea fișierelor `.twig`                               |
 | phpmyadmin/twig-i18n-extension | Permite utilizarea `gettext` în fișierele `.twig` pentru traducerea paginilor |
 | phpmailer/phpmailer            | Folosit doar pentru e-mailul de invitație                                     |

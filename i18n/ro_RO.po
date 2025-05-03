@@ -95,6 +95,12 @@ msgstr "Confirmă acțiunea de ștergere a anunțului"
 msgid "Failed to delete post."
 msgstr "Nu s-a reușit ștergerea anunțului."
 
+msgid "Are you sure you want to mark this post as resolved?"
+msgstr "Confirmă acțiunea de rezolvare a anunțului"
+
+msgid "Failed to resolve post."
+msgstr "Nu s-a reușit rezolvarea anunțului."
+
 msgid "Description"
 msgstr "Descriere"
 

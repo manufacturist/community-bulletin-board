@@ -6,26 +6,26 @@
 
 O aplicație web de avizier cu acces pe bază de invitație, sigură și ieftină, cu stocare criptată.
 
-CBB permite comunității dvs. să posteze pe un avizier digital. Administratorul invită membrii noi prin
+CBB permite comunității dvs. să posteze pe un avizier digital. Moderatorii invită membrii noi prin
 email, iar fiecare membru poate avea până la 2 postări active (implicit) pentru a păstra totul organizat.
 
-Administratorul poate:
+Un moderator poate:
 
-* Modera avizierul prin eliminarea postărilor
 * Ajusta numărul de postări active per utilizator [0,5]
-* Promova utilizatori la rangul de `admin` (notă: `owner` poate retrograda orice utilizator la statutul de `member`)
+* Promova alți utilizatori la rangul de moderatori (notă: proprietarul poate retrograda orice utilizator la statutul de membru)
+* Elimina postări sau utilizatori
 
 Suportă trei teme de interfață: cea clasică care este `plută`, și temele `luminos` & `întunecat`.
 
 Toate datele stocate în baza de date sunt criptate. Acestea sunt decriptate atunci când sunt
-citite și servite utilizatorilor. Doar administratorii pot citi toate datele personale.
+citite și servite utilizatorilor. Doar moderatorii pot citi adresele de email.
 
 #### Filozofie
 
 Acest proiect este o modalitate mai lentă de a lua legătura cu oamenii din comunitatea ta. Se
 bazează pe conceptul de `ma` (間), un cuvânt japonez pentru pauza sau spațiul dintre lucruri.
-Nu există notificări. Nu există reacții. Nu există presiune pentru a răspunde rapid. Doar un
-loc liniștit pentru a împărtăși și a verifica atunci când simți nevoia.
+Aprecierea spațiului "negativ". Nu există notificări sau reacții. Doar un loc liniștit pentru a 
+împărtăși și a verifica atunci când simți nevoia, fără urgența tipică a rețelelor sociale.
 
 ## Cuprins
 

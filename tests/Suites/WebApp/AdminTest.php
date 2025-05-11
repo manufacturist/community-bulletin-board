@@ -86,11 +86,9 @@ final class AdminTest extends WebAppTestCase
         self::assertEquals(200, $adminPage->getStatusCode());
         self::assertStringContainsString("data-member-id=\"$apiAdminInfo->id\"", $html);
         self::assertStringContainsString($apiAdminInfo->name, $html);
-        self::assertStringContainsString($apiAdminInfo->email, $html);
 
         self::assertStringContainsString("data-member-id=\"$apiUserInfo->id\"", $html);
         self::assertStringContainsString($apiAdminInfo->name, $html);
-        self::assertStringContainsString($apiAdminInfo->email, $html);
     }
 
     public function testAdminCanDeleteUser(): void

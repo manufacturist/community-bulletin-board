@@ -60,6 +60,13 @@ msgstr "Nu s-a reușit refuzarea invitației."
 msgid "Failed to accept invitation."
 msgstr "Nu s-a reușit acceptarea invitației."
 
+# joinExpired.twig
+msgid "Invitation expired"
+msgstr "Invitația a expirat"
+
+msgid "Request a new one"
+msgstr "Invitația a expirat. Va trebui să ceri una nouă de la un moderator."
+
 # login.twig
 msgid "Email"
 msgstr "Email"

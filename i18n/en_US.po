@@ -60,6 +60,13 @@ msgstr "Failed to decline invitation."
 msgid "Failed to accept invitation."
 msgstr "Failed to accept invitation."
 
+# joinExpired.twig
+msgid "Invitation expired"
+msgstr "Invitation expired"
+
+msgid "Request a new one"
+msgstr "The invitation has expired. You will need to request a new one from a moderator."
+
 # login.twig
 msgid "Email"
 msgstr "Email"

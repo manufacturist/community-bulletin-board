@@ -163,9 +163,12 @@ $app->get('/' . _('url_join'), function (Request $request, Response $response) u
         $binaryToken = Binary::apply(Base64String::apply($token)->decode());
         $invitation = InvitationRepo::selectInvitationByToken($binaryToken);
 
-        return $app->getContainer()->get(Twig::class)->render($response, 'join.twig', [
-            'email' => $invitation->email,
-        ]);
+        $oneDayAgo = new \DateTimeImmutable('@' . (time() - 60 * 60 * 24), new \DateTimeZone('UTC'));
+        $isValidInvitation = $invitation && $invitation->createdAt > $oneDayAgo;
+
+        return $isValidInvitation
+            ? $app->getContainer()->get(Twig::class)->render($response, 'join.twig', ['email' => $invitation->email])
+            : $app->getContainer()->get(Twig::class)->render($response, 'joinExpired.twig');
     } else {
         throw new HttpNotFoundException($request);
     }

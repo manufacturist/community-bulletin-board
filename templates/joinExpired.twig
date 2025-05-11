@@ -1,0 +1,24 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    {% embed 'components/actionPost.twig' with {
+        otherClasses: 'main'
+    } %}
+        {% block action %}
+            <form>
+                <h2>{% trans "Invitation expired" %}</h2>
+                <p style="text-align: justify">{% trans "Request a new one" %}</p>
+            </form>
+        {% endblock %}
+        {% block subtext %}
+            <span>{% trans "Code on" %} <a href="https://github.com/manufacturist/community-bulletin-board"
+                                           target="_blank">GitHub</a></span>
+        {% endblock %}
+    {% endembed %}
+
+    <script>
+        document.getElementById('closePage').addEventListener('click', () => {
+            open(window.location, '_self').close();
+        })
+    </script>
+{% endblock %}

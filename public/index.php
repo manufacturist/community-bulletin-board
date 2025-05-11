@@ -155,7 +155,7 @@ $app->get('/admin', function (Request $request, Response $response) use ($app) {
     } else {
         throw new HttpNotFoundException($request);
     }
-})->add($app->getContainer()->get(AuthMiddleware::class));;
+})->add($app->getContainer()->get(AuthMiddleware::class));
 
 $app->get('/' . _('url_join'), function (Request $request, Response $response) use ($app) {
     $token = $request->getQueryParams()['t'] ?? null;

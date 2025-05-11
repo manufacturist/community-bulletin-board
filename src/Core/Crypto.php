@@ -28,15 +28,15 @@ final class Crypto
         $pepper = is_string($envPepper) ? base64_decode($envPepper) : null;
 
         if (is_null($encryptionKey)) {
-            throw new \Exception('Secret key is not set.');
+            throw new \Exception('Encryption / decryption key is not set.');
         }
 
         if (is_null($hmacKey)) {
-            throw new \Exception('Secret key is not set.');
+            throw new \Exception('Hashing key is not set.');
         }
 
         if (is_null($pepper)) {
-            throw new \Exception('Pepper is not set.');
+            throw new \Exception('Hashing pepper is not set.');
         }
 
         $this->encryptionKey = $encryptionKey;

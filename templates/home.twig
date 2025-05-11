@@ -120,7 +120,7 @@
         document.getElementById('description').addEventListener('input', (event) => {
             const textareaText = event.target.value.split('\n')
 
-            if (textareaText.length > 3) {
+            if (textareaText.length > 4) {
                 event.target.value = textareaText.slice(0, 3).join('\n')
             }
 

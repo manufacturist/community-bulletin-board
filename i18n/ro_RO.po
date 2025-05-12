@@ -152,6 +152,10 @@ msgstr "Pentru a vedea detaliile de contact sau linkurile anunțurilor, autentif
 msgid "See link"
 msgstr "Vezi link"
 
+# components/postExternal.twig
+msgid "Hidden details"
+msgstr "Detalii ascunse"
+
 # Settings theme.twig
 msgid "User Settings"
 msgstr "Setările Utilizatorului"

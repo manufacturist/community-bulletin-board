@@ -152,6 +152,10 @@ msgstr "To view the contact details or links in the posts, please log in. If you
 msgid "See link"
 msgstr "See link"
 
+# components/postExternal.twig
+msgid "Hidden details"
+msgstr "Hidden details"
+
 # Settings theme.twig
 msgid "User Settings"
 msgstr "User Settings"

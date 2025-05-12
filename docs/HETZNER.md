@@ -154,7 +154,7 @@ For email, go to "Email" > "Mailboxes" > "How to set up a mail program":
 
    ![GitHub Secrets](./images/github-secrets-path.jpg)
 
-3. You will need to add the following secrets / variables to your repository:
+3. You will need to add the following secrets / variables to your repository (ignore `CRYPTO_PEPPER`):
 
    ![GitHub Secrets](./images/github-secrets.jpg)
 

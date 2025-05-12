@@ -62,7 +62,6 @@ Aprecierea spațiului "negativ". Nu există notificări sau reacții. Doar un lo
         - Criptare (șiruri hexazecimale de 32 de caractere):
             - `CRYPTO_ENCRYPTION_KEY`: Cheia de criptare
             - `CRYPTO_HMAC_KEY`: Cheia HMAC
-            - `CRYPTO_PEPPER`: Valoarea pepper
         - Email:
             - `EMAIL_SMTP_HOST`: Numele de gazdă al serverului SMTP
             - `EMAIL_SMTP_PORT`: Portul SMTP

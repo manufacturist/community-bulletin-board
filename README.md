@@ -62,7 +62,6 @@ typical social media urgency.
         - Encryption (32 character hex strings expected):
             - `CRYPTO_ENCRYPTION_KEY`: Your encryption key
             - `CRYPTO_HMAC_KEY`: Your HMAC key
-            - `CRYPTO_PEPPER`: Your pepper value
         - Email:
             - `EMAIL_SMTP_HOST`: SMTP server hostname
             - `EMAIL_SMTP_PORT`: SMTP port (usually 587)

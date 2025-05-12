@@ -25,7 +25,7 @@ final class Crypto
 
         $encryptionKey = is_string($envEncryptionKey) ? base64_decode($envEncryptionKey) : null;
         $hmacKey = is_string($envHmacKey) ? base64_decode($envHmacKey) : null;
-        $pepper = is_string($envPepper) ? base64_decode($envPepper) : null;
+        $pepper = is_string($envPepper) ? base64_decode($envPepper) : '';
 
         if (is_null($encryptionKey)) {
             throw new \Exception('Encryption / decryption key is not set.');
@@ -33,10 +33,6 @@ final class Crypto
 
         if (is_null($hmacKey)) {
             throw new \Exception('Hashing key is not set.');
-        }
-
-        if (is_null($pepper)) {
-            throw new \Exception('Hashing pepper is not set.');
         }
 
         $this->encryptionKey = $encryptionKey;

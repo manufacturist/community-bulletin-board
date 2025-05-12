@@ -153,7 +153,7 @@ Pentru email, mergeți la "Email" > "Mailboxes" > "How to set up a mail program"
 
    ![Secrete GitHub](./images/github-secrets-path.jpg)
 
-3. Va trebui să adăugați următoarele secrete / variabile în repository:
+3. Va trebui să adăugați următoarele secrete / variabile în repository (ignoră `CRYPTO_PEPPER`):
 
    ![Secrete GitHub](./images/github-secrets.jpg)
 

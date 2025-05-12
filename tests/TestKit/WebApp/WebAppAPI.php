@@ -252,7 +252,9 @@ class WebAppAPI
 
         $this->acceptInvitationChecked($acceptInvitation);
 
-        return [UserRepo::selectUserByEmailHash(Crypto::hash($email)), $password];
+        $emailHash = Crypto::hash($email);
+        $user = UserRepo::selectUserByEmailHash($emailHash);
+        return [$user, $password];
     }
 
     public function createAuthenticatedUser(bool $isAdmin): UserInfo

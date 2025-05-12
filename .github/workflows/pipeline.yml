@@ -125,10 +125,6 @@ jobs:
           APP_ENABLED_THEMES=cork,light,dark
           APP_PUBLIC_ENDPOINT=${{ secrets.APP_PUBLIC_ENDPOINT }}
           
-          CRYPTO_ENCRYPTION_KEY=${{ secrets.CRYPTO_ENCRYPTION_KEY }}
-          CRYPTO_HMAC_KEY=${{ secrets.CRYPTO_HMAC_KEY }}
-          CRYPTO_PEPPER=${{ secrets.CRYPTO_PEPPER }}
-          
           DB_HOST=${{ secrets.DB_HOST }}
           DB_PORT=${{ secrets.DB_PORT }}
           DB_NAME=${{ secrets.DB_NAME }}
@@ -140,7 +136,14 @@ jobs:
           EMAIL_SMTP_PORT=${{ secrets.EMAIL_SMTP_PORT }}
           EMAIL_SMTP_USERNAME=${{ secrets.EMAIL_SMTP_USERNAME }}
           EMAIL_SMTP_PASSWORD=${{ secrets.EMAIL_SMTP_PASSWORD }}
+               
+          CRYPTO_ENCRYPTION_KEY=${{ secrets.CRYPTO_ENCRYPTION_KEY }}
+          CRYPTO_HMAC_KEY=${{ secrets.CRYPTO_HMAC_KEY }}
           EOF
+
+          if [ -n "${{ secrets.CRYPTO_PEPPER }}" ]; then
+            echo "CRYPTO_PEPPER=${{ secrets.CRYPTO_PEPPER }}" >> .env
+          fi
 
       # https://github.com/SamKirkland/FTP-Deploy-Action?tab=readme-ov-file#settings
       - name: Deploy WebApp
